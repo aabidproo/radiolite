@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sizeStr = formatSize(asset.size);
                 console.log(`Found asset: ${asset.name} | URL: ${url}`);
 
-                // MAC SILICON
+                // MAC SILICON (Strictly DMG)
                 if ((name.includes('aarch64') || name.includes('arm64')) && name.endsWith('.dmg')) {
                     console.log("-> Matched Apple Silicon (DMG)");
                     if (dropdownItems[0]) {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     }
                 }
-                // MAC INTEL
+                // MAC INTEL (Strictly DMG)
                 else if (name.includes('x64') && !name.includes('win') && !name.includes('setup') && name.endsWith('.dmg')) {
                     console.log("-> Matched Intel Chip (DMG)");
                     if (dropdownItems[1]) {
@@ -89,22 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     }
                 }
-                // WINDOWS (Explicitly prefer .exe setup/installer)
+                // WINDOWS (Strictly EXE)
                 else if (name.endsWith('.exe') && (name.includes('setup') || name.includes('windows'))) {
                     console.log("-> Matched Windows (EXE)");
-                    if (winBtn) {
-                        winBtn.href = url;
-                        winBtn.innerHTML = `
-                            <span class="btn-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
-                                    <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
-                                </svg>
-                            </span> Windows ${version} • ${sizeStr}`;
-                    }
-                }
-                // Fallback to MSI if no EXE found yet
-                else if (name.endsWith('.msi') && !winBtn.href.includes('.exe')) {
-                    console.log("-> Matched Windows (MSI Fallback)");
                     if (winBtn) {
                         winBtn.href = url;
                         winBtn.innerHTML = `
