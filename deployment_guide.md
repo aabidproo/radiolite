@@ -26,6 +26,8 @@ This is your API that provides radio station data.
         *   `PROJECT_NAME`: `Radiolite`
         *   `RADIO_BROWSER_URL`: `https://de1.api.radio-browser.info/json`
         *   `CACHE_TTL`: `86400`
+        *   `GITHUB_REPO`: `yourname/radiolite` (CRITICAL for private repo downloads)
+        *   `GITHUB_TOKEN`: `ghp_your_secret_token` ([Generate a PAT](https://github.com/settings/tokens) with `repo` scope)
 10. Click **Create Web Service**. 
 11. **Wait for deployment**: Once complete, Render will give you a URL like `https://radiolite-api.onrender.com`. **Copy this URL.**
 

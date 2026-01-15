@@ -16,33 +16,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // OS detection for button highlighting
-    // Primary Style: Solid White (btn-primary-white)
-    // Secondary Style: Outline (btn-secondary-outline)
     if (userAgent.indexOf('mac') !== -1) {
-        // Mac is active: Mac button is Solid White, Windows is Outline
         macBtn.className = 'btn btn-primary-white dropdown-toggle';
         winBtn.className = 'btn btn-secondary-outline';
     } else if (userAgent.indexOf('win') !== -1) {
-        // Windows is active: Windows button is Solid White, Mac is Outline
         winBtn.className = 'btn btn-primary-white';
         macBtn.className = 'btn btn-secondary-outline dropdown-toggle';
     }
+
     // --- Dynamic GitHub Release Fetching ---
-    // User needs to update this with their repo (e.g., "user/repo")
-    const GITHUB_REPO = "aabidproo/radiolite"; 
+    // Update this to your production backend URL (e.g., "https://radiolite-api.onrender.com/api/v1")
+    const BACKEND_URL = "https://radiolite-api.onrender.com/api/v1"; 
 
     async function updateDownloadLinks() {
-        if (!GITHUB_REPO || GITHUB_REPO.includes("PLACEHOLDER")) return;
+        if (!BACKEND_URL || BACKEND_URL.includes("PLACEHOLDER")) return;
 
         try {
-            const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
-            const release = await response.json();
+            const response = await fetch(`${BACKEND_URL}/releases/latest`);
             
-            if (!release.assets) return;
+            if (response.status !== 200) {
+                console.error("Release not found or Backend Proxy Error.");
+                macBtn.innerHTML = `Download for Mac <span class="arrow">▼</span> <small style="display:block; font-size: 0.6rem; opacity: 0.6;">(Proxy Error?)</small>`;
+                return;
+            }
+
+            const release = await response.json();
+            if (!release.assets || release.assets.length === 0) return;
 
             const version = release.tag_name;
             const dropdownItems = document.querySelectorAll('.dropdown-item');
-            const winBtn = document.getElementById('win-btn');
 
             function formatSize(bytes) {
                 if (!bytes) return '';
@@ -69,19 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 // Mac Universal (fallback)
                 else if (name.includes('universal') && (name.includes('.dmg'))) {
-                    // If universal, we put it in both or the primary
                     dropdownItems[0].href = url;
                     dropdownItems[0].querySelector('strong').textContent = `Universal Mac - ${version}`;
                     dropdownItems[0].querySelector('span').textContent = `Silicon & Intel ${sizeStr}`;
-                    
-                    dropdownItems[1].style.display = 'none'; // Hide second option if universal is provided
+                    dropdownItems[1].style.display = 'none';
                 }
                 // Windows (.msi or .exe)
                 else if (name.includes('windows') || name.includes('.msi') || name.includes('.exe')) {
                     winBtn.href = url;
                     winBtn.innerHTML = `<span class="btn-icon">🌐</span> Windows ${version} ${sizeStr}`;
-                    
-                    // Remove "Coming Soon" if we have a real link
                     const badge = document.querySelector('.badge');
                     if (badge) badge.style.display = 'none';
                 }

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.v1.endpoints import stations, health
+from app.api.v1.endpoints import stations, health, releases
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -18,3 +18,4 @@ app.add_middleware(
 
 app.include_router(stations.router, prefix=f"{settings.API_V1_STR}/stations", tags=["stations"])
 app.include_router(health.router, prefix=settings.API_V1_STR, tags=["health"])
+app.include_router(releases.router, prefix=f"{settings.API_V1_STR}/releases", tags=["releases"])

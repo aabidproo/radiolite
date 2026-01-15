@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     RADIO_BROWSER_URL: str = "https://de1.api.radio-browser.info/json"
     CACHE_MAX_SIZE: int = 100
     CACHE_TTL: int = 86400  # 24 hours
+    
+    GITHUB_TOKEN: str = ""
+    GITHUB_REPO: str = ""
 
     class Config:
         case_sensitive = True
