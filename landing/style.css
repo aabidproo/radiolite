@@ -484,19 +484,19 @@ header {
     .hero-image-container {
         width: 100%;
         height: auto;
-        justify-content: flex-start; /* Align image to the left */
+        justify-content: center; /* Center align */
         order: 2; /* Ensure image is below content */
-        margin-top: 20px;
-        overflow: hidden; /* Ensure it stays within bounds if needed */
+        margin-top: 40px;
+        overflow: hidden; 
     }
 
     .product-image {
-        width: 140%; /* Significantly bigger */
+        width: 85%; /* Smaller and centered */
         height: auto;
-        max-height: 60vh;
-        transform: translateX(-10%); /* Shift left slightly less since it's wider */
-        mask-image: linear-gradient(to right, transparent 0%, black 10%); /* Soften left edge slightly */
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%);
+        max-height: 50vh;
+        transform: none; /* No shift */
+        mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* Bottom fade */
+        -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
 
     .hero-content {
