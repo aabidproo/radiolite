@@ -60,28 +60,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Mac Silicon (aarch64)
                 if (name.includes('aarch64') && (name.includes('.dmg') || name.includes('.app'))) {
                     dropdownItems[0].href = url;
-                    dropdownItems[0].querySelector('strong').textContent = `Apple Silicon - ${version}`;
-                    dropdownItems[0].querySelector('span').textContent = `M1, M2, M3 Native ${sizeStr}`;
+                    dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
+                    dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
                 }
                 // Mac Intel (x64)
                 else if (name.includes('x64') && !name.includes('windows') && (name.includes('.dmg') || name.includes('.app'))) {
                     dropdownItems[1].href = url;
-                    dropdownItems[1].querySelector('strong').textContent = `Intel Chip - ${version}`;
-                    dropdownItems[1].querySelector('span').textContent = `Legacy Macs ${sizeStr}`;
+                    dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
+                    dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
                 }
                 // Mac Universal (fallback)
                 else if (name.includes('universal') && (name.includes('.dmg'))) {
                     dropdownItems[0].href = url;
-                    dropdownItems[0].querySelector('strong').textContent = `Universal Mac - ${version}`;
-                    dropdownItems[0].querySelector('span').textContent = `Silicon & Intel ${sizeStr}`;
+                    dropdownItems[0].querySelector('strong').textContent = `Universal Mac`;
+                    dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     dropdownItems[1].style.display = 'none';
                 }
                 // Windows (.msi or .exe)
                 else if (name.includes('windows') || name.includes('.msi') || name.includes('.exe')) {
                     winBtn.href = url;
-                    winBtn.innerHTML = `<span class="btn-icon">🌐</span> Windows ${version} ${sizeStr}`;
-                    const badge = document.querySelector('.badge');
-                    if (badge) badge.style.display = 'none';
+                    winBtn.innerHTML = `
+                        <span class="btn-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
+                                <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
+                            </svg>
+                        </span> Windows ${version} • ${sizeStr}`;
                 }
             });
         } catch (err) {
