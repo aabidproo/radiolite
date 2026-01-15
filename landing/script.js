@@ -124,4 +124,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateDownloadLinks();
+    // --- Help Modal Logic ---
+    const helpBtn = document.getElementById('help-btn');
+    const helpModal = document.getElementById('help-modal');
+    const closeModal = document.getElementById('close-modal');
+    const copyBtn = document.getElementById('copy-btn');
+    const cmdText = document.getElementById('cmd-text');
+
+    if (helpBtn && helpModal) {
+        helpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            helpModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            helpModal.classList.remove('active');
+        });
+
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.classList.remove('active');
+            }
+        });
+    }
+
+    if (copyBtn && cmdText) {
+        copyBtn.addEventListener('click', () => {
+            const text = cmdText.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = 'Copied!';
+                copyBtn.style.background = '#1db954';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.style.background = '';
+                }, 2000);
+            });
+        });
+    }
 });

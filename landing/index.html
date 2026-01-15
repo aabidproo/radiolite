@@ -18,9 +18,7 @@
                 <span class="brand-name">Radiolite</span>
             </div>
             <nav class="nav-links">
-                <a href="#">How to Use</a>
-                <a href="#">Features</a>
-                <a href="#" class="help-link"><span class="help-icon">?</span> Help</a>
+                <a href="#" class="help-link" id="help-btn"><span class="help-icon">?</span> Help</a>
             </nav>
         </div>
     </header>
@@ -59,6 +57,38 @@
             </div>
         </div>
     </main>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="help-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2>Help & Support</h2>
+            
+            <div class="help-section">
+                <h3>macOS Security Block</h3>
+                <p>If you see a "damaged" or "unverified developer" warning on Mac, follow these steps:</p>
+                <ol>
+                    <li><strong>Right-click</strong> Radiolite in Applications and select <strong>Open</strong>.</li>
+                    <li>Or, run this terminal command to bypass the block:</li>
+                </ol>
+                <div class="command-box">
+                    <code id="cmd-text">sudo xattr -rd com.apple.quarantine /Applications/Radiolite.app</code>
+                    <button class="copy-btn" id="copy-btn">Copy</button>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Need more help?</h3>
+                <p>Visit our <a href="https://github.com/aabid/radiolite" target="_blank">GitHub Repository</a> for issues and documentation.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Radiolite. Minimalist radio for focused individuals.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
