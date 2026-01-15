@@ -1,5 +1,5 @@
-from fastapi import APIRouter, HTTPException, Header
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import RedirectResponse
 import httpx
 from app.core.config import settings
 
@@ -50,19 +50,17 @@ async def download_asset(asset_id: int):
         "Accept": "application/octet-stream"
     }
     
-    async with httpx.AsyncClient(follow_redirects=True) as client:
-        # We use a streaming response to relay the file from GitHub to the user
-        req = client.build_request("GET", url, headers=headers)
-        response = await client.send(req, stream=True)
+    async with httpx.AsyncClient(follow_redirects=False) as client:
+        response = await client.get(url, headers=headers)
+        
+        # GitHub returns a 302 redirect to the actual binary (usually on S3)
+        if response.status_code == 302:
+            download_url = response.headers.get("Location")
+            return RedirectResponse(url=download_url)
         
         if response.status_code != 200:
-            await response.aclose()
-            raise HTTPException(status_code=response.status_code, detail="Failed to download asset from GitHub")
+            raise HTTPException(status_code=response.status_code, detail="Failed to initiate download from GitHub")
         
-        return StreamingResponse(
-            response.aiter_bytes(),
-            media_type=response.headers.get("content-type", "application/octet-stream"),
-            headers={
-                "Content-Disposition": response.headers.get("content-disposition", f"attachment; filename=asset_{asset_id}")
-            }
-        )
+        # If no redirect, fallback to a direct redirect to browser_download_url if possible
+        # or just return the current response (though 302 is expected)
+        raise HTTPException(status_code=400, detail="Unable to resolve download redirect")
