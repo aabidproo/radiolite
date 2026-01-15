@@ -59,41 +59,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
             release.assets.forEach(asset => {
                 const name = asset.name.toLowerCase();
-                const url = asset.browser_download_url;
+                let url = asset.browser_download_url;
+                
+                // If URL is relative, prepend the backend domain
+                if (url.startsWith('/')) {
+                    const baseUrl = BACKEND_URL.replace('/api/v1', '');
+                    url = baseUrl + url;
+                }
+                
                 const sizeStr = formatSize(asset.size);
+                console.log(`Processing asset: ${asset.name} (${sizeStr})`);
 
-                // Mac Silicon (aarch64)
-                if (name.includes('aarch64') && (name.includes('.dmg') || name.includes('.app'))) {
-                    dropdownItems[0].href = url;
-                    dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
-                    dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                // Mac Silicon (aarch64) - Matches .dmg or .app.tar.gz
+                if (name.includes('aarch64') && (name.includes('.dmg') || name.includes('.tar.gz'))) {
+                    console.log("Matched: Mac Silicon");
+                    if (dropdownItems[0]) {
+                        dropdownItems[0].href = url;
+                        dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
+                        dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                    }
                 }
-                // Mac Intel (x64)
-                else if (name.includes('x64') && !name.includes('windows') && (name.includes('.dmg') || name.includes('.app'))) {
-                    dropdownItems[1].href = url;
-                    dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
-                    dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
-                }
-                // Mac Universal (fallback)
-                else if (name.includes('universal') && (name.includes('.dmg'))) {
-                    dropdownItems[0].href = url;
-                    dropdownItems[0].querySelector('strong').textContent = `Universal Mac`;
-                    dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
-                    dropdownItems[1].style.display = 'none';
+                // Mac Intel (x64) - Matches .dmg or .app.tar.gz
+                else if (name.includes('x64') && !name.includes('windows') && !name.includes('setup') && (name.includes('.dmg') || name.includes('.tar.gz'))) {
+                    console.log("Matched: Mac Intel");
+                    if (dropdownItems[1]) {
+                        dropdownItems[1].href = url;
+                        dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
+                        dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                    }
                 }
                 // Windows (.msi or .exe)
-                else if (name.includes('windows') || name.includes('.msi') || name.includes('.exe')) {
-                    winBtn.href = url;
-                    winBtn.innerHTML = `
-                        <span class="btn-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
-                                <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
-                            </svg>
-                        </span> Windows ${version} • ${sizeStr}`;
+                else if (name.includes('windows') || name.includes('.msi') || (name.includes('.exe') && name.includes('setup'))) {
+                    console.log("Matched: Windows");
+                    if (winBtn) {
+                        winBtn.href = url;
+                        winBtn.innerHTML = `
+                            <span class="btn-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
+                                    <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
+                                </svg>
+                            </span> Windows ${version} • ${sizeStr}`;
+                    }
                 }
             });
         } catch (err) {
-            console.error("Failed to fetch GitHub releases", err);
+            console.error("Failed to update download links:", err);
         }
     }
 

@@ -25,11 +25,12 @@ async def get_latest_release():
         # We modify the asset list to point to our proxy instead of GitHub directly
         assets = []
         for asset in data.get("assets", []):
+            # We return absolute URLs to avoid relative path issues on the landing page
             assets.append({
                 "id": asset["id"],
                 "name": asset["name"],
                 "size": asset["size"],
-                "browser_download_url": f"{settings.API_V1_STR}/releases/download/{asset['id']}"
+                "browser_download_url": f"https://radiolite-api.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
             })
         
         return {
