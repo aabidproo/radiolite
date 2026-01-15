@@ -122,7 +122,7 @@ header {
 
 .product-image {
     width: auto;
-    height: 90vh; /* Tall image */
+    height: 75vh; /* Reduced from 90vh to be "a bit smaller" */
     object-fit: cover;
     /* Position it so the right half of the laptop is visible, or just let it sit naturally */
     transform: translateX(-10%); 
