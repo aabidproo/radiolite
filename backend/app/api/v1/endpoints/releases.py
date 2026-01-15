@@ -22,16 +22,17 @@ async def get_latest_release():
             raise HTTPException(status_code=response.status_code, detail="Failed to fetch from GitHub")
         
         data = response.json()
-        # We modify the asset list to point to our proxy instead of GitHub directly
+        # We only return the specific assets the user wants: DMG for Mac, EXE for Windows
         assets = []
         for asset in data.get("assets", []):
-            # We return absolute URLs to avoid relative path issues on the landing page
-            assets.append({
-                "id": asset["id"],
-                "name": asset["name"],
-                "size": asset["size"],
-                "browser_download_url": f"https://api-radiolite.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
-            })
+            name = asset["name"].lower()
+            if name.endswith('.dmg') or name.endswith('.exe'):
+                assets.append({
+                    "id": asset["id"],
+                    "name": asset["name"],
+                    "size": asset["size"],
+                    "browser_download_url": f"https://api-radiolite.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
+                })
         
         return {
             "tag_name": data.get("tag_name"),
