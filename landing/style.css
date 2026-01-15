@@ -210,8 +210,11 @@ header {
 .dropdown-menu {
     position: absolute;
     top: calc(100% + 12px);
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    width: auto;
+    min-width: 280px;
+    white-space: nowrap;
     background: #111111;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -227,7 +230,7 @@ header {
 .dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
 }
 
 .dropdown-item {

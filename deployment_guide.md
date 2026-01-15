@@ -17,7 +17,9 @@ This is your API that provides radio station data.
 5.  **Root Directory**: `backend` (CRITICAL: ensure it points to the backend folder).
 6.  **Language/Runtime**: `Python 3`.
 7.  **Build Command**: `pip install -r requirements.txt`.
-8.  **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
+8.  **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+    > [!CAUTION]
+    > Make sure there are **no extra quotes or backticks** at the end of the command in the Render box. The error in your log (`unexpected EOF`) happened because of an extra character at the end.
 9.  **Environment Variables**:
     *   Click the **Environment** tab on the left.
     *   Add these variables:

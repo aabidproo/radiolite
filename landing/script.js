@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // --- Dynamic GitHub Release Fetching ---
     // User needs to update this with their repo (e.g., "user/repo")
-    const GITHUB_REPO = "PLACEHOLDER_GITHUB_REPO"; 
+    const GITHUB_REPO = "aabidproo/radiolite"; 
 
     async function updateDownloadLinks() {
-        if (GITHUB_REPO === "PLACEHOLDER_GITHUB_REPO") return;
+        if (!GITHUB_REPO || GITHUB_REPO.includes("PLACEHOLDER")) return;
 
         try {
             const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
@@ -40,24 +40,47 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (!release.assets) return;
 
+            const version = release.tag_name;
             const dropdownItems = document.querySelectorAll('.dropdown-item');
             const winBtn = document.getElementById('win-btn');
+
+            function formatSize(bytes) {
+                if (!bytes) return '';
+                const mb = bytes / (1024 * 1024);
+                return `(${mb.toFixed(1)} MB)`;
+            }
 
             release.assets.forEach(asset => {
                 const name = asset.name.toLowerCase();
                 const url = asset.browser_download_url;
+                const sizeStr = formatSize(asset.size);
 
                 // Mac Silicon (aarch64)
                 if (name.includes('aarch64') && (name.includes('.dmg') || name.includes('.app'))) {
                     dropdownItems[0].href = url;
+                    dropdownItems[0].querySelector('strong').textContent = `Apple Silicon - ${version}`;
+                    dropdownItems[0].querySelector('span').textContent = `M1, M2, M3 Native ${sizeStr}`;
                 }
                 // Mac Intel (x64)
                 else if (name.includes('x64') && !name.includes('windows') && (name.includes('.dmg') || name.includes('.app'))) {
                     dropdownItems[1].href = url;
+                    dropdownItems[1].querySelector('strong').textContent = `Intel Chip - ${version}`;
+                    dropdownItems[1].querySelector('span').textContent = `Legacy Macs ${sizeStr}`;
+                }
+                // Mac Universal (fallback)
+                else if (name.includes('universal') && (name.includes('.dmg'))) {
+                    // If universal, we put it in both or the primary
+                    dropdownItems[0].href = url;
+                    dropdownItems[0].querySelector('strong').textContent = `Universal Mac - ${version}`;
+                    dropdownItems[0].querySelector('span').textContent = `Silicon & Intel ${sizeStr}`;
+                    
+                    dropdownItems[1].style.display = 'none'; // Hide second option if universal is provided
                 }
                 // Windows (.msi or .exe)
                 else if (name.includes('windows') || name.includes('.msi') || name.includes('.exe')) {
                     winBtn.href = url;
+                    winBtn.innerHTML = `<span class="btn-icon">🌐</span> Windows ${version} ${sizeStr}`;
+                    
                     // Remove "Coming Soon" if we have a real link
                     const badge = document.querySelector('.badge');
                     if (badge) badge.style.display = 'none';

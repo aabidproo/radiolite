@@ -16,9 +16,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Silicon and Intel Mac
-            args: "--target universal-apple-darwin"
-          - platform: "windows-latest" # for Windows x64
+          - platform: "macos-latest"
+            args: "--target aarch64-apple-darwin" # Apple Silicon
+          - platform: "macos-latest"
+            args: "--target x86_64-apple-darwin" # Intel Mac
+          - platform: "windows-latest"
             args: ""
 
     runs-on: ${{ matrix.platform }}
