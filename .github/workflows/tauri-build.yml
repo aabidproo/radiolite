@@ -2,8 +2,6 @@ name: "publish"
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
   workflow_dispatch:
@@ -35,44 +33,31 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          # Those targets are only used on macos runners so we can build a universal binary.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04' # Not used in matrix yet but good to have for future
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.0-dev build-essential curl wget file libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
 
       - name: install frontend dependencies
         run: npm install
         working-directory: frontend
 
       - name: Set version from tag
-        if: startsWith(github.ref, 'refs/tags/v')
-        shell: node
         run: |
-          const fs = require('fs');
-          const tag = process.env.GITHUB_REF_NAME;
-          const version = tag.startsWith('v') ? tag.slice(1) : tag;
-          
-          const configPath = 'frontend/src-tauri/tauri.conf.json';
-          const pkgPath = 'frontend/package.json';
-          
-          // Update tauri.conf.json
-          const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-          config.version = version;
-          fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-          console.log(`Updated tauri.conf.json to ${version}`);
-          
-          // Update package.json
-          const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-          pkg.version = version;
-          fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-          console.log(`Updated package.json to ${version}`);
+          node -e "
+            const fs = require('fs');
+            const tag = process.env.GITHUB_REF_NAME;
+            const version = tag.startsWith('v') ? tag.slice(1) : tag;
+            
+            const paths = ['frontend/src-tauri/tauri.conf.json', 'frontend/package.json'];
+            paths.forEach(p => {
+              if (fs.existsSync(p)) {
+                const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+                data.version = version;
+                fs.writeFileSync(p, JSON.stringify(data, null, 2));
+                console.log('Updated ' + p + ' to ' + version);
+              }
+            });
+          "
 
       - uses: tauri-apps/tauri-action@v0
-        if: startsWith(github.ref, 'refs/tags/v')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
