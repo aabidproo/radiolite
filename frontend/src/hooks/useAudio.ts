@@ -57,7 +57,7 @@ export function useAudio() {
     if ('mediaSession' in navigator && currentStation) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentStation.name,
-        artist: 'Radiolite',
+        artist: 'R.',
         album: currentStation.tags || currentStation.country || '',
         artwork: [
           { src: '/logo.png', sizes: '512x512', type: 'image/png' },

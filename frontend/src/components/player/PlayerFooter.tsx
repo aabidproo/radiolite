@@ -30,7 +30,7 @@ export function PlayerFooter({
         <div className="flex items-start justify-between mb-10">
           <div className="min-w-0 flex-1">
             <Heading className="text-[#1db954]">
-              {currentStation?.name || 'Radio Lite'}
+              {currentStation?.name || 'Radiolite'}
             </Heading>
             <Subheading className="mt-3">
               {currentStation ? `${currentStation.country}` : 'Select a station'}

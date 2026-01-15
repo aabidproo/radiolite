@@ -23,10 +23,13 @@ pub fn run() {
             let quit_i = MenuItem::with_id(app, "quit", "Quit Radiolite", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&quit_i])?;
 
-            let tray_icon = app.default_window_icon().cloned()
-                .unwrap_or_else(|| {
-                    tauri::image::Image::new(&[], 0, 0)
-                });
+            let tray_icon = tauri::image::Image::from_path(
+                app.path().resource_dir().expect("Failed to get resource dir")
+                    .join("icons/tray-icon.png")
+            ).unwrap_or_else(|_| {
+                app.default_window_icon().cloned()
+                    .unwrap_or_else(|| tauri::image::Image::new(&[], 0, 0))
+            });
 
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon)
