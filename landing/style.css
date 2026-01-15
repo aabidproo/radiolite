@@ -473,7 +473,7 @@ header {
 /* Responsive Styling */
 @media (max-width: 900px) { /* Tablet Breakpoint */
     .hero-section {
-        flex-direction: column-reverse; /* Stack: Content Top (visually), Image Bottom due to column-reverse? No, we want Image at Bottom, Content Top. So column. But HTML is Image, Content. So column-reverse puts Content top, Image bottom. */
+        flex-direction: column; /* Stack Top to Bottom: Content (order 1) then Image (order 2) */
         justify-content: center;
         text-align: center;
         padding-top: 80px;
@@ -486,17 +486,17 @@ header {
         height: auto;
         justify-content: flex-start; /* Align image to the left */
         order: 2; /* Ensure image is below content */
-        margin-top: 40px;
+        margin-top: 20px;
         overflow: hidden; /* Ensure it stays within bounds if needed */
     }
 
     .product-image {
-        width: 100%; /* Larger to show detail */
+        width: 140%; /* Significantly bigger */
         height: auto;
-        max-height: 50vh;
-        transform: translateX(-15%); /* Shift left to "peek" in */
-        mask-image: linear-gradient(to right, transparent 0%, black 20%);
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%);
+        max-height: 60vh;
+        transform: translateX(-10%); /* Shift left slightly less since it's wider */
+        mask-image: linear-gradient(to right, transparent 0%, black 10%); /* Soften left edge slightly */
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%);
     }
 
     .hero-content {
