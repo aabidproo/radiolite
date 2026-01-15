@@ -123,6 +123,11 @@ header {
     color: var(--accent);
 }
 
+.text-thin {
+    font-weight: 300;
+    opacity: 0.9;
+}
+
 .hero-tagline {
     font-size: 2.2rem;
     color: var(--text-secondary);
