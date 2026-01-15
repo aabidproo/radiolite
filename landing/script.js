@@ -89,12 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     }
                 }
-                // WINDOWS (Prefer .msi or .exe setup)
-                else if (name.includes('windows') || name.includes('.msi') || (name.includes('.exe') && name.includes('setup'))) {
-                    console.log("-> Matched Windows");
+                // WINDOWS (Explicitly prefer .exe setup/installer)
+                else if (name.endsWith('.exe') && (name.includes('setup') || name.includes('windows'))) {
+                    console.log("-> Matched Windows (EXE)");
                     if (winBtn) {
                         winBtn.href = url;
-                        // Keep our beautiful SVG but update text
+                        winBtn.innerHTML = `
+                            <span class="btn-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
+                                    <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
+                                </svg>
+                            </span> Windows ${version} • ${sizeStr}`;
+                    }
+                }
+                // Fallback to MSI if no EXE found yet
+                else if (name.endsWith('.msi') && !winBtn.href.includes('.exe')) {
+                    console.log("-> Matched Windows (MSI Fallback)");
+                    if (winBtn) {
+                        winBtn.href = url;
                         winBtn.innerHTML = `
                             <span class="btn-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
