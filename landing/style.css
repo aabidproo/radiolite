@@ -101,29 +101,53 @@ header {
 .hero-section {
     height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Side by side */
     align-items: center;
-    justify-content: flex-end; /* Align bottom to let image sit at bottom */
-    text-align: center;
-    padding: 80px 24px 0 24px; /* Top padding to clear header */
-    overflow: hidden; /* Prevent scrolling */
+    justify-content: center;
+    text-align: left; /* Alignment for content */
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-image-container {
+    width: 60%; /* Take up a bit more than half initially to let image breathe */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Push image towards the center split */
+    position: relative;
+    z-index: 1;
+}
+
+.product-image {
+    width: auto;
+    height: 90vh; /* Tall image */
+    object-fit: cover;
+    /* Position it so the right half of the laptop is visible, or just let it sit naturally */
+    transform: translateX(-10%); 
+    mask-image: linear-gradient(to right, transparent 0%, black 20%); /* Fade in from left edge if desired, or remove */
+    -webkit-mask-image: none;
+    mask-image: none;
 }
 
 .hero-content {
-    max-width: 1200px;
+    width: 40%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-right: 48px;
+    z-index: 2;
 }
 
 .hero-title {
-    font-size: 5rem; /* Smaller font */
+    font-size: 5rem;
     font-weight: 800;
     letter-spacing: -0.05em;
-    line-height: 1; /* Tight line height */
+    line-height: 0.95;
     margin-bottom: 24px;
-    margin-top: auto; /* Push down to center vert in top half */
+    margin-top: 0;
 }
 
 .text-accent {
@@ -136,41 +160,21 @@ header {
 }
 
 .hero-tagline {
-    font-size: 1.5rem; /* Smaller tagline */
+    font-size: 1.5rem;
     color: var(--text-secondary);
-    line-height: 1.2;
-    margin-bottom: 32px;
+    line-height: 1.3;
+    margin-bottom: 40px;
     font-weight: 500;
+    max-width: 400px; /* Constrain width for readability */
 }
 
 .hero-actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align buttons to left */
     gap: 20px;
-    margin-bottom: auto; /* Push content to top, image to bottom */
-    padding-bottom: 40px;
-}
-
-.hero-image-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    position: relative;
-    z-index: 1;
-}
-
-.product-image {
-    width: 90%;
-    height: auto;
-    max-height: 50vh; /* Cap height to 50% of viewport */
-    object-fit: contain;
-    object-position: bottom;
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* Soft fade at very bottom if needed, or remove mask for crisp edge */
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 /* Button Styling */
