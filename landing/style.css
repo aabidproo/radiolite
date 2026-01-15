@@ -111,7 +111,7 @@ header {
 }
 
 .hero-image-container {
-    width: 60%; /* Take up a bit more than half initially to let image breathe */
+    width: 55%; /* Reduced from 60% to move split line left */
     height: 100%;
     display: flex;
     align-items: center;
@@ -132,11 +132,12 @@ header {
 }
 
 .hero-content {
-    width: 40%;
+    width: 45%; /* Increased from 40% to fill text area more to the left */
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: 20px; /* shift content slightly away from image edge if needed, or removing padding-right */
     padding-right: 48px;
     z-index: 2;
 }
