@@ -57,42 +57,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `(${mb.toFixed(1)} MB)`;
             }
 
+            console.log("Starting to map assets for version:", version);
+            
             release.assets.forEach(asset => {
                 const name = asset.name.toLowerCase();
                 let url = asset.browser_download_url;
                 
-                // If URL is relative, prepend the backend domain
                 if (url.startsWith('/')) {
                     const baseUrl = BACKEND_URL.replace('/api/v1', '');
                     url = baseUrl + url;
                 }
                 
                 const sizeStr = formatSize(asset.size);
-                console.log(`Processing asset: ${asset.name} (${sizeStr})`);
+                console.log(`Found asset: ${asset.name} | URL: ${url}`);
 
-                // Mac Silicon (aarch64) - Matches .dmg or .app.tar.gz
-                if (name.includes('aarch64') && (name.includes('.dmg') || name.includes('.tar.gz'))) {
-                    console.log("Matched: Mac Silicon");
-                    if (dropdownItems[0]) {
-                        dropdownItems[0].href = url;
-                        dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
-                        dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                // MAC SILICON
+                if (name.includes('aarch64') || name.includes('arm64')) {
+                    if (name.endsWith('.dmg') || name.endsWith('.tar.gz')) {
+                        console.log("-> Matched Apple Silicon");
+                        if (dropdownItems[0]) {
+                            dropdownItems[0].href = url;
+                            dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
+                            dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                        }
                     }
                 }
-                // Mac Intel (x64) - Matches .dmg or .app.tar.gz
-                else if (name.includes('x64') && !name.includes('windows') && !name.includes('setup') && (name.includes('.dmg') || name.includes('.tar.gz'))) {
-                    console.log("Matched: Mac Intel");
-                    if (dropdownItems[1]) {
-                        dropdownItems[1].href = url;
-                        dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
-                        dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                // MAC INTEL
+                else if (name.includes('x64') && !name.includes('win') && !name.includes('setup')) {
+                    if (name.endsWith('.dmg') || name.endsWith('.tar.gz')) {
+                        console.log("-> Matched Intel Chip");
+                        if (dropdownItems[1]) {
+                            dropdownItems[1].href = url;
+                            dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
+                            dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
+                        }
                     }
                 }
-                // Windows (.msi or .exe)
+                // WINDOWS
                 else if (name.includes('windows') || name.includes('.msi') || (name.includes('.exe') && name.includes('setup'))) {
-                    console.log("Matched: Windows");
+                    console.log("-> Matched Windows");
                     if (winBtn) {
                         winBtn.href = url;
+                        // Keep our beautiful SVG but update text
                         winBtn.innerHTML = `
                             <span class="btn-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
@@ -102,8 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
+            console.log("Asset mapping complete.");
         } catch (err) {
-            console.error("Failed to update download links:", err);
+            console.error("CRITICAL: Failed to update download links:", err);
+            alert("Could not load download links. Check Console for details.");
         }
     }
 
