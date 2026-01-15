@@ -72,28 +72,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(`Found asset: ${asset.name} | URL: ${url}`);
 
                 // MAC SILICON
-                if (name.includes('aarch64') || name.includes('arm64')) {
-                    if (name.endsWith('.dmg') || name.endsWith('.tar.gz')) {
-                        console.log("-> Matched Apple Silicon");
-                        if (dropdownItems[0]) {
-                            dropdownItems[0].href = url;
-                            dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
-                            dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
-                        }
+                if ((name.includes('aarch64') || name.includes('arm64')) && name.endsWith('.dmg')) {
+                    console.log("-> Matched Apple Silicon (DMG)");
+                    if (dropdownItems[0]) {
+                        dropdownItems[0].href = url;
+                        dropdownItems[0].querySelector('strong').textContent = `Apple Silicon`;
+                        dropdownItems[0].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     }
                 }
                 // MAC INTEL
-                else if (name.includes('x64') && !name.includes('win') && !name.includes('setup')) {
-                    if (name.endsWith('.dmg') || name.endsWith('.tar.gz')) {
-                        console.log("-> Matched Intel Chip");
-                        if (dropdownItems[1]) {
-                            dropdownItems[1].href = url;
-                            dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
-                            dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
-                        }
+                else if (name.includes('x64') && !name.includes('win') && !name.includes('setup') && name.endsWith('.dmg')) {
+                    console.log("-> Matched Intel Chip (DMG)");
+                    if (dropdownItems[1]) {
+                        dropdownItems[1].href = url;
+                        dropdownItems[1].querySelector('strong').textContent = `Intel Chip`;
+                        dropdownItems[1].querySelector('span').textContent = `${version} • ${sizeStr}`;
                     }
                 }
-                // WINDOWS
+                // WINDOWS (Prefer .msi or .exe setup)
                 else if (name.includes('windows') || name.includes('.msi') || (name.includes('.exe') && name.includes('setup'))) {
                     console.log("-> Matched Windows");
                     if (winBtn) {
