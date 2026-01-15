@@ -521,17 +521,17 @@ header {
     .hero-actions {
         flex-direction: column;
         width: 100%;
-        gap: 12px;
-        align-items: stretch; /* Full width buttons */
+        gap: 16px;
+        align-items: center; /* Center buttons instead of stretch */
     }
 
     .dropdown, .btn, .btn-windows-container {
-        width: 100%;
+        width: auto; /* Natural width */
+        min-width: 280px; /* Minimum width for consistency */
     }
     
     .dropdown-menu {
-        width: 100%;
-        min-width: unset; /* Allow full width */
+        width: 100%; /* Dropdown menu fits button */
     }
 
     .header-content { padding: 16px 20px; }
