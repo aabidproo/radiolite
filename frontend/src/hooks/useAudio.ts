@@ -53,6 +53,38 @@ export function useAudio() {
     }
   };
 
+  useEffect(() => {
+    if ('mediaSession' in navigator && currentStation) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentStation.name,
+        artist: 'Radiolite',
+        album: currentStation.tags || currentStation.country || '',
+        artwork: [
+          { src: '/logo.png', sizes: '512x512', type: 'image/png' },
+          { src: '/favicon.png', sizes: '32x32', type: 'image/png' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        if (audioRef.current) {
+          audioRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
+        }
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      });
+    }
+  }, [currentStation]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+  }, [isPlaying]);
+
   return {
     isPlaying,
     currentStation,

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiolite | Minimalist Desktop Radio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <img src="assets/logo.png" alt="Radiolite" class="nav-logo">
+                <span class="brand-name">Radiolite</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#">How to Use</a>
+                <a href="#">Features</a>
+                <a href="#" class="help-link"><span class="help-icon">?</span> Help</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero-section">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">
+                Radiolite<span class="text-accent">.</span>
+            </h1>
+            
+            <p class="hero-tagline">
+                Listen to the world, <span class="text-accent">effortlessly.</span>
+            </p>
+
+            <div class="hero-actions">
+                <div class="dropdown" id="mac-dropdown">
+                    <button class="btn btn-primary-white" id="mac-btn">
+                        <span class="btn-icon"></span> Download for Mac 
+                        <span class="arrow">▾</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item"><strong>Apple Silicon</strong><span>M1, M2, M3</span></a>
+                        <a href="#" class="dropdown-item"><strong>Intel Chip</strong><span>Legacy Macs</span></a>
+                    </div>
+                </div>
+
+                <div class="btn-windows-container">
+                    <a href="#" class="btn btn-secondary-outline" id="win-btn">
+                        <span class="btn-icon">🌐</span> Windows Version
+                    </a>
+                    <span class="badge">COMING SOON</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
