@@ -41,7 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const release = await response.json();
-            if (!release.assets || release.assets.length === 0) return;
+            if (!release.assets || release.assets.length === 0) {
+                console.warn("No assets found in the latest release.");
+                macBtn.innerHTML = `Download for Mac <span class="arrow">▼</span> <small style="display:block; font-size: 0.6rem; opacity: 0.6;">(Building...)</small>`;
+                winBtn.innerHTML = `Windows Version <small style="display:block; font-size: 0.6rem; opacity: 0.6;">(Building...)</small>`;
+                return;
+            }
 
             const version = release.tag_name;
             const dropdownItems = document.querySelectorAll('.dropdown-item');
