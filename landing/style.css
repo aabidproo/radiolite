@@ -174,8 +174,8 @@ header {
     /* Center horizontally */
     left: 50%;
     transform: translateX(-50%);
-    /* Position vertically near baseline for the period */
-    bottom: 0.15em; 
+    /* Position vertically near baseline for the period - lowered to center */
+    bottom: 0.08em; 
     
     /* Ensure perfect circle */
     width: 0.25em;
@@ -188,7 +188,7 @@ header {
     
     opacity: 0;
     z-index: -1;
-    animation: pulse-ring 2s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: pulse-ring 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes pulse-ring {
