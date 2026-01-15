@@ -30,7 +30,7 @@ async def get_latest_release():
                 "id": asset["id"],
                 "name": asset["name"],
                 "size": asset["size"],
-                "browser_download_url": f"https://radiolite-api.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
+                "browser_download_url": f"https://api-radiolite.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
             })
         
         return {
