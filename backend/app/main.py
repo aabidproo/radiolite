@@ -13,7 +13,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://radiolite.onrender.com",
-        "https://radiolite-api.onrender.com",
+        "https://api-radiolite.onrender.com",
         "http://localhost",
         "http://localhost:5500",
         "*"
