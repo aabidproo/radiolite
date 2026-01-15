@@ -48,15 +48,25 @@ jobs:
         run: npm install
         working-directory: frontend
 
+      - name: Set version from tag
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF_NAME#v}
+            echo "Setting version to $VERSION"
+            # Use sed to update tauri.conf.json (portable enough for bash shell)
+            sed -i.bak "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" frontend/src-tauri/tauri.conf.json
+          fi
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         with:
-          tagName: v__VERSION__ # tauri-action replaces this with the app version
-          releaseName: "Radiolite v__VERSION__"
+          tagName: ${{ github.ref_name }}
+          releaseName: "Radiolite ${{ github.ref_name }}"
           releaseBody: "See the assets below to download Radiolite for your platform."
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
           projectPath: frontend
