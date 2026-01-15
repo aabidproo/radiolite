@@ -11,7 +11,14 @@ app = FastAPI(
 # Set all CORS enabled origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://radiolite.onrender.com",
+        "https://radiolite-api.onrender.com",
+        "http://localhost",
+        "http://localhost:5500",
+        "*"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
