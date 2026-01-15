@@ -162,6 +162,7 @@ header {
 }
 
 /* Radio Wave Animation */
+/* Radio Wave Animation */
 .logo-dot {
     position: relative;
     display: inline-block;
@@ -170,28 +171,36 @@ header {
 .logo-dot::after {
     content: '';
     position: absolute;
-    top: 50%;
+    /* Center horizontally */
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
+    transform: translateX(-50%);
+    /* Position vertically near baseline for the period */
+    bottom: 0.15em; 
+    
+    /* Ensure perfect circle */
+    width: 0.25em;
+    height: 0.25em;
     border-radius: 50%;
-    background: var(--accent);
-    opacity: 0.6;
+    
+    /* Outline ring style */
+    background: transparent;
+    border: 0.05em solid var(--accent);
+    
+    opacity: 0;
     z-index: -1;
-    animation: pulse-wave 2s infinite ease-out;
+    animation: pulse-ring 2s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-@keyframes pulse-wave {
+@keyframes pulse-ring {
     0% {
-        width: 100%;
-        height: 100%;
-        opacity: 0.8;
+        transform: translateX(-50%) scale(0.8);
+        opacity: 1;
+        border-width: 0.05em;
     }
     100% {
-        width: 300%;
-        height: 300%;
+        transform: translateX(-50%) scale(3);
         opacity: 0;
+        border-width: 0; /* Thin out as it expands */
     }
 }
 
