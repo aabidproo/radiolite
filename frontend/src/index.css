@@ -700,3 +700,58 @@ html, body, #root {
   }
 }
 
+
+/* More Menu */
+.more-menu-container {
+  position: relative;
+}
+
+.more-menu {
+  position: absolute;
+  bottom: 45px;
+  right: 0;
+  background: rgba(40, 40, 40, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px;
+  width: 180px;
+  z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.more-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-accent);
+}
+
+.more-menu-item svg {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.more-menu-item:hover svg {
+  opacity: 1;
+}
+
+.more-menu-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 4px 8px;
+}

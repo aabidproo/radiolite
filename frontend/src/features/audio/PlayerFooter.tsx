@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Heart, Play, Pause, SkipBack, SkipForward, MoreHorizontal } from "lucide-react";
 import { Station } from "../../types/station";
 import { VolumeSlider } from "./VolumeSlider";
 import { IconButton } from "../../components/ui/IconButton";
 import { Heading, Subheading } from "../../components/ui/Typography";
+import { MoreMenu } from "./MoreMenu";
 
 interface PlayerFooterProps {
   currentStation: Station | null;
@@ -29,6 +31,8 @@ export function PlayerFooter({
   onNext,
   onPrevious
 }: PlayerFooterProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   return (
     <footer className="player-footer">
       <div className="player-content">
@@ -108,7 +112,17 @@ export function PlayerFooter({
 
           <VolumeSlider volume={volume} setVolume={setVolume} />
 
-          <IconButton icon={MoreHorizontal} size={28} />
+          <div className="more-menu-container">
+            <IconButton 
+              icon={MoreHorizontal} 
+              size={28} 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            />
+            <MoreMenu 
+              isOpen={isMenuOpen} 
+              onClose={() => setIsMenuOpen(false)} 
+            />
+          </div>
         </div>
       </div>
     </footer>
