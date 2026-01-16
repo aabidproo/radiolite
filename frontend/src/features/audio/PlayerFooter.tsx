@@ -1,8 +1,8 @@
 import { Heart, Play, Pause, SkipBack, SkipForward, MoreHorizontal } from "lucide-react";
 import { Station } from "../../types/station";
 import { VolumeSlider } from "./VolumeSlider";
-import { IconButton } from "../ui/IconButton";
-import { Heading, Subheading } from "../ui/Typography";
+import { IconButton } from "../../components/ui/IconButton";
+import { Heading, Subheading } from "../../components/ui/Typography";
 
 interface PlayerFooterProps {
   currentStation: Station | null;

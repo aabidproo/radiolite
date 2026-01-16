@@ -23,11 +23,11 @@ export function StationList({
 
   return (
     <div className="station-list-container">
-      <SectionTitle className={`mb-2 ${accentTitle ? 'accent' : ''}`}>
+      <SectionTitle className={`px-4 mb-2 ${accentTitle ? 'accent' : ''}`}>
         {title}
       </SectionTitle>
       
-      {loading ? (
+      {loading && stations.length === 0 ? (
         <div className="loading-container">
            <div className="loading-spinner" />
         </div>

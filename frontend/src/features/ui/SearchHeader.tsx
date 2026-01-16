@@ -1,4 +1,4 @@
-import { Search, RefreshCw } from "lucide-react";
+import { Search, RefreshCw, X } from "lucide-react";
 
 interface SearchHeaderProps {
   search: string;
@@ -20,6 +20,15 @@ export function SearchHeader({ search, setSearch, onSearch, onRefresh, isLoading
           placeholder="Search stations..." 
           className="search-input"
         />
+        {search && (
+          <button 
+            type="button"
+            className="search-clear-btn" 
+            onClick={() => setSearch("")}
+          >
+            <X size={16} />
+          </button>
+        )}
       </form>
       <button 
         onClick={onRefresh}

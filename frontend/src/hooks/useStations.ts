@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Station } from '../types/station';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
@@ -35,7 +35,54 @@ export function useStations() {
     return localStorage.getItem('radiolite_user_country');
   });
 
-  const searchStations = async (
+  // Use refs to keep stable function identities for pagination
+  const countriesRef = useRef(countries);
+  const languagesRef = useRef(languages);
+  const tagsRef = useRef(tags);
+  const nearMeRef = useRef(nearMeStations);
+  const stationsRef = useRef(stations);
+
+  useEffect(() => { countriesRef.current = countries; }, [countries]);
+  useEffect(() => { languagesRef.current = languages; }, [languages]);
+  useEffect(() => { tagsRef.current = tags; }, [tags]);
+  useEffect(() => { nearMeRef.current = nearMeStations; }, [nearMeStations]);
+  useEffect(() => { stationsRef.current = stations; }, [stations]);
+  
+  // Spotlight Search State
+  const [globalSearchResults, setGlobalSearchResults] = useState<{
+    countries: any[];
+    languages: any[];
+    tags: any[];
+    locations: any[];
+    stations: Station[];
+  } | null>(null);
+
+  const [stats, setStats] = useState<{ countries: number, languages: number, tags: number, stations: number } | null>(null);
+
+  const offsetRef = useRef(offset);
+  useEffect(() => { offsetRef.current = offset; }, [offset]);
+
+  const fetchStats = useCallback(async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/stations/stats`);
+      if (!response.ok) throw new Error("Stats failed");
+      const data = await response.json();
+      setStats(data);
+    } catch (err) {
+      console.error("Failed to fetch stats", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  const resetPagination = useCallback(() => {
+    setOffset(0);
+    setHasMore(true);
+  }, []);
+
+  const searchStations = useCallback(async (
     query: string, 
     filters: { country?: string, language?: string, tag?: string } = {},
     options: { append?: boolean, resetOffset?: boolean } = {}
@@ -47,7 +94,7 @@ export function useStations() {
     }
     
     const shouldAppend = options.append || false;
-    const newOffset = options.resetOffset ? 0 : (shouldAppend ? offset + 100 : 0);
+    const newOffset = options.resetOffset ? 0 : (shouldAppend ? (stationsRef.current.length > 0 ? offsetRef.current + 100 : 0) : 0);
     
     setLoading(true);
     setError(null);
@@ -79,9 +126,36 @@ export function useStations() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const getTopStations = async () => {
+  const searchGlobal = useCallback(async (query: string) => {
+    if (!query || query.length < 2) {
+        setGlobalSearchResults(null);
+        setStations([]);
+        resetPagination();
+        return;
+    }
+
+    setStations([]);
+    resetPagination();
+    setGlobalSearchResults(null);
+    setLoading(true);
+    setError(null);
+    try {
+        const response = await fetch(`${BASE_URL}/stations/global-search?query=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error("Search failed");
+        const data = await response.json();
+        setGlobalSearchResults(data);
+        setHasMore(data.stations.length >= 20);
+    } catch (err) {
+        console.error("Global search failed", err);
+        setError("Failed to search.");
+    } finally {
+        setLoading(false);
+    }
+  }, []);
+
+  const getTopStations = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -97,63 +171,102 @@ export function useStations() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchCountries = async () => {
-    const hasCached = countries.length > 0;
-    if (!hasCached) setLoading(true);
+  const fetchCountries = useCallback(async (options: { append?: boolean, searchQuery?: string } = {}) => {
+    const shouldAppend = options.append || false;
+    const currentOffset = shouldAppend ? countriesRef.current.length : 0;
+    const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
+    
+    setLoading(true);
     
     try {
-      const response = await fetch(`${BASE_URL}/stations/countries`);
+      const response = await fetch(`${BASE_URL}/stations/countries?limit=24&offset=${currentOffset}${queryParam}`);
+      if (!response.ok) throw new Error("Fetch failed");
       const data = await response.json();
       const cleanData = Array.isArray(data) ? data : [];
-      setCountries(cleanData);
-      localStorage.setItem('radiolite_countries', JSON.stringify(cleanData));
+      
+      if (shouldAppend) {
+        setCountries(prev => {
+           const next = [...prev, ...cleanData];
+           localStorage.setItem('radiolite_countries', JSON.stringify(next));
+           return next;
+        });
+      } else {
+        setCountries(cleanData);
+        localStorage.setItem('radiolite_countries', JSON.stringify(cleanData));
+      }
     } catch (err) {
       console.error("Failed to fetch countries", err);
-      if (!hasCached) setCountries([]);
+      if (!shouldAppend && countriesRef.current.length === 0) setCountries([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchLanguages = async () => {
-    const hasCached = languages.length > 0;
-    if (!hasCached) setLoading(true);
+  const fetchLanguages = useCallback(async (options: { append?: boolean, searchQuery?: string } = {}) => {
+    const shouldAppend = options.append || false;
+    const currentOffset = shouldAppend ? languagesRef.current.length : 0;
+    const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
+
+    setLoading(true);
     
     try {
-      const response = await fetch(`${BASE_URL}/stations/languages`);
+      const response = await fetch(`${BASE_URL}/stations/languages?limit=24&offset=${currentOffset}${queryParam}`);
+      if (!response.ok) throw new Error("Fetch failed");
       const data = await response.json();
       const cleanData = Array.isArray(data) ? data : [];
-      setLanguages(cleanData);
-      localStorage.setItem('radiolite_languages', JSON.stringify(cleanData));
+
+      if (shouldAppend) {
+        setLanguages(prev => {
+            const next = [...prev, ...cleanData];
+            localStorage.setItem('radiolite_languages', JSON.stringify(next));
+            return next;
+        });
+      } else {
+        setLanguages(cleanData);
+        localStorage.setItem('radiolite_languages', JSON.stringify(cleanData));
+      }
     } catch (err) {
       console.error("Failed to fetch languages", err);
-      if (!hasCached) setLanguages([]);
+      if (!shouldAppend && languagesRef.current.length === 0) setLanguages([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchTags = async () => {
-    const hasCached = tags.length > 0;
-    if (!hasCached) setLoading(true);
+  const fetchTags = useCallback(async (options: { append?: boolean, searchQuery?: string } = {}) => {
+    const shouldAppend = options.append || false;
+    const currentOffset = shouldAppend ? tagsRef.current.length : 0;
+    const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
+    
+    setLoading(true);
     
     try {
-      const response = await fetch(`${BASE_URL}/stations/tags`);
+      const response = await fetch(`${BASE_URL}/stations/tags?limit=24&offset=${currentOffset}${queryParam}`);
+      if (!response.ok) throw new Error("Fetch failed");
       const data = await response.json();
       const cleanData = Array.isArray(data) ? data : [];
-      setTags(cleanData);
-      localStorage.setItem('radiolite_tags', JSON.stringify(cleanData));
+      
+      if (shouldAppend) {
+        setTags(prev => {
+            const next = [...prev, ...cleanData];
+            localStorage.setItem('radiolite_tags', JSON.stringify(next));
+            return next;
+        });
+      } else {
+        setTags(cleanData);
+        localStorage.setItem('radiolite_tags', JSON.stringify(cleanData));
+      }
     } catch (err) {
       console.error("Failed to fetch tags", err);
-      if (!hasCached) setTags([]);
+      if (!shouldAppend && tagsRef.current.length === 0) setTags([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const detectLocation = async () => {
+  const detectLocation = useCallback(async () => {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
@@ -166,11 +279,11 @@ export function useStations() {
       console.error("Failed to detect location", err);
     }
     return null;
-  };
+  }, []);
 
-  const fetchNearMeStations = async (countryName: string, options: { append?: boolean } = {}) => {
+  const fetchNearMeStations = useCallback(async (countryName: string, options: { append?: boolean } = {}) => {
     const shouldAppend = options.append || false;
-    const newOffset = shouldAppend ? offset + 100 : 0;
+    const newOffset = shouldAppend ? offsetRef.current + 100 : 0;
 
     // Persist loading state if no cached data
     const hasCached = nearMeStations.length > 0 && !shouldAppend;
@@ -205,9 +318,9 @@ export function useStations() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const flushCache = async () => {
+  const flushCache = useCallback(async () => {
     setFlushing(true); // Specific refresh state
     try {
       // 1. Clear Backend Cache
@@ -232,9 +345,9 @@ export function useStations() {
     } finally {
       setFlushing(false);
     }
-  };
+  }, []);
 
-  const toggleFavorite = (station: Station) => {
+  const toggleFavorite = useCallback((station: Station) => {
     setFavorites(prev => {
       const isFav = prev.some(s => s.stationuuid === station.stationuuid);
       let next;
@@ -246,7 +359,7 @@ export function useStations() {
       localStorage.setItem('radiolite_favorites', JSON.stringify(next));
       return next;
     });
-  };
+  }, []);
 
   return {
     stations,
@@ -269,9 +382,10 @@ export function useStations() {
     flushCache,
     error,
     hasMore,
-    resetPagination: () => {
-      setOffset(0);
-      setHasMore(true);
-    }
+    resetPagination,
+    searchGlobal,
+    globalSearchResults,
+    stats,
+    clearGlobalSearch: () => setGlobalSearchResults(null)
   };
 }
