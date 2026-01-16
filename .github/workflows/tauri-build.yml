@@ -17,7 +17,7 @@ jobs:
           - platform: "macos-14"
             args: "--target aarch64-apple-darwin"
             targetTriple: "aarch64-apple-darwin"
-          - platform: "macos-13" 
+          - platform: "macos-12" 
             args: "--target x86_64-apple-darwin"
             targetTriple: "x86_64-apple-darwin"
           - platform: "windows-latest"
