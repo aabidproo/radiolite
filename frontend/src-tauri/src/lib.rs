@@ -51,7 +51,7 @@ pub fn run() {
 
             // Start backend sidecar
             let shell = app.shell();
-            let sidecar_command = shell.sidecar("bin/api").map_err(|e| format!("failed to create sidecar: {}", e))?;
+            let sidecar_command = shell.sidecar("api").map_err(|e| format!("failed to create sidecar: {}", e))?;
             let (mut _rx, _child) = sidecar_command.spawn().map_err(|e| format!("failed to spawn sidecar: {}", e))?;
 
             let quit_i = MenuItem::with_id(app, "quit", "Quit Radiolite", true, None::<&str>)?;
