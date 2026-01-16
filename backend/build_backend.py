@@ -15,6 +15,8 @@ def build():
     if os.path.exists(build_path):
         shutil.rmtree(build_path)
     
+    target = os.getenv("PYINSTALLER_TARGET", sys.platform)
+    
     # PyInstaller arguments
     # --onefile: self-contained binary for reliable sidecar use
     # --noconsole: no pop-up windows
@@ -23,7 +25,7 @@ def build():
         script_path,
         "--onefile",
         "--noconsole",
-        "--name", f"api-{sys.platform}",
+        "--name", f"api-{target}",
         "--clean",
         "--add-data", f"app{os.pathsep}app", # Include the app package
     ]
