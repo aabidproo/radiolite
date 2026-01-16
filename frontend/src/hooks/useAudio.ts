@@ -7,11 +7,29 @@ export function useAudio() {
   const [currentStation, setCurrentStation] = useState<Station | null>(null);
   const [volume, setVolume] = useState(0.5);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
 
   // Initialize Audio once on mount
   useEffect(() => {
     const audio = new Audio();
+    // Try without CORS first - some stations work better this way
     audioRef.current = audio;
+    
+    // Setup Analyser
+    const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+    if (AudioContextClass) {
+      const context = new AudioContextClass();
+      const analyser = context.createAnalyser();
+      analyser.fftSize = 512; // Higher for better frequency resolution
+      analyser.smoothingTimeConstant = 0.7; // Smoother transitions
+      analyserRef.current = analyser;
+
+      const source = context.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(context.destination);
+      sourceRef.current = source;
+    }
     
     const onWaiting = () => {
       // Use the raw audio object state to be sure
@@ -89,6 +107,12 @@ export function useAudio() {
   const playStation = (station: Station) => {
     if (!audioRef.current) return;
 
+    // Resume context if suspended
+    const ctx = analyserRef.current?.context as any;
+    if (ctx?.state === 'suspended') {
+      ctx.resume();
+    }
+
     // Reset states before starting new play
     setIsPlaying(false);
     setIsBuffering(true);
@@ -106,6 +130,12 @@ export function useAudio() {
 
   const togglePlay = () => {
     if (!audioRef.current) return;
+
+    // Resume context if suspended
+    const ctx = analyserRef.current?.context as any;
+    if (ctx?.state === 'suspended') {
+      ctx.resume();
+    }
     
     if (isPlaying) {
       audioRef.current.pause();
@@ -124,5 +154,13 @@ export function useAudio() {
     }
   }, [isPlaying]);
 
-  return { isPlaying, isBuffering, currentStation, volume, setVolume, playStation, togglePlay };
+  return { 
+    isPlaying, 
+    isBuffering, 
+    currentStation, 
+    volume, 
+    setVolume, 
+    playStation, 
+    togglePlay
+  };
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Heart, Play, Pause, SkipBack, SkipForward, MoreHorizontal } from "lucide-react";
 import { Station } from "../../types/station";
 import { VolumeSlider } from "./VolumeSlider";
@@ -29,7 +30,7 @@ export function PlayerFooter({
   toggleFavorite,
   isFav,
   onNext,
-  onPrevious
+  onPrevious,
 }: PlayerFooterProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -56,15 +57,17 @@ export function PlayerFooter({
               {currentStation ? `${currentStation.country}` : 'Select a station'}
             </Subheading>
           </div>
-          <IconButton 
-            icon={Heart}
-            onClick={() => currentStation && toggleFavorite(currentStation)}
-            isActive={currentStation ? isFav(currentStation) : false}
-            activeColor="text-white"
-            fill={currentStation && isFav(currentStation) ? "white" : "none"}
-            size={32}
-            className="mt-2"
-          />
+          
+          <div className="flex gap-2 mt-2">
+            <IconButton 
+              icon={Heart}
+              onClick={() => currentStation && toggleFavorite(currentStation)}
+              isActive={currentStation ? isFav(currentStation) : false}
+              activeColor="text-white"
+              fill={currentStation && isFav(currentStation) ? "white" : "none"}
+              size={32}
+            />
+          </div>
         </div>
 
         {/* Bottom Row: Controls & Slider */}

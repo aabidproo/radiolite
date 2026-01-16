@@ -12,11 +12,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://radiolite.onrender.com",
-        "https://api-radiolite.onrender.com",
         "http://localhost",
-        "http://localhost:5500",
-        "*"
+        "http://127.0.0.1",
+        "http://localhost:1420",
+        "tauri://localhost",
+        "http://tauri.localhost"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -26,3 +26,7 @@ app.add_middleware(
 app.include_router(stations.router, prefix=f"{settings.API_V1_STR}/stations", tags=["stations"])
 app.include_router(health.router, prefix=settings.API_V1_STR, tags=["health"])
 app.include_router(releases.router, prefix=f"{settings.API_V1_STR}/releases", tags=["releases"])
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -3,6 +3,8 @@ import { Station } from '../types/station';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
+
+
 export function useStations() {
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(false);

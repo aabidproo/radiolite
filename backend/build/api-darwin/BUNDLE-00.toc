@@ -1,0 +1,3 @@
+([('api-darwin',
+   '/Users/aabid/Documents/radiolite/backend/dist/api-darwin',
+   'EXECUTABLE')],)

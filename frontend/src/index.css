@@ -437,11 +437,11 @@ html, body, #root {
   width: calc(100% - 16px);
   margin: 4px 8px 8px 8px;
   flex-shrink: 0;
+  padding: 16px;
+  box-sizing: border-box;
   background-color: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 16px; /* Standardized */
   border-radius: 12px;
-  box-sizing: border-box;
 }
 
 .player-content {
@@ -755,3 +755,5 @@ html, body, #root {
   background: rgba(255, 255, 255, 0.05);
   margin: 4px 8px;
 }
+
+

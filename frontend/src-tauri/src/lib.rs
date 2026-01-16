@@ -4,6 +4,7 @@ use tauri::{
     Manager, State, AppHandle,
 };
 use tauri_plugin_positioner::{Position, WindowExt};
+use tauri_plugin_shell::ShellExt;
 use std::sync::Mutex;
 
 // State to hold the current station name
@@ -25,7 +26,9 @@ fn update_tray_title(app: AppHandle, title: String, state: State<AppState>) -> R
     
     // Update the tray icon title and tooltip
     if let Some(tray) = app.tray_by_id("main") {
+        #[cfg(target_os = "macos")]
         tray.set_title(Some(&title)).map_err(|e| format!("Failed to set title: {}", e))?;
+        
         tray.set_tooltip(Some(&title)).map_err(|e| format!("Failed to set tooltip: {}", e))?;
     } else {
         return Err("Tray icon not found".to_string());
@@ -38,7 +41,6 @@ fn update_tray_title(app: AppHandle, title: String, state: State<AppState>) -> R
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_positioner::init())
         .manage(AppState {
             current_station: Mutex::new("Radiolite".to_string()),
@@ -47,13 +49,34 @@ pub fn run() {
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Accessory);
 
+            // Start backend sidecar
+            let shell = app.shell();
+            let sidecar_command = shell.sidecar("api").map_err(|e| format!("failed to create sidecar: {}", e))?;
+            let (mut _rx, _child) = sidecar_command.spawn().map_err(|e| format!("failed to spawn sidecar: {}", e))?;
+
             let quit_i = MenuItem::with_id(app, "quit", "Quit Radiolite", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&quit_i])?;
 
-            let _tray = TrayIconBuilder::with_id("main")
+            #[cfg(target_os = "macos")]
+            let tray_builder = TrayIconBuilder::with_id("main")
                 .title("Radiolite")
                 .menu(&menu)
-                .show_menu_on_left_click(false)
+                .show_menu_on_left_click(false);
+
+            #[cfg(not(target_os = "macos"))]
+            let tray_builder = {
+                let mut builder = TrayIconBuilder::with_id("main")
+                    .tooltip("Radiolite")
+                    .menu(&menu)
+                    .show_menu_on_left_click(false);
+                if let Some(icon) = app.default_window_icon() {
+                    builder = builder.icon(icon.clone());
+                }
+                builder
+            };
+
+
+            let _tray = tray_builder
                 .on_menu_event(|app, event| match event.id.as_ref() {
                     "quit" => {
                         app.exit(0);
