@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Station } from '../../types/station';
 import { StationRow } from './StationRow';
-import { SectionTitle } from '../ui/Typography';
 
 interface StationGroupListProps {
   stations: Station[];
@@ -14,11 +13,11 @@ export function StationGroupList({
   stations, 
   loading, 
   currentStation, 
-  onPlay 
+  onPlay
 }: StationGroupListProps) {
   const [expandedStates, setExpandedStates] = useState<Set<string>>(new Set());
 
-  if (loading) {
+  if (loading && stations.length === 0) {
     return (
       <div className="loading-container">
         <div className="loading-spinner" />
@@ -26,77 +25,112 @@ export function StationGroupList({
     );
   }
 
-  // 1. Group by State or City
+  // 1. Group by Place (City, State, Country)
   const grouped = stations.reduce((acc, station) => {
-    let groupKey = station.state;
-    if (!groupKey || groupKey.trim() === '') {
-      groupKey = station.city;
+    // Collect non-empty components and deduplicate (case-insensitive)
+    const rawComponents = [];
+    if (station.city?.trim()) rawComponents.push(station.city.trim());
+    if (station.state?.trim()) rawComponents.push(station.state.trim());
+    
+    // Only show country if no city or state is available
+    if (rawComponents.length === 0 && station.country?.trim()) {
+      rawComponents.push(station.country.trim());
     }
-    if (!groupKey || groupKey.trim() === '') {
-      groupKey = 'Unknown Location';
+
+    // Deduplicate while preserving order
+    const components: string[] = [];
+    const seen = new Set<string>();
+    for (const c of rawComponents) {
+      const lower = c.toLowerCase();
+      if (!seen.has(lower)) {
+        seen.add(lower);
+        components.push(c);
+      }
     }
+
+    let groupKey = components.join(', ');
+    if (!groupKey) groupKey = 'Local Stations';
     
     if (!acc[groupKey]) acc[groupKey] = [];
     acc[groupKey].push(station);
     return acc;
   }, {} as Record<string, Station[]>);
 
-  // 2. Sort States (Unknown Location last)
-  const sortedStates = Object.keys(grouped).sort((a, b) => {
-    if (a === 'Unknown Location') return 1;
-    if (b === 'Unknown Location') return -1;
-    return a.localeCompare(b);
-  });
+  // 2. Sort Places
+  const sortedPlaces = Object.keys(grouped).sort((a, b) => a.localeCompare(b));
 
-  const toggleExpand = (state: string) => {
+  const toggleExpand = (place: string) => {
     setExpandedStates(prev => {
       const next = new Set(prev);
-      if (next.has(state)) next.delete(state);
-      else next.add(state);
+      if (next.has(place)) next.delete(place);
+      else next.add(place);
       return next;
     });
   };
 
   return (
     <div className="station-group-list pb-8">
-      {sortedStates.map(state => {
-        const stateStations = grouped[state];
-        const isExpanded = expandedStates.has(state);
-        const displayStations = isExpanded ? stateStations : stateStations.slice(0, 3);
-        const hasMore = stateStations.length > 3;
+      {sortedPlaces.map(place => {
+        const placeStations = grouped[place];
+        const isExpanded = expandedStates.has(place);
 
         return (
-          <div key={state} className="mb-6">
-            <SectionTitle className="sticky top-0 bg-[#121212] py-2 z-10 border-b border-white/5 mx-4 mb-2">
-              {state} <span className="text-muted text-[10px] ml-1">({stateStations.length})</span>
-            </SectionTitle>
-            
-            <div className="station-group">
-              {displayStations.map(station => (
-                <StationRow 
-                  key={station.stationuuid} 
-                  station={station} 
-                  onPlay={onPlay} 
-                  isActive={currentStation?.stationuuid === station.stationuuid}
-                />
-              ))}
+          <div key={place} className="mb-2">
+            <div 
+              className={`place-group-header ${isExpanded ? 'expanded' : ''}`}
+              onClick={() => toggleExpand(place)}
+            >
+              <div className="place-group-left">
+                <span className="place-count-badge">
+                  {placeStations.length}
+                </span>
+                <span className="place-group-name">{place}</span>
+              </div>
+              <div className="place-group-right">
+                <span className={`toggle-icon ${isExpanded ? 'rotated' : ''}`}>
+                  ›
+                </span>
+              </div>
             </div>
+            
+            {isExpanded && (
+              <div className="station-group mt-1">
+                {placeStations.map(station => (
+                  <StationRow 
+                    key={station.stationuuid} 
+                    station={station} 
+                    onPlay={onPlay} 
+                    isActive={currentStation?.stationuuid === station.stationuuid}
+                  />
+                ))}
+              </div>
+            )}
 
-            {hasMore && (
+            {isExpanded && placeStations.length > 5 && (
               <div 
-                onClick={() => toggleExpand(state)}
-                className="pl-4 mt-2 text-xs text-accent cursor-pointer hover:underline opacity-80 hover:opacity-100 transition-opacity"
+                onClick={() => toggleExpand(place)}
+                className="group-toggle-button"
               >
-                {isExpanded ? 'Show Less' : `Show All (${stateStations.length})`}
+                Show Less
               </div>
             )}
           </div>
         );
       })}
       
-      {stations.length === 0 && !loading && (
-        <div className="text-center text-muted text-sm mt-8">
-          No stations found in this region.
+      {stations.length === 0 && (
+        <div className="text-center text-muted text-sm mt-12 py-8 px-4 flex flex-col gap-2">
+          {loading ? (
+            <>
+              <div className="text-accent">Searching...</div>
+              <div className="text-xs opacity-50">Connecting to global airwaves</div>
+            </>
+          ) : (
+            <>
+              <div className="text-white">No stations found</div>
+              <div className="text-xs opacity-50">Try refining your search or filter</div>
+            </>
+          )}
         </div>
       )}
     </div>

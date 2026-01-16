@@ -17,7 +17,7 @@ export function StationList({
   loading, 
   currentStation, 
   onPlay,
-  accentTitle 
+  accentTitle
 }: StationListProps) {
   if (stations.length === 0 && !loading) return null;
 

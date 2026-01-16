@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 interface TypographyProps {
   children: ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
 export const Heading = ({ children, className = "" }: TypographyProps) => (
@@ -29,8 +30,8 @@ export const Metadata = ({ children, className = "" }: TypographyProps) => (
   </p>
 );
 
-export const SectionTitle = ({ children, className = "" }: TypographyProps) => (
-  <h2 className={`section-title ${className}`}>
+export const SectionTitle = ({ children, className = "", onClick }: TypographyProps) => (
+  <h2 className={`section-title ${className}`} onClick={onClick}>
     {children}
   </h2>
 );

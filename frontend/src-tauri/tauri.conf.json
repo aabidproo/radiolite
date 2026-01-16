@@ -16,7 +16,7 @@
         "label": "main",
         "title": "Radiolite",
         "width": 350,
-        "height": 650,
+        "height": 600,
         "decorations": false,
         "alwaysOnTop": false,
         "transparent": true,
