@@ -52,6 +52,30 @@ jobs:
         run: npm install
         working-directory: frontend
 
+      - name: build backend sidecar
+        shell: bash
+        working-directory: frontend
+        run: |
+          set -ex
+          cd ../backend
+          export PYINSTALLER_TARGET=${{ matrix.targetTriple }}
+          python build_backend.py
+          
+          # Handle extension on Windows
+          BINARY_NAME="api-${{ matrix.targetTriple }}"
+          if [[ "${{ matrix.platform }}" == "windows-latest" ]]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+          fi
+          
+          cp "dist/${BINARY_NAME}" "../frontend/src-tauri/"
+          
+          if [[ "${{ matrix.platform }}" != "windows-latest" ]]; then
+            chmod +x "../frontend/src-tauri/${BINARY_NAME}"
+          fi
+          
+          echo "Sidecar binary created:"
+          ls -la "../frontend/src-tauri/${BINARY_NAME}"
+
       - name: Set version from tag
         run: |
           node -e "
@@ -74,7 +98,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
-          PYINSTALLER_TARGET: ${{ matrix.targetTriple }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "Radiolite ${{ github.ref_name }}"
@@ -83,16 +106,3 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           projectPath: frontend
-          beforeBuildCommand: |
-            cd ../backend
-            python build_backend.py
-            BINARY_NAME="api-${{ matrix.targetTriple }}"
-            if [ "${{ matrix.platform }}" = "windows-latest" ]; then
-              BINARY_NAME="${BINARY_NAME}.exe"
-            fi
-            cp "dist/${BINARY_NAME}" "../frontend/src-tauri/"
-            if [ "${{ matrix.platform }}" != "windows-latest" ]; then
-              chmod +x "../frontend/src-tauri/${BINARY_NAME}"
-            fi
-            ls -la "../frontend/src-tauri/" || true
-            cd ../frontend
