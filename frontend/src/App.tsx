@@ -81,7 +81,18 @@ function App() {
       if (languages.length === 0) fetchLanguages();
       if (!userCountry) await detectLocation(); 
     };
+    
+    // Analytics: Track App Open
+    const trackAppOpen = async () => {
+      try {
+        await fetch('https://radiolite.onrender.com/api/v1/track/app-open', { method: 'POST' });
+      } catch (err) {
+        console.error('Failed to track app open:', err);
+      }
+    };
+
     initApp();
+    trackAppOpen();
   }, []);
 
   useEffect(() => {

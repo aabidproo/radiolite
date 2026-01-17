@@ -134,6 +134,17 @@ export function useAudio() {
         setIsBuffering(false);
         setIsPlaying(false);
       });
+
+    // Analytics: Track Station Play
+    try {
+      fetch('https://radiolite.onrender.com/api/v1/track/station-play', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ station_id: station.stationuuid || station.name })
+      });
+    } catch (err) {
+      console.error('Failed to track station play:', err);
+    }
   };
 
   const togglePlay = () => {
