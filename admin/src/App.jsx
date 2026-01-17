@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.PROD 
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD 
   ? 'https://radiolite.onrender.com/api/v1' 
-  : 'http://127.0.0.1:8000/api/v1';
+  : 'http://127.0.0.1:8000/api/v1');
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('adminToken') || '');
