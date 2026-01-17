@@ -44,7 +44,7 @@ class RadioBrowserAdapter(IRadioRepository):
 
     async def get_top_stations(self, limit: int = 100) -> List[Station]:
         try:
-            async with httpx.AsyncClient(timeout=15.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(f"{self.base_url}/stations/topvote/{limit}")
                 response.raise_for_status()
                 data = response.json()
@@ -77,7 +77,7 @@ class RadioBrowserAdapter(IRadioRepository):
         if tag: params["tag"] = tag
 
         try:
-            async with httpx.AsyncClient(timeout=20.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(f"{self.base_url}/stations/search", params=params)
                 response.raise_for_status()
                 data = response.json()
@@ -99,7 +99,7 @@ class RadioBrowserAdapter(IRadioRepository):
             url += f"/{name}"
 
         try:
-            async with httpx.AsyncClient(timeout=15.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(url, params=params)
                 response.raise_for_status()
                 data = response.json()
@@ -121,7 +121,7 @@ class RadioBrowserAdapter(IRadioRepository):
             url += f"/{name}"
 
         try:
-            async with httpx.AsyncClient(timeout=15.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(url, params=params)
                 response.raise_for_status()
                 data = response.json()
@@ -143,7 +143,7 @@ class RadioBrowserAdapter(IRadioRepository):
             url += f"/{name}"
 
         try:
-            async with httpx.AsyncClient(timeout=20.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(url, params=params)
                 response.raise_for_status()
                 data = response.json()
@@ -154,7 +154,7 @@ class RadioBrowserAdapter(IRadioRepository):
 
     async def get_summary_stats(self) -> Dict[str, int]:
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 response = await client.get(f"{self.base_url}/stats")
                 response.raise_for_status()
                 data = response.json()
