@@ -9,6 +9,15 @@
     "core:window:allow-hide",
     "core:window:allow-show",
     "core:tray:allow-set-icon",
-    "core:tray:allow-set-visible"
+    "core:tray:allow-set-visible",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "api",
+          "sidecar": true
+        }
+      ]
+    }
   ]
 }
