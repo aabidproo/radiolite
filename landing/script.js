@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Asset mapping complete.");
         } catch (err) {
             console.error("CRITICAL: Failed to update download links:", err);
-            alert("Could not load download links. Check Console for details.");
+            // Silent fail - keeping default links
         }
     }
 
