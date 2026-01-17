@@ -14,15 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-14"
+          - platform: "macos-latest"
             args: "--target aarch64-apple-darwin"
-            targetTriple: "aarch64-apple-darwin"
-          - platform: "macos-12" 
+          - platform: "macos-latest"
             args: "--target x86_64-apple-darwin"
-            targetTriple: "x86_64-apple-darwin"
           - platform: "windows-latest"
             args: ""
-            targetTriple: "x86_64-pc-windows-msvc"
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -36,45 +33,11 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ startsWith(matrix.platform, 'macos-') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: setup python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-
-      - name: install backend dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt pyinstaller
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: install frontend dependencies
         run: npm install
         working-directory: frontend
-
-      - name: build backend sidecar
-        shell: bash
-        working-directory: frontend
-        run: |
-          set -ex
-          cd ../backend
-          export PYINSTALLER_TARGET=${{ matrix.targetTriple }}
-          python build_backend.py
-          
-          # Handle extension on Windows
-          BINARY_NAME="api-${{ matrix.targetTriple }}"
-          if [[ "${{ matrix.platform }}" == "windows-latest" ]]; then
-            BINARY_NAME="${BINARY_NAME}.exe"
-          fi
-          
-          cp "dist/${BINARY_NAME}" "../frontend/src-tauri/"
-          
-          if [[ "${{ matrix.platform }}" != "windows-latest" ]]; then
-            chmod +x "../frontend/src-tauri/${BINARY_NAME}"
-          fi
-          
-          echo "Sidecar binary created:"
-          ls -la "../frontend/src-tauri/${BINARY_NAME}"
 
       - name: Set version from tag
         run: |
