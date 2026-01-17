@@ -20,12 +20,13 @@ async def get_top_stations(limit: int = 100):
 async def search_stations(
     name: str = Query(None), 
     country: str = Query(None), 
+    countrycode: str = Query(None),
     language: str = Query(None),
     tag: str = Query(None),
     limit: int = 100,
     offset: int = 0
 ):
-    return await station_service.search_stations(name, country, language, tag, limit, offset)
+    return await station_service.search_stations(name, country, countrycode, language, tag, limit, offset)
 
 @router.get("/countries", response_model=List[Category])
 async def get_countries(limit: int = 24, offset: int = 0, name: str = None):

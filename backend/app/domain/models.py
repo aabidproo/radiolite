@@ -9,6 +9,7 @@ class Station(BaseModel):
     homepage: Optional[str] = None
     favicon: Optional[str] = None
     country: str
+    countrycode: Optional[str] = None
     state: str
     city: str
     language: str

@@ -1,1 +1,12 @@
 .venv*
+venv/
+node_modules/
+dist/
+target/
+build_log.txt
+.DS_Store
+*.pyc
+__pycache__/
+frontend/src-tauri/target/
+frontend/dist/
+frontend/node_modules/

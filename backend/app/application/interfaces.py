@@ -12,6 +12,7 @@ class IRadioRepository(ABC):
         self, 
         name: Optional[str] = None, 
         country: Optional[str] = None, 
+        countrycode: Optional[str] = None,
         language: Optional[str] = None,
         tag: Optional[str] = None,
         limit: int = 100,

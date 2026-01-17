@@ -6,11 +6,14 @@ from app.infrastructure.persistence.disk_cache import DiskCacheAdapter
 from app.application.services import StationService
 from app.application.releases import ReleaseService
 
+from app.infrastructure.external.mapper import RadioBrowserMapper
+
 # 1. Domain Utilities
 normalizer = LocationNormalizer()
+mapper = RadioBrowserMapper(normalizer=normalizer)
 
 # 2. Infrastructure Layer (Adapters)
-radio_repo = RadioBrowserAdapter(normalizer=normalizer)
+radio_repo = RadioBrowserAdapter(mapper=mapper)
 
 # Cache directory configuration
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

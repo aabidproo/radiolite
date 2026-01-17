@@ -23,6 +23,7 @@ class StationService:
         self, 
         name: Optional[str] = None, 
         country: Optional[str] = None, 
+        countrycode: Optional[str] = None,
         language: Optional[str] = None,
         tag: Optional[str] = None,
         limit: int = 100,
@@ -31,14 +32,14 @@ class StationService:
         # We don't cache individual searches to avoid cache bloat, 
         # but categories are cached in their respective repo/adapter logic if needed.
         # However, for consistency with old behavior, we might cache browse-by-category.
-        is_category_browse = (country or language or tag) and not name
-        cache_key = f"browse_{country}_{language}_{tag}_{limit}_{offset}" if is_category_browse else None
+        is_category_browse = (country or language or tag or countrycode) and not name
+        cache_key = f"browse_{country}_{countrycode}_{language}_{tag}_{limit}_{offset}" if is_category_browse else None
         
         if cache_key:
             cached = self.cache_repo.get(cache_key)
             if cached: return [Station(**s) for s in cached]
 
-        stations = await self.radio_repo.search_stations(name, country, language, tag, limit, offset)
+        stations = await self.radio_repo.search_stations(name, country, countrycode, language, tag, limit, offset)
         
         if cache_key and stations:
             self.cache_repo.set(cache_key, [s.dict() for s in stations], expire=86400) # 24h for browse
