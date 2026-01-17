@@ -148,4 +148,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- Contact Modal Logic ---
+    const contactBtn = document.getElementById('contact-btn');
+    const contactModal = document.getElementById('contact-modal');
+    const closeContactModal = document.getElementById('close-contact-modal');
+
+    if (contactBtn && contactModal) {
+        contactBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.classList.add('active');
+        });
+
+        closeContactModal.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+    }
 });

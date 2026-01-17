@@ -114,16 +114,17 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 60px; /* Proper gap */
-    min-width: 0; /* Prevent overflow */
+    justify-content: center; /* Center to allow transform to work regularly */
+    position: relative;
+    min-width: 0;
 }
 
 .product-image {
-    max-width: 100%;
-    max-height: 70vh;
+    max-width: none;
     width: auto;
-    height: auto;
+    height: 65vh; /* Reduced for more vertical gap */
+    max-height: none;
+    transform: translateX(-25%); /* Shift left to show 'half' */
     object-fit: contain;
 }
 
