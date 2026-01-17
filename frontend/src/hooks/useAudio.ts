@@ -32,8 +32,9 @@ export function useAudio() {
     }
     
     const onWaiting = () => {
-      // Use the raw audio object state to be sure
-      if (!audio.paused) {
+      // Only show buffering if we actually ran out of data (readyState < 3)
+      // AND the audio is supposed to be playing
+      if (!audio.paused && audio.readyState < 3) {
         setIsBuffering(true);
       }
     };
@@ -48,6 +49,13 @@ export function useAudio() {
       setIsPlaying(false);
     };
 
+    const onTimeUpdate = () => {
+      // If time is moving, we are definitely NOT buffering
+      if (isBuffering && !audio.paused && audio.readyState >= 3) {
+        setIsBuffering(false);
+      }
+    };
+
     const onCanPlay = () => setIsBuffering(false);
     const onEnded = () => {
       setIsBuffering(false);
@@ -59,19 +67,19 @@ export function useAudio() {
     };
 
     audio.addEventListener('waiting', onWaiting);
-    audio.addEventListener('stalled', onWaiting);
     audio.addEventListener('playing', onPlaying);
     audio.addEventListener('pause', onPause);
     audio.addEventListener('canplay', onCanPlay);
+    audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('error', onError);
 
     return () => {
       audio.removeEventListener('waiting', onWaiting);
-      audio.removeEventListener('stalled', onWaiting);
       audio.removeEventListener('playing', onPlaying);
       audio.removeEventListener('pause', onPause);
       audio.removeEventListener('canplay', onCanPlay);
+      audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
       audio.pause();

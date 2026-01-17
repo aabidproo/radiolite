@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Share2, Info } from "lucide-react";
+import { ExternalLink, Info } from "lucide-react";
 import { getName, getVersion } from "@tauri-apps/api/app";
+import { openUrl } from "@tauri-apps/plugin-opener";
 
 interface MoreMenuProps {
   isOpen: boolean;
@@ -23,23 +24,13 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
     fetchInfo();
   }, []);
 
-  const handleShare = async () => {
-    const shareText = `Check out ${appInfo.name} - The ultimate radio experience!`;
-    const shareUrl = "https://radiolite.onrender.com";
-    
+  const handleVisitWebsite = async () => {
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: appInfo.name,
-          text: shareText,
-          url: shareUrl,
-        });
-      } else {
-        await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-        alert("Link copied to clipboard!");
-      }
+      await openUrl("https://radiolite.onrender.com");
     } catch (err) {
-      console.error("Share failed", err);
+      console.error("Failed to open website via plugin:", err);
+      // Last resort fallback
+      window.open("https://radiolite.onrender.com", "_blank");
     }
     onClose();
   };
@@ -51,6 +42,7 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
           <div 
             className="fixed inset-0 z-[999]" 
             onClick={onClose} 
+            style={{ pointerEvents: 'auto' }}
           />
           
           <motion.div
@@ -60,9 +52,12 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="more-menu"
           >
-            <div className="more-menu-item" onClick={handleShare}>
-              <Share2 size={16} />
-              <span>Share this app</span>
+            <div className="more-menu-item" onClick={handleVisitWebsite}>
+              <ExternalLink size={16} />
+              <div className="flex flex-col items-start">
+                <span>Visit website</span>
+                <span className="text-[10px] opacity-50 font-normal">radiolite.onrender.com</span>
+              </div>
             </div>
             
             <div className="more-menu-divider" />

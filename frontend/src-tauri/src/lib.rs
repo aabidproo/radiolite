@@ -41,6 +41,7 @@ fn update_tray_title(app: AppHandle, title: String, state: State<AppState>) -> R
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_positioner::init())
         .manage(AppState {
             current_station: Mutex::new("Radiolite".to_string()),

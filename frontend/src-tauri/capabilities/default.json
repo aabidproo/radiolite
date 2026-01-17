@@ -10,6 +10,9 @@
     "core:window:allow-show",
     "core:tray:allow-set-icon",
     "core:tray:allow-set-visible",
+    "shell:allow-open",
+    "opener:allow-open-url",
+    "opener:allow-default-urls",
     {
       "identifier": "shell:allow-spawn",
       "allow": [

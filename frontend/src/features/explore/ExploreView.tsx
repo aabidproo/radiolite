@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CategoryItemGrid } from "../../components/station/CategoryItemGrid";
 import { StationGroupList } from "../../components/station/StationGroupList";
 import { StationList } from "../../components/station/StationList";
@@ -23,6 +24,9 @@ interface ExploreViewProps {
   onLoadMoreCategories: () => void;
   handleSelectItem: (type: 'country' | 'language' | 'tag', value: string) => void;
   stats: { countries: number, languages: number, tags: number, stations: number } | null;
+  featuredStations: any[];
+  getFeaturedStations: (region?: string) => void;
+  featuredLoading: boolean;
 }
 
 export function ExploreView({
@@ -45,9 +49,23 @@ export function ExploreView({
   onLoadMoreStations,
   onLoadMoreCategories,
   handleSelectItem,
-  stats
+  stats,
+  featuredStations,
+  getFeaturedStations,
+  featuredLoading
 }: ExploreViewProps) {
   const isFiltered = selectedCountry || selectedLanguage || selectedTag;
+  const [activeRegion, setActiveRegion] = useState<string | null>(null);
+
+  // Fetch when region changes
+  const handleRegionSelect = (region: string) => {
+    setActiveRegion(region);
+    getFeaturedStations(region);
+  };
+
+  const handleBackToRegions = () => {
+    setActiveRegion(null);
+  }
 
   if (isFiltered) {
     return (
@@ -99,21 +117,125 @@ export function ExploreView({
   if (exploreView === 'categories') {
     return (
       <div key="categories-landing" className="mt-4">
-        <h2 className="section-title px-4 mb-4">Browse by Category</h2>
-        <div className="explore-grid">
-          <div className="explore-card" onClick={() => setExploreView('countries')}>
-            <span className="explore-card-title">By Country</span>
-            <span className="explore-card-subtitle">{stats ? stats.countries.toLocaleString() : countries.length || '...'} Nations</span>
+        {/* Popular Stations Section (Top) */}
+        <div className="mb-10">
+          <div className="flex items-center justify-between px-4 mb-2">
+            <h2 className="section-title mb-0 text-[#1db954]">Popular Stations</h2>
+            {activeRegion && (
+              <span 
+                className="text-accent text-sm font-semibold cursor-pointer hover:underline"
+                onClick={handleBackToRegions}
+              >
+                Show All Regions
+              </span>
+            )}
           </div>
-          <div className="explore-card" onClick={() => setExploreView('languages')}>
-            <span className="explore-card-title">By Language</span>
-            <span className="explore-card-subtitle">{stats ? stats.languages.toLocaleString() : languages.length || '...'} Tongues</span>
-          </div>
-          <div className="explore-card" onClick={() => setExploreView('tags')}>
-            <span className="explore-card-title">By Genre</span>
-            <span className="explore-card-subtitle">{stats ? stats.tags.toLocaleString() : tags.length || '...'} Styles</span>
-          </div>
+          
+          {!activeRegion ? (
+            /* Region Cards Grid */
+            <div className="explore-grid mb-6">
+              <div className="explore-card" onClick={() => handleRegionSelect('Asia')}>
+                <span className="explore-card-title">Asia</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('Europe')}>
+                <span className="explore-card-title">Europe</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('North America')}>
+                <span className="explore-card-title">North America</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('South America')}>
+                <span className="explore-card-title">South America</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('Africa')}>
+                <span className="explore-card-title">Africa</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('Oceania')}>
+                <span className="explore-card-title">Oceania</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+              <div className="explore-card" onClick={() => handleRegionSelect('Arab World')}>
+                <span className="explore-card-title">Arab World</span>
+                <span className="explore-card-subtitle">Curated Stations</span>
+              </div>
+            </div>
+          ) : (
+            /* Selected Region View */
+            <div className="animate-fade-in"> 
+               <div className="px-4 mb-4">
+                 <h3 className="text-xl font-bold text-white mb-0" style={{ lineHeight: '0.9' }}>{activeRegion}</h3>
+                 <p className="metadata" style={{ fontSize: '11px', color: '#B3B3B3', marginTop: '-10px', lineHeight: '1.2' }}>
+                    {activeRegion === 'Asia' && "From Mumbai to Tokyo, tune into the pulse of the continent."}
+                    {activeRegion === 'Europe' && "Icons of global radio. BBC, RTÉ, and more defining voices."}
+                     {activeRegion === 'North America' && "Broadcasting giants from the US, Canada, and Mexico."}
+                     {activeRegion === 'South America' && "Vibrant rhythms from Brazil, Argentina, and beyond."}
+                     {activeRegion === 'Africa' && "Rhythms from Lagos to Cape Town. The soul of Africa."}
+                     {activeRegion === 'Oceania' && "Voices from Australia, NZ, and the Pacific Islands."}
+                     {activeRegion === 'Arab World' && "Middle East & North Africa. MBC, Rotana, and more."}
+                 </p>
+               </div>
+               
+               {featuredLoading ? (
+                  <div className="loading-container">
+                    <div className="loading-spinner sm" />
+                  </div>
+                ) : (
+                  <StationList 
+                    title=""
+                    stations={featuredStations}
+                    onPlay={(s: any) => playStation(s)}
+                    currentStation={currentStation}
+                  />
+                )}
+            </div>
+          )}
         </div>
+
+        {!activeRegion && (
+          <div className="mt-8">
+            <div className="flex items-center justify-between px-4 mb-2">
+              <h2 className="section-title mb-0 text-[#1db954]">Popular Genres</h2>
+              {tags.length > 0 && (
+                <span 
+                  className="text-accent text-sm font-semibold cursor-pointer hover:underline"
+                  onClick={() => setExploreView('tags')}
+                >
+                  Show All
+                </span>
+              )}
+            </div>
+            <CategoryItemGrid 
+              items={tags.slice(0, 8)}
+              onSelect={(val: string) => handleSelectItem('tag', val)}
+              loading={loading && tags.length === 0}
+              showApprox
+            />
+          </div>
+        )}
+
+        {!activeRegion && (
+          <>
+            <h2 className="section-title px-4 mb-2">Browse by Category</h2>
+            <div className="explore-grid mb-8">
+              <div className="explore-card" onClick={() => setExploreView('countries')}>
+                <span className="explore-card-title">By Country</span>
+                <span className="explore-card-subtitle">{stats ? stats.countries.toLocaleString() : countries.length || '...'} Nations</span>
+              </div>
+              <div className="explore-card" onClick={() => setExploreView('languages')}>
+                <span className="explore-card-title">By Language</span>
+                <span className="explore-card-subtitle">{stats ? stats.languages.toLocaleString() : languages.length || '...'} Tongues</span>
+              </div>
+              <div className="explore-card" onClick={() => setExploreView('tags')}>
+                <span className="explore-card-title">By Genre</span>
+                <span className="explore-card-subtitle">{stats ? stats.tags.toLocaleString() : tags.length || '...'} Styles</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     );
   }

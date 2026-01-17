@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAudio } from "./hooks/useAudio";
 import { useStations } from "./hooks/useStations";
 
@@ -56,10 +56,11 @@ function App() {
 
   const { 
     stations, countries, languages, tags, loading, 
-    searchStations, getTopStations, fetchCountries, fetchLanguages, fetchTags,
+    searchStations, fetchCountries, fetchLanguages, fetchTags, fetchStats,
     favorites, toggleFavorite, userCountry, detectLocation, fetchNearMeStations,
     flushCache, nearMeStations, error, hasMore, resetPagination,
-    searchGlobal, globalSearchResults, clearGlobalSearch, stats
+    searchGlobal, globalSearchResults, clearGlobalSearch, stats,
+    featuredStations, getFeaturedStations, featuredLoading
   } = useStations();
   
   const [search, setSearch] = useState("");
@@ -71,8 +72,15 @@ function App() {
   const [exploreView, setExploreView] = useState<'categories' | 'countries' | 'languages' | 'tags'>('categories');
 
   useEffect(() => {
-    const initNearMe = async () => { if (!userCountry) await detectLocation(); };
-    initNearMe();
+    const initApp = async () => { 
+      // Always fetch or restore from cache on launch
+      fetchStats();
+      if (tags.length === 0) fetchTags();
+      if (countries.length === 0) fetchCountries();
+      if (languages.length === 0) fetchLanguages();
+      if (!userCountry) await detectLocation(); 
+    };
+    initApp();
   }, []);
 
   useEffect(() => {
@@ -84,17 +92,46 @@ function App() {
       else if (selectedLanguage) { resetPagination(); searchStations("", { language: selectedLanguage }, { resetOffset: true }); }
       else if (selectedTag) { resetPagination(); searchStations("", { tag: selectedTag }, { resetOffset: true }); }
       else {
-        if (exploreView === 'categories') getTopStations();
-        else {
-          if (exploreView === 'countries') fetchCountries();
-          else if (exploreView === 'languages') fetchLanguages();
-          else if (exploreView === 'tags') fetchTags();
-        }
+        // Landing Page: handeld by init effect
       }
     }
-  }, [mainTab, selectedCountry, selectedLanguage, selectedTag, userCountry, exploreView, resetPagination, fetchNearMeStations, detectLocation, searchStations, getTopStations, fetchCountries, fetchLanguages, fetchTags]);
+  }, [mainTab, selectedCountry, selectedLanguage, selectedTag, userCountry, exploreView, resetPagination, fetchNearMeStations, detectLocation, searchStations]);
 
   useEffect(() => { if (!search) clearGlobalSearch(); }, [search]);
+
+  const [showHeader, setShowHeader] = useState(true);
+  const lastScrollTop = useRef(0);
+
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const diff = scrollTop - lastScrollTop.current;
+    
+    // Always show at the top
+    if (scrollTop < 10) {
+      setShowHeader(true);
+      lastScrollTop.current = scrollTop;
+      return;
+    }
+
+    // Guard: Don't hide header if we're near the bottom to prevent flickering
+    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 20;
+    if (isNearBottom && diff > 0) {
+      lastScrollTop.current = scrollTop;
+      return;
+    }
+
+    // Small threshold to prevent jitter
+    if (Math.abs(diff) < 5) return;
+
+    if (diff > 0) {
+      // Scrolling down
+      if (showHeader) setShowHeader(false);
+    } else {
+      // Scrolling up
+      if (!showHeader) setShowHeader(true);
+    }
+    lastScrollTop.current = scrollTop;
+  };
 
   const handleSearch = (e: React.FormEvent) => { e.preventDefault(); searchGlobal(search); };
 
@@ -103,6 +140,7 @@ function App() {
     setSelectedCountry(type === 'country' ? value : null);
     setSelectedLanguage(type === 'language' ? value : null);
     setSelectedTag(type === 'tag' ? value : null);
+    setShowHeader(true); // Ensure header shows when selecting category
   };
 
   const loadMoreItems = async () => {
@@ -150,10 +188,16 @@ function App() {
       const promises = [];
       if (mainTab === 'nearMe' && userCountry) promises.push(fetchNearMeStations(userCountry));
       else if (mainTab === 'explore') {
-        promises.push(getTopStations());
-        if (exploreView === 'countries') promises.push(fetchCountries());
-        else if (exploreView === 'languages') promises.push(fetchLanguages());
-        else if (exploreView === 'tags') promises.push(fetchTags());
+        if (exploreView === 'categories') {
+          promises.push(fetchStats());
+          promises.push(fetchTags());
+          promises.push(fetchCountries());
+          promises.push(fetchLanguages());
+        } else {
+          if (exploreView === 'countries') promises.push(fetchCountries());
+          else if (exploreView === 'languages') promises.push(fetchLanguages());
+          else if (exploreView === 'tags') promises.push(fetchTags());
+        }
       }
       await Promise.all(promises);
     }
@@ -162,7 +206,7 @@ function App() {
 
   return (
     <Container>
-      <div className="page-header">
+      <div className={`page-header ${!showHeader ? 'tabs-hidden' : ''}`}>
         <div className="search-header-container">
             <SearchHeader 
               search={search} 
@@ -181,7 +225,7 @@ function App() {
         )}
       </div>
 
-      <ScrollArea>
+      <ScrollArea onScroll={handleScroll}>
         {error ? (
           <div className="px-4 py-8 text-center mt-12">
             <div className="text-red-500/80 mb-6 text-sm flex flex-col gap-2">
@@ -247,6 +291,9 @@ function App() {
                 onLoadMoreCategories={loadMoreItems}
                 handleSelectItem={handleSelectItem}
                 stats={stats}
+                featuredStations={featuredStations}
+                getFeaturedStations={getFeaturedStations}
+                featuredLoading={featuredLoading}
               />
             )}
           </>

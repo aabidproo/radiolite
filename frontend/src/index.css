@@ -131,10 +131,18 @@ html, body, #root {
 .section-title.accent { color: var(--text-accent); }
 
 .page-header {
-  font-size: 24px;
-  font-weight: 500;
-  margin: 0 0 8px 0;
+  margin: 0;
   color: var(--text-primary);
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  max-height: 110px; /* Search (62) + Tabs (40) + Gaps */
+  flex-shrink: 0;
+  z-index: 100;
+  background: var(--bg-primary);
+}
+
+.page-header.tabs-hidden {
+  max-height: 62px; /* Search Header height only */
 }
 
 .country-grid {
@@ -153,15 +161,16 @@ html, body, #root {
 }
 
 .explore-card {
-  aspect-ratio: 3/2; /* Improved proportions */
+  aspect-ratio: 1.8 / 1; /* Shorter landscape proportions */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -180,8 +189,8 @@ html, body, #root {
 
 .explore-card-subtitle {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5); /* Increased contrast */
-  text-transform: none; /* Normalized */
+  color: var(--text-secondary); /* Increased contrast for readability */
+  text-transform: none;
   letter-spacing: normal;
 }
 
@@ -204,10 +213,10 @@ html, body, #root {
   flex-direction: column;
   justify-content: space-between;
   gap: 4px;
-  aspect-ratio: 1.6 / 1; /* Force equal shape */
+  aspect-ratio: 1.8 / 1; /* Shorter, matching landing cards */
   height: 100%;
   box-sizing: border-box;
-  overflow: hidden; /* Prevent content from breaking the box */
+  overflow: hidden;
 }
 
 .category-item:hover {
@@ -231,7 +240,7 @@ html, body, #root {
 
 .category-item-count {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4); /* Normal muted color */
+  color: var(--text-secondary); /* Higher contrast metadata */
   font-weight: 500;
 }
 
@@ -245,6 +254,23 @@ html, body, #root {
   background: rgba(255, 255, 255, 0.08); /* Neutral gray */
   color: rgba(255, 255, 255, 0.6);
   margin-top: 4px;
+}
+
+.faq-item {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border-left: 2px solid rgba(29, 185, 84, 0.3);
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-left-color: rgba(29, 185, 84, 1);
+}
+
+.text-muted {
+  color: var(--text-muted);
 }
 
 .country-item {
@@ -292,6 +318,15 @@ html, body, #root {
   gap: 8px;
   padding: 0 16px 8px 16px;
   overflow-x: auto;
+  transition: opacity 0.2s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-header.tabs-hidden .chip-tabs-container {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
 }
 
 .chip-tab {
