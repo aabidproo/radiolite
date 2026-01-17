@@ -85,7 +85,8 @@ function App() {
     // Analytics: Track App Open
     const trackAppOpen = async () => {
       try {
-        await fetch('https://api-radiolite.onrender.com/api/v1/track/app-open', { method: 'POST' });
+        const apiUrl = import.meta.env.VITE_API_URL || "https://api-radiolite.onrender.com/api/v1";
+        await fetch(`${apiUrl}/track/app-open`, { method: 'POST' });
       } catch (err) {
         console.error('Failed to track app open:', err);
       }

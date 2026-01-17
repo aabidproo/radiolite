@@ -137,7 +137,8 @@ export function useAudio() {
 
     // Analytics: Track Station Play
     try {
-      fetch('https://api-radiolite.onrender.com/api/v1/track/station-play', {
+      const apiUrl = import.meta.env.VITE_API_URL || "https://api-radiolite.onrender.com/api/v1";
+      fetch(`${apiUrl}/track/station-play`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ station_id: station.stationuuid || station.name })
