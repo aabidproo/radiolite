@@ -3,3 +3,5 @@ uvicorn
 httpx
 cachetools
 pydantic-settings
+diskcache
+python-dotenv
