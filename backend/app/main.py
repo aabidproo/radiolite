@@ -16,7 +16,9 @@ app.add_middleware(
         "http://127.0.0.1",
         "http://localhost:1420",
         "tauri://localhost",
-        "http://tauri.localhost"
+        "http://tauri.localhost",
+        "https://radiolite.onrender.com",
+        "https://radiolite-web.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
