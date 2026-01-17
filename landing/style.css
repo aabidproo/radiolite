@@ -518,6 +518,7 @@ header {
     border-top: 1px solid var(--border);
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(20px);
+    z-index: 100;
 }
 
 .footer p {
