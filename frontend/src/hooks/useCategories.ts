@@ -14,6 +14,7 @@ export function useCategories() {
     const saved = localStorage.getItem('radiolite_tags');
     return saved ? JSON.parse(saved) : [];
   });
+  const [loading, setLoading] = useState(false);
 
   const countriesRef = useRef(countries);
   const languagesRef = useRef(languages);
@@ -24,6 +25,7 @@ export function useCategories() {
     const currentOffset = shouldAppend ? countriesRef.current.length : 0;
     const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
     
+    setLoading(true);
     try {
       const data = await apiFetch<any[]>(`/stations/countries?limit=24&offset=${currentOffset}${queryParam}`);
       const cleanData = Array.isArray(data) ? data : [];
@@ -34,6 +36,8 @@ export function useCategories() {
       localStorage.setItem('radiolite_countries', JSON.stringify(next));
     } catch (err) {
       console.error("Failed to fetch countries", err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -42,6 +46,7 @@ export function useCategories() {
     const currentOffset = shouldAppend ? languagesRef.current.length : 0;
     const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
     
+    setLoading(true);
     try {
       const data = await apiFetch<any[]>(`/stations/languages?limit=24&offset=${currentOffset}${queryParam}`);
       const cleanData = Array.isArray(data) ? data : [];
@@ -52,6 +57,8 @@ export function useCategories() {
       localStorage.setItem('radiolite_languages', JSON.stringify(next));
     } catch (err) {
       console.error("Failed to fetch languages", err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -60,6 +67,7 @@ export function useCategories() {
     const currentOffset = shouldAppend ? tagsRef.current.length : 0;
     const queryParam = options.searchQuery ? `&name=${encodeURIComponent(options.searchQuery)}` : '';
     
+    setLoading(true);
     try {
       const data = await apiFetch<any[]>(`/stations/tags?limit=24&offset=${currentOffset}${queryParam}`);
       const cleanData = Array.isArray(data) ? data : [];
@@ -70,6 +78,8 @@ export function useCategories() {
       localStorage.setItem('radiolite_tags', JSON.stringify(next));
     } catch (err) {
       console.error("Failed to fetch tags", err);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -82,6 +92,7 @@ export function useCategories() {
     fetchTags,
     setCountries,
     setLanguages,
-    setTags
+    setTags,
+    categoriesLoading: loading
   };
 }

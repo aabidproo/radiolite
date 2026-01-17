@@ -23,9 +23,11 @@ export function StationList({
 
   return (
     <div className="station-list-container">
-      <SectionTitle className={`px-4 mb-2 ${accentTitle ? 'accent' : ''}`}>
-        {title}
-      </SectionTitle>
+      {title && (
+        <SectionTitle className={`px-4 mb-4 ${accentTitle ? 'accent' : ''}`}>
+          {title}
+        </SectionTitle>
+      )}
       
       {loading && stations.length === 0 ? (
         <div className="loading-container">

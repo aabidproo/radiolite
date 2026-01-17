@@ -69,13 +69,13 @@ export function StationGroupList({
   };
 
   return (
-    <div className="station-group-list pb-8">
+    <div className="station-group-list pb-4">
       {sortedPlaces.map(place => {
         const placeStations = grouped[place];
         const isExpanded = expandedStates.has(place);
 
         return (
-          <div key={place} className="mb-2">
+          <div key={place} className="mb-1">
             <div 
               className={`place-group-header ${isExpanded ? 'expanded' : ''}`}
               onClick={() => toggleExpand(place)}

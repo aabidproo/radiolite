@@ -27,6 +27,7 @@ interface ExploreViewProps {
   featuredStations: any[];
   getFeaturedStations: (region?: string) => void;
   featuredLoading: boolean;
+  categoriesLoading?: boolean;
 }
 
 export function ExploreView({
@@ -52,7 +53,8 @@ export function ExploreView({
   stats,
   featuredStations,
   getFeaturedStations,
-  featuredLoading
+  featuredLoading,
+  categoriesLoading
 }: ExploreViewProps) {
   const isFiltered = selectedCountry || selectedLanguage || selectedTag;
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
@@ -116,14 +118,14 @@ export function ExploreView({
 
   if (exploreView === 'categories') {
     return (
-      <div key="categories-landing" className="mt-4">
+      <div key="categories-landing" className="mt-5">
         {/* Popular Stations Section (Top) */}
-        <div className="mb-10">
+        <div className="mb-8">
           <div className="flex items-center justify-between px-4 mb-2">
-            <h2 className="section-title mb-0 text-[#1db954]">Popular Stations</h2>
+            <h2 className="section-title mb-0 text-[#1db954] leading-none">Popular Stations</h2>
             {activeRegion && (
               <span 
-                className="text-accent text-sm font-semibold cursor-pointer hover:underline"
+                className="text-accent text-sm font-medium cursor-pointer hover:underline leading-none"
                 onClick={handleBackToRegions}
               >
                 Show All Regions
@@ -133,7 +135,7 @@ export function ExploreView({
           
           {!activeRegion ? (
             /* Region Cards Grid */
-            <div className="explore-grid mb-6">
+            <div className="explore-grid">
               <div className="explore-card" onClick={() => handleRegionSelect('Asia')}>
                 <span className="explore-card-title">Asia</span>
                 <span className="explore-card-subtitle">Curated Stations</span>
@@ -167,7 +169,7 @@ export function ExploreView({
             /* Selected Region View */
             <div className="animate-fade-in"> 
                <div className="px-4 mb-4">
-                 <h3 className="text-xl font-bold text-white mb-0" style={{ lineHeight: '0.9' }}>{activeRegion}</h3>
+                 <h3 className="text-xl font-medium text-white mb-0" style={{ lineHeight: '0.9' }}>{activeRegion}</h3>
                  <p className="metadata" style={{ fontSize: '11px', color: '#B3B3B3', marginTop: '-10px', lineHeight: '1.2' }}>
                     {activeRegion === 'Asia' && "From Mumbai to Tokyo, tune into the pulse of the continent."}
                     {activeRegion === 'Europe' && "Icons of global radio. BBC, RTÉ, and more defining voices."}
@@ -196,12 +198,12 @@ export function ExploreView({
         </div>
 
         {!activeRegion && (
-          <div className="mt-8">
+          <div className="mb-4">
             <div className="flex items-center justify-between px-4 mb-2">
-              <h2 className="section-title mb-0 text-[#1db954]">Popular Genres</h2>
+              <h2 className="section-title mb-0 text-[#1db954] leading-none">Popular Genres</h2>
               {tags.length > 0 && (
                 <span 
-                  className="text-accent text-sm font-semibold cursor-pointer hover:underline"
+                  className="text-accent text-sm font-medium cursor-pointer hover:underline leading-none"
                   onClick={() => setExploreView('tags')}
                 >
                   Show All
@@ -218,9 +220,11 @@ export function ExploreView({
         )}
 
         {!activeRegion && (
-          <>
-            <h2 className="section-title px-4 mb-2">Browse by Category</h2>
-            <div className="explore-grid mb-8">
+          <div className="mb-4">
+            <div className="flex items-center justify-between px-4 mb-2">
+              <h2 className="section-title mb-0 leading-none">Browse by Category</h2>
+            </div>
+            <div className="explore-grid">
               <div className="explore-card" onClick={() => setExploreView('countries')}>
                 <span className="explore-card-title">By Country</span>
                 <span className="explore-card-subtitle">{stats ? stats.countries.toLocaleString() : countries.length || '...'} Nations</span>
@@ -234,7 +238,7 @@ export function ExploreView({
                 <span className="explore-card-subtitle">{stats ? stats.tags.toLocaleString() : tags.length || '...'} Styles</span>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     );
@@ -274,11 +278,11 @@ export function ExploreView({
       {categoryItems.length > 0 && categoryItems.length % 24 === 0 && (
         <div className="load-more-container">
           <button 
-            disabled={loading}
+            disabled={categoriesLoading}
             className="load-more-btn"
             onClick={onLoadMoreCategories}
           >
-            {loading ? <div className="loading-spinner sm" /> : 'Load More'}
+            {categoriesLoading ? <div className="loading-spinner sm" /> : 'Load More'}
           </button>
         </div>
       )}

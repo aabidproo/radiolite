@@ -40,7 +40,7 @@ export function GlobalSearchView({
   );
 
   return (
-    <div key="search" className="mt-4 pb-12">
+    <div key="search" className="mt-5 pb-12">
       {loading && !globalSearchResults && (
         <div className="loading-container">
           <div className="loading-spinner" />
@@ -54,7 +54,7 @@ export function GlobalSearchView({
             <div className="mb-8">
               <div className="mb-4 flex justify-between items-center px-4">
                 <h2 className="section-title">Matches</h2>
-                <span className="text-accent text-sm font-semibold">
+                <span className="text-accent text-sm font-medium">
                   {totalResults > 0 ? `${totalResults.toLocaleString()} results` : 'Search results'}
                 </span>
               </div>
@@ -76,7 +76,7 @@ export function GlobalSearchView({
 
           {/* 2. Station Results */}
           <div>
-            <div className="mb-3 flex justify-between items-center px-4">
+            <div className="mb-4 flex justify-between items-center px-4">
               <h3 className="section-title text-lg">Stations</h3>
             </div>
             <StationList 

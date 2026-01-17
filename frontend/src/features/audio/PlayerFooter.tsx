@@ -38,7 +38,7 @@ export function PlayerFooter({
     <footer className="player-footer">
       <div className="player-content">
         {/* Top Row: Station Info & Heart */}
-        <div className="flex items-start justify-between mb-10">
+        <div className="flex items-start justify-between ">
           <div className="min-w-0 flex-1 station-info-container">
             <div className="marquee-container">
               <div className="marquee-content">

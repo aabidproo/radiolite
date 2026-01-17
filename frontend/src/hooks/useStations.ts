@@ -44,6 +44,7 @@ export function useStations() {
     userCountry: location.userCountry,
     detectLocation: location.detectLocation,
     fetchNearMeStations: location.fetchNearMeStations,
+    nearMeLoading: location.loading,
 
     // Categories
     countries: categories.countries,
@@ -52,6 +53,7 @@ export function useStations() {
     fetchCountries: categories.fetchCountries,
     fetchLanguages: categories.fetchLanguages,
     fetchTags: categories.fetchTags,
+    categoriesLoading: categories.categoriesLoading,
 
     // Featured
     featuredStations: featured.featuredStations,

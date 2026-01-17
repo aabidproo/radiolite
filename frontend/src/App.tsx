@@ -60,7 +60,8 @@ function App() {
     favorites, toggleFavorite, userCountry, detectLocation, fetchNearMeStations,
     flushCache, nearMeStations, error, hasMore, resetPagination,
     searchGlobal, globalSearchResults, clearGlobalSearch, stats,
-    featuredStations, getFeaturedStations, featuredLoading
+    featuredStations, getFeaturedStations, featuredLoading,
+    categoriesLoading, nearMeLoading
   } = useStations();
   
   const [search, setSearch] = useState("");
@@ -229,7 +230,7 @@ function App() {
         {error ? (
           <div className="px-4 py-8 text-center mt-12">
             <div className="text-red-500/80 mb-6 text-sm flex flex-col gap-2">
-              <span className="font-semibold text-lg text-white">Connection Issue</span>
+              <span className="font-medium text-lg text-white">Connection Issue</span>
               {error}
             </div>
             <button onClick={() => window.location.reload()} className="chip-tab active" style={{ display: 'inline-block', padding: '10px 24px' }}>
@@ -255,7 +256,7 @@ function App() {
                 userCountry={userCountry}
                 stations={stations}
                 nearMeStations={nearMeStations}
-                loading={loading}
+                loading={nearMeLoading}
                 currentStation={currentStation}
                 playStation={playStation}
                 hasMore={hasMore}
@@ -294,6 +295,7 @@ function App() {
                 featuredStations={featuredStations}
                 getFeaturedStations={getFeaturedStations}
                 featuredLoading={featuredLoading}
+                categoriesLoading={categoriesLoading}
               />
             )}
           </>

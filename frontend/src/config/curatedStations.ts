@@ -54,14 +54,15 @@ export const CURATED_STATIONS: Record<string, CuratedStation[]> = {
     { name: "BBC Radio 2", countryCode: "GB" },
     { name: "BBC Radio 4", countryCode: "GB" },
     { name: "Capital FM", countryCode: "GB" },
+    { name: "Heart UK", countryCode: "GB" },
     { name: "Kiss FM", countryCode: "GB" },
-    { name: "Heart", countryCode: "GB" },
     // France
     { name: "NRJ", countryCode: "FR" },
+    { name: "France Inter", countryCode: "FR" },
+    { name: "RFI Monde", countryCode: "FR" },
     { name: "Skyrock", countryCode: "FR" },
     { name: "RTL", countryCode: "FR" },
     { name: "Europe 1", countryCode: "FR" },
-    { name: "France Inter", countryCode: "FR" },
     // Germany
     { name: "Deutschlandfunk", countryCode: "DE" },
     { name: "Bayern 3", countryCode: "DE" },

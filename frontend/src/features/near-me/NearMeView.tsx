@@ -22,10 +22,12 @@ export function NearMeView({
   onLoadMore
 }: NearMeViewProps) {
   return (
-    <div key="nearMe" className="mt-4">
-      <h2 className="section-title px-4 mb-2">
-        Stations in {userCountry || 'your area'}
-      </h2>
+    <div key="nearMe" className="mt-5">
+      <div className="flex items-center justify-between px-4 mb-2">
+        <h2 className="section-title mb-0 leading-none">
+          Stations in {userCountry || 'your area'}
+        </h2>
+      </div>
       <StationGroupList 
         stations={stations.length > 0 ? stations : nearMeStations}
         loading={loading}

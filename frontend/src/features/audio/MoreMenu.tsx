@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Info } from "lucide-react";
+import { ExternalLink, Info, Coffee } from "lucide-react";
 import { getName, getVersion } from "@tauri-apps/api/app";
 import { openUrl } from "@tauri-apps/plugin-opener";
 
@@ -35,6 +35,17 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
     onClose();
   };
 
+  const handleBuyCoffee = async () => {
+    const url = "https://www.paypal.com/ncp/payment/UQNMW76DYZGD4";
+    try {
+      await openUrl(url);
+    } catch (err) {
+      console.error("Failed to open coffee link via plugin:", err);
+      window.open(url, "_blank");
+    }
+    onClose();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -54,15 +65,17 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
           >
             <div className="more-menu-item" onClick={handleVisitWebsite}>
               <ExternalLink size={16} />
-              <div className="flex flex-col items-start">
-                <span>Visit website</span>
-                <span className="text-[10px] opacity-50 font-normal">radiolite.onrender.com</span>
-              </div>
+              <span>Visit website</span>
+            </div>
+
+            <div className="more-menu-item" onClick={handleBuyCoffee}>
+              <Coffee size={16} />
+              <span>Buy me a coffee</span>
             </div>
             
             <div className="more-menu-divider" />
             
-            <div className="more-menu-item !cursor-default active:scale-100 hover:bg-transparent">
+            <div className="more-menu-info">
               <Info size={16} />
               <span>{appInfo.name} v{appInfo.version}</span>
             </div>

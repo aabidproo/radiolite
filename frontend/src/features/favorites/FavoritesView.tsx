@@ -12,8 +12,10 @@ export function FavoritesView({
   playStation
 }: FavoritesViewProps) {
   return (
-    <div key="favorites" className="mt-4">
-      <h2 className="section-title px-4 mb-2">Your Favorites</h2>
+    <div key="favorites" className="mt-5">
+      <div className="flex items-center justify-between px-4 mb-2">
+        <h2 className="section-title mb-0 leading-none">Your Favorites</h2>
+      </div>
       <StationList 
         stations={favorites}
         title=""

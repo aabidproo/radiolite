@@ -10,6 +10,7 @@ export function useLocation() {
   const [userCountry, setUserCountry] = useState<string | null>(() => {
     return localStorage.getItem('radiolite_user_country');
   });
+  const [loading, setLoading] = useState(false);
 
   const detectLocation = useCallback(async () => {
     try {
@@ -29,6 +30,7 @@ export function useLocation() {
     const shouldAppend = options.append || false;
     const currentOffset = options.offset || 0;
 
+    setLoading(true);
     try {
       const url = `/stations/search?country=${encodeURIComponent(countryName)}&limit=100&offset=${currentOffset}&hidebroken=true&order=clickcount&reverse=true`;
       const data = await apiFetch<Station[]>(url);
@@ -43,6 +45,8 @@ export function useLocation() {
     } catch (err) {
       console.error("Failed to fetch near me stations", err);
       throw err;
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -51,6 +55,7 @@ export function useLocation() {
     userCountry,
     detectLocation,
     fetchNearMeStations,
-    setNearMeStations
+    setNearMeStations,
+    loading
   };
 }
