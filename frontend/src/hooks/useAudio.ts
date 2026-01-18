@@ -18,17 +18,29 @@ export function useAudio() {
     
     // Setup Analyser
     const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+    const isWindows = navigator.userAgent.includes('Windows');
+
     if (AudioContextClass) {
       const context = new AudioContextClass();
       const analyser = context.createAnalyser();
-      analyser.fftSize = 512; // Higher for better frequency resolution
-      analyser.smoothingTimeConstant = 0.7; // Smoother transitions
+      analyser.fftSize = 512;
+      analyser.smoothingTimeConstant = 0.7;
       analyserRef.current = analyser;
 
-      const source = context.createMediaElementSource(audio);
-      source.connect(analyser);
-      analyser.connect(context.destination);
-      sourceRef.current = source;
+      // CRITICAL: On Windows WebView2, connecting a MediaElementSource to context.destination
+      // silences cross-origin audio if CORS headers are missing (which most radio stations don't have).
+      // On Mac it works fine. So we ONLY connect the source to the context for non-Windows platforms.
+      if (!isWindows) {
+        const source = context.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(context.destination);
+        sourceRef.current = source;
+      } else {
+        // On Windows, we still keep the analyser created but NOT connected to the audio source.
+        // The Visualizer component will detect the lack of real data and use its built-in
+        // BeatSimulator to show a pulsing animation, ensuring the user gets SOUND + VISUALS.
+        console.log("Windows detected: Using native audio path to ensure sound reliability.");
+      }
     }
     
     const onWaiting = () => {
