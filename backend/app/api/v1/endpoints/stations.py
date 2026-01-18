@@ -12,6 +12,10 @@ router = APIRouter()
 async def get_stats():
     return await station_service.get_summary_stats()
 
+@router.get("/featured", response_model=List[Station])
+async def get_featured_stations(region: str = Query("Europe")):
+    return await station_service.get_featured_stations(region)
+
 @router.get("/top", response_model=List[Station])
 async def get_top_stations(limit: int = 100):
     return await station_service.get_top_stations(limit)
