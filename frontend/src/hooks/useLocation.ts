@@ -10,15 +10,21 @@ export function useLocation() {
   const [userCountry, setUserCountry] = useState<string | null>(() => {
     return localStorage.getItem('radiolite_user_country');
   });
+  const [userCountryCode, setUserCountryCode] = useState<string | null>(() => {
+    return localStorage.getItem('radiolite_user_country_code');
+  });
   const [loading, setLoading] = useState(false);
 
   const detectLocation = useCallback(async () => {
     try {
       const data = await apiFetch<any>('https://ipapi.co/json/');
-      if (data.country_name) {
-        setUserCountry(data.country_name);
-        localStorage.setItem('radiolite_user_country', data.country_name);
-        return data.country_name;
+      if (data.country) {
+        // We store the 2-letter country code for searching, but display the name
+        setUserCountry(data.country_name || data.country);
+        setUserCountryCode(data.country);
+        localStorage.setItem('radiolite_user_country', data.country_name || data.country);
+        localStorage.setItem('radiolite_user_country_code', data.country);
+        return data.country;
       }
     } catch (err) {
       console.error("Failed to detect location", err);
@@ -26,13 +32,14 @@ export function useLocation() {
     return null;
   }, []);
 
-  const fetchNearMeStations = useCallback(async (countryName: string, options: { append?: boolean, offset?: number } = {}) => {
+  const fetchNearMeStations = useCallback(async (countryCode: string, options: { append?: boolean, offset?: number } = {}) => {
     const shouldAppend = options.append || false;
     const currentOffset = options.offset || 0;
 
     setLoading(true);
     try {
-      const url = `/stations/search?country=${encodeURIComponent(countryName)}&limit=100&offset=${currentOffset}&hidebroken=true&order=clickcount&reverse=true`;
+      // Use countrycode (2-letter code) instead of full country name for much better reliability
+      const url = `/stations/search?countrycode=${encodeURIComponent(countryCode)}&limit=100&offset=${currentOffset}&hidebroken=true&order=clickcount&reverse=true`;
       const data = await apiFetch<Station[]>(url);
       
       if (shouldAppend) {
@@ -53,6 +60,7 @@ export function useLocation() {
   return {
     nearMeStations,
     userCountry,
+    userCountryCode,
     detectLocation,
     fetchNearMeStations,
     setNearMeStations,

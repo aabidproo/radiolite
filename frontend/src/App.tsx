@@ -61,7 +61,7 @@ function App() {
     flushCache, nearMeStations, error, hasMore, resetPagination,
     searchGlobal, globalSearchResults, clearGlobalSearch, stats,
     featuredStations, getFeaturedStations, featuredLoading,
-    categoriesLoading, nearMeLoading
+    categoriesLoading, nearMeLoading, userCountryCode
   } = useStations();
   
   const [search, setSearch] = useState("");
@@ -98,7 +98,7 @@ function App() {
 
   useEffect(() => {
     if (mainTab === 'nearMe') {
-      if (userCountry) { resetPagination(); fetchNearMeStations(userCountry); }
+      if (userCountryCode) { resetPagination(); fetchNearMeStations(userCountryCode); }
       else { detectLocation().then(c => { if (c) { resetPagination(); fetchNearMeStations(c); }}); }
     } else if (mainTab === 'explore') {
       if (selectedCountry) { resetPagination(); searchStations("", { country: selectedCountry }, { resetOffset: true }); }
@@ -108,7 +108,7 @@ function App() {
         // Landing Page: handeld by init effect
       }
     }
-  }, [mainTab, selectedCountry, selectedLanguage, selectedTag, userCountry, exploreView, resetPagination, fetchNearMeStations, detectLocation, searchStations]);
+  }, [mainTab, selectedCountry, selectedLanguage, selectedTag, userCountryCode, exploreView, resetPagination, fetchNearMeStations, detectLocation, searchStations]);
 
   useEffect(() => { if (!search) clearGlobalSearch(); }, [search]);
 
@@ -169,7 +169,7 @@ function App() {
   };
 
   const handleLoadMoreStations = () => {
-    if (mainTab === 'nearMe' && userCountry) fetchNearMeStations(userCountry, { append: true });
+    if (mainTab === 'nearMe' && userCountryCode) fetchNearMeStations(userCountryCode, { append: true });
     else if (mainTab === 'explore') {
       searchStations('', { 
         country: selectedCountry || undefined, 
@@ -199,7 +199,7 @@ function App() {
     setIsManualRefreshing(true);
     if (await flushCache()) {
       const promises = [];
-      if (mainTab === 'nearMe' && userCountry) promises.push(fetchNearMeStations(userCountry));
+      if (mainTab === 'nearMe' && userCountryCode) promises.push(fetchNearMeStations(userCountryCode));
       else if (mainTab === 'explore') {
         if (exploreView === 'categories') {
           promises.push(fetchStats());
