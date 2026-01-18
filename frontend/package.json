@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "1.1.14",
+  "version": "1.1.15",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-process": "^2",
+    "@tauri-apps/plugin-updater": "^2",
     "framer-motion": "^12.26.2",
     "lucide-react": "^0.562.0",
     "react": "^19.1.0",

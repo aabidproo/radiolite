@@ -64,6 +64,7 @@ h1, h2, h3, h4, h5, h6, b, strong, th {
 .text-sm { font-size: 13px; }
 .text-accent { color: var(--text-accent); }
 .animate-spin { animation: spin 1s linear infinite; }
+.transition-all { transition: all 0.2s ease; }
 /* .group class used for nesting selectors */
 
 /* Scrollbar */
