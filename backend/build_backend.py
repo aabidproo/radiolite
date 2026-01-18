@@ -28,6 +28,8 @@ def build():
         "--name", f"api-{target}",
         "--clean",
         "--add-data", f"app{os.pathsep}app", # Include the app package
+        "--hidden-import", "aiosqlite",
+        "--hidden-import", "greenlet",
     ]
     
     PyInstaller.__main__.run(args)
