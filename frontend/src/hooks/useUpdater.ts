@@ -27,6 +27,7 @@ export function useUpdater() {
           body: update.body,
           date: update.date,
         });
+        setLastCheckStatus('success');
         return update;
       } else {
         setUpdateAvailable(null);
@@ -34,9 +35,18 @@ export function useUpdater() {
       }
     } catch (err) {
       console.error('Failed to check for updates:', err);
-      setLastCheckStatus('error');
-      if (isManual) {
-        setError('Failed to check for updates. Please check your internet connection and try again.');
+      
+      // In dev mode, we might get errors because of missing assets or unsigned binaries.
+      // We treat this as "no update" to avoid misleading the user in dev.
+      const isDev = import.meta.env.DEV;
+      if (isDev) {
+        console.log('Defaulting to "Up to date" in dev mode due to check failure.');
+        setLastCheckStatus('success');
+      } else {
+        setLastCheckStatus('error');
+        if (isManual) {
+          setError('Failed to check for updates. Please check your internet connection and try again.');
+        }
       }
     } finally {
       setChecking(false);
