@@ -16,11 +16,28 @@ class StationService:
         if cached:
             return [Station(**s) for s in cached]
 
+        # Try to load from static metadata first for "instant" feel
+        try:
+            import json
+            import os
+            metadata_path = os.path.join(os.path.dirname(__file__), '..', 'core', 'curated_metadata.json')
+            if os.path.exists(metadata_path):
+                with open(metadata_path, 'r') as f:
+                    static_metadata = json.load(f)
+                    region_data = static_metadata.get(region)
+                    if region_data:
+                        stations = [Station(**s) for s in region_data]
+                        # Populate cache in background (optional, but good for TTL)
+                        self.cache_repo.set(cache_key, [s.dict() for s in stations], expire=settings.CACHE_TTL)
+                        return stations
+        except Exception as e:
+            print(f"Error loading curated metadata: {e}")
+
         curated_list = CURATED_STATIONS.get(region, [])
         if not curated_list:
             return []
 
-        # Fetch all in parallel
+        # Fallback to slow resolution if static metadata is missing or fails
         tasks = [
             self.radio_repo.search_stations(name=s["name"], countrycode=s.get("countryCode"), limit=1)
             for s in curated_list

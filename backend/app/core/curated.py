@@ -63,12 +63,12 @@ CURATED_STATIONS: Dict[str, List[CuratedStation]] = {
     { "name": "Virgin Radio France", "countryCode": "FR" },
     { "name": "BBC Radio 2", "countryCode": "GB" },
     { "name": "BBC Radio 1", "countryCode": "GB" },
-    { "name": "Classic FM", "countryCode": "GB" },
+    { "name": "Classic FM UK", "countryCode": "GB" },
     { "name": "talkSPORT", "countryCode": "GB" },
-    { "name": "Heart", "countryCode": "GB" },
-    { "name": "Capital FM", "countryCode": "GB" },
-    { "name": "Hits Radio", "countryCode": "GB" },
-    { "name": "Absolute Radio", "countryCode": "GB" }
+    { "name": "Heart FM", "countryCode": "GB" },
+    { "name": "Capital FM London", "countryCode": "GB" },
+    { "name": "Joy Hits Radio", "countryCode": "GB" },
+    { "name": "Magic Radio UK", "countryCode": "GB" }
   ],
   'North America': [
     { "name": "NPR News", "countryCode": "US" },

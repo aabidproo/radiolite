@@ -2,10 +2,12 @@ import { useState, useCallback } from 'react';
 import { Station } from '../types/station';
 import { apiFetch } from '../services/apiClient';
 
+import bundledStations from '../assets/curated_stations.json';
+
 export function useFeaturedStations() {
-  const [featuredStations, setFeaturedStations] = useState<Station[]>([]);
+  const [featuredStations, setFeaturedStations] = useState<Station[]>((bundledStations as any)['Europe'] || []);
   const [featuredLoading, setFeaturedLoading] = useState(false);
-  const [featuredStationsCache, setFeaturedStationsCache] = useState<Record<string, Station[]>>({});
+  const [featuredStationsCache, setFeaturedStationsCache] = useState<Record<string, Station[]>>(bundledStations as unknown as Record<string, Station[]>);
 
   const getFeaturedStations = useCallback(async (region: string = 'Europe', forceRefresh: boolean = false) => {
     try {

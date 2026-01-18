@@ -12,7 +12,7 @@ interface MoreMenuProps {
 
 export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
   const [appInfo, setAppInfo] = useState({ name: "Radiolite", version: "..." });
-  const { updateAvailable, downloading, installUpdate, checking, hasChecked, checkForUpdates } = useUpdater();
+  const { updateAvailable, downloading, installUpdate, checking, hasChecked, lastCheckStatus, checkForUpdates } = useUpdater();
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -88,7 +88,11 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
                 onClick={checking ? undefined : () => checkForUpdates(true)}
               >
                 {checking ? <RefreshCw size={16} className="animate-spin" /> : <RefreshCw size={16} />}
-                <span>{checking ? 'Checking...' : (hasChecked ? 'App is up to date' : 'Check for updates')}</span>
+                <span>
+                  {checking ? 'Checking...' : 
+                   (lastCheckStatus === 'error' ? 'Check failed' : 
+                   (hasChecked ? 'App is up to date' : 'Check for updates'))}
+                </span>
               </div>
             )}
             

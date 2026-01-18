@@ -14,6 +14,7 @@ export function useUpdater() {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasChecked, setHasChecked] = useState(false);
+  const [lastCheckStatus, setLastCheckStatus] = useState<'success' | 'error' | null>(null);
 
   const checkForUpdates = useCallback(async (isManual = false) => {
     if (isManual) setChecking(true);
@@ -29,10 +30,14 @@ export function useUpdater() {
         return update;
       } else {
         setUpdateAvailable(null);
+        setLastCheckStatus('success');
       }
     } catch (err) {
       console.error('Failed to check for updates:', err);
-      // Don't set error state for background checks to avoid annoying the user
+      setLastCheckStatus('error');
+      if (isManual) {
+        setError('Failed to check for updates. Please check your internet connection and try again.');
+      }
     } finally {
       setChecking(false);
       setHasChecked(true);
@@ -72,6 +77,7 @@ export function useUpdater() {
     downloading,
     error,
     hasChecked,
+    lastCheckStatus,
     checkForUpdates,
     installUpdate
   };
