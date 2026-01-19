@@ -208,7 +208,7 @@ function App() {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Station ID</th>
+                    <th>Station Name</th>
                     <th>Play Count</th>
                   </tr>
                 </thead>
@@ -216,7 +216,7 @@ function App() {
                   {overview.top_stations.map((station, index) => (
                     <tr key={station.station_id}>
                       <td>{index + 1}</td>
-                      <td>{station.station_id}</td>
+                      <td>{station.station_name || station.station_id}</td>
                       <td>{station.play_count.toLocaleString()}</td>
                     </tr>
                   ))}

@@ -153,7 +153,10 @@ export function useAudio() {
       fetch(`${apiUrl}/track/station-play`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ station_id: station.stationuuid || station.name })
+        body: JSON.stringify({ 
+          station_id: station.stationuuid || station.name,
+          station_name: station.name // Send friendly name
+        })
       });
     } catch (err) {
       console.error('Failed to track station play:', err);

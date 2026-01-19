@@ -60,7 +60,7 @@ async def increment_app_open(country_code: str, db: AsyncSession, user_id: Optio
     
     await db.commit()
 
-async def increment_station_play(station_id: str, db: AsyncSession):
+async def increment_station_play(station_id: str, db: AsyncSession, station_name: Optional[str] = None):
     today = date.today()
     
     # 1. Update DailyStats (Aggregate)
@@ -70,7 +70,7 @@ async def increment_station_play(station_id: str, db: AsyncSession):
     if daily_stats:
         daily_stats.total_plays += 1
     else:
-        daily_stats = DailyStats(date=today, app_opens=0, total_plays=1)
+        daily_stats = DailyStats(date=today, app_opens=0, unique_users=0, total_plays=1)
         db.add(daily_stats)
 
     # 2. Update DailyStationStats (Time Series)
@@ -84,8 +84,15 @@ async def increment_station_play(station_id: str, db: AsyncSession):
     
     if station_stats:
         station_stats.play_count += 1
+        if station_name:
+            station_stats.station_name = station_name
     else:
-        station_stats = DailyStationStats(date=today, station_id=station_id, play_count=1)
+        station_stats = DailyStationStats(
+            date=today, 
+            station_id=station_id, 
+            station_name=station_name,
+            play_count=1
+        )
         db.add(station_stats)
 
     await db.commit()
@@ -121,5 +128,5 @@ async def track_station_play(
     """
     Track when a station is played.
     """
-    await increment_station_play(request.station_id, db)
+    await increment_station_play(request.station_id, db, station_name=request.station_name)
     return {"status": "ok"}

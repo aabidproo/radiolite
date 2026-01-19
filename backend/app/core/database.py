@@ -34,7 +34,11 @@ async def init_db():
             # Use text() for SQLAlchemy 2.x raw SQL execution
             await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0"))
             print("Successfully added unique_users column to daily_stats")
-        except Exception as e:
-            # If column exists, it will likely throw an 'already exists' error
-            # We ignore it as it means the migration is already done
-            print(f"Migration (unique_users) skipped or already applied: {e}")
+        except Exception:
+            pass # Already exists
+            
+        try:
+            await conn.execute(text("ALTER TABLE daily_station_stats ADD COLUMN station_name VARCHAR"))
+            print("Successfully added station_name column to daily_station_stats")
+        except Exception:
+            pass # Already exists

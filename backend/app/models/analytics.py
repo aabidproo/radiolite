@@ -20,6 +20,7 @@ class DailyStationStats(Base):
 
     date = Column(Date, primary_key=True)
     station_id = Column(String, primary_key=True)
+    station_name = Column(String, nullable=True) # Human-readable name
     play_count = Column(Integer, default=0)
 
 class DailyCountryStats(Base):

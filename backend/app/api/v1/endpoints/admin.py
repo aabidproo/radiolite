@@ -82,6 +82,7 @@ async def get_overview(
     # 3. Top Stations (Aggregate from DailyStationStats)
     stmt_stations = select(
         DailyStationStats.station_id, 
+        func.max(DailyStationStats.station_name).label("name"), # Get the name
         func.sum(DailyStationStats.play_count).label("total_plays")
     ).group_by(DailyStationStats.station_id).order_by(desc("total_plays"))
     
@@ -90,7 +91,7 @@ async def get_overview(
         
     result_stations = await db.execute(stmt_stations.limit(20))
     top_stations = [
-        StationStatsResponse(station_id=row[0], play_count=row[1]) 
+        StationStatsResponse(station_id=row[0], station_name=row[1], play_count=row[2]) 
         for row in result_stations.all()
     ]
 

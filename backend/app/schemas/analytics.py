@@ -11,6 +11,7 @@ class TimeRange(str, Enum):
 
 class StationPlayRequest(BaseModel):
     station_id: str
+    station_name: Optional[str] = None
 
 class AppOpenRequest(BaseModel):
     country_code: Optional[str] = "Unknown"
@@ -27,6 +28,7 @@ class DailyStatsResponse(BaseModel):
 
 class StationStatsResponse(BaseModel):
     station_id: str
+    station_name: Optional[str] = None
     play_count: int
 
     class Config:
