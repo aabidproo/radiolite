@@ -98,3 +98,24 @@ async def init_db():
         except Exception: pass
 
     logger.info("✓ Database initialization finished")
+
+    # 3. Seed Superadmin if not exists
+    async with AsyncSessionLocal() as db:
+        try:
+            # Check if any user exists
+            result = await db.execute(select(AdminUser).limit(1))
+            if not result.scalars().first():
+                logger.info(f"Seeding default superadmin: {settings.ADMIN_USERNAME}...")
+                superadmin = AdminUser(
+                    username=settings.ADMIN_USERNAME,
+                    hashed_password=get_password_hash(settings.ADMIN_PASSWORD),
+                    role=UserRole.SUPERADMIN
+                )
+                db.add(superadmin)
+                await db.commit()
+                logger.info("✓ Default superadmin seeded successfully")
+            else:
+                logger.info("Superadmin already exists in database")
+        except Exception as e:
+            logger.error(f"Error seeding database: {e}")
+            # Don't raise here, let the app start even if seeding fails once
