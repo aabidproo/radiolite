@@ -25,6 +25,11 @@ jobs:
             args: ""
 
     runs-on: ${{ matrix.platform }}
+    env:
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
+      TAURI_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
 
@@ -87,11 +92,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
         with:
-          tagName: v__VERSION__ # This allows tauri-action to replace it with the version from tauri.conf.json if tag is not present
-          releaseName: "Radiolite v__VERSION__"
+          tagName: v${{ github.ref_name }} # Use explicit v prefix
+          releaseName: "Radiolite v${{ github.ref_name }}"
           releaseBody: "See the assets below to download Radiolite for your platform."
           releaseDraft: false
           prerelease: false
