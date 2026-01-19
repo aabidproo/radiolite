@@ -22,6 +22,15 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
+# Debug paths for production
+print(f"DEBUG: BASE_DIR = {BASE_DIR}")
+print(f"DEBUG: PROJECT_ROOT = {PROJECT_ROOT}")
+print(f"DEBUG: LANDING_DIR = {LANDING_DIR}")
+if os.path.exists(LANDING_DIR):
+    print(f"DEBUG: LANDING_DIR exists. Contents: {os.listdir(LANDING_DIR)}")
+else:
+    print(f"DEBUG: LANDING_DIR DOES NOT EXIST at {LANDING_DIR}")
+
 @app.on_event("startup")
 async def on_startup():
     await init_db()
