@@ -28,6 +28,7 @@ AsyncSessionLocal = sessionmaker(
 )
 
 from app.models.base import Base
+from sqlalchemy import event # Import event
 
 # Import models here to ensure they are registered with Base.metadata
 try:
@@ -39,6 +40,17 @@ except ImportError as e:
     logger.error(f"Failed to import models: {e}")
 
 logger.info(f"Registered tables in Metadata: {list(Base.metadata.tables.keys())}")
+
+# Search Path Fix for PostgreSQL
+@event.listens_for(engine.sync_engine, "connect")
+def set_search_path(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    try:
+        cursor.execute("SET search_path TO public")
+    except Exception as e:
+        logger.warning(f"Failed to set search_path: {e}")
+    finally:
+        cursor.close()
 
 async def get_db():
     async with AsyncSessionLocal() as session:
@@ -52,65 +64,41 @@ async def init_db():
     from app.models.blog import BlogPost
     from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
     
-    logger.info(f"SQLAlchemy Metadata has {len(Base.metadata.tables)} tables registered: {list(Base.metadata.tables.keys())}")
-    
+    # Simple check for existing tables for logs
     async with engine.begin() as conn:
-        # A. Identity Diagnostics
         try:
-            diag = await conn.execute(text("SELECT current_database(), current_user, current_schema(), setting FROM pg_settings WHERE name = 'search_path'"))
-            db_diag = diag.fetchone()
-            if db_diag:
-                logger.info(f"DB Identity: DB={db_diag[0]}, User={db_diag[1]}, Schema={db_diag[2]}, SearchPath={db_diag[3]}")
-        except Exception as e:
-            logger.warning(f"Could not run identity diagnostics: {e}")
+            diag = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
+            existing = [row[0] for row in diag.fetchall()]
+            logger.info(f"Public tables before create_all: {existing}")
+        except: pass
 
-        # B. Verify what tables actually exist in the DB right now
-        try:
-            result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
-            existing_tables = [row[0] for row in result.fetchall()]
-            logger.info(f"Tables currently in 'public' schema BEFORE create_all: {existing_tables}")
-        except Exception as e:
-            logger.warning(f"Could not verify existing tables via pg_catalog: {e}")
-
-        # C. Run Create All
-        logger.info("Running Base.metadata.create_all...")
+        # Run Create All
+        logger.info("Verifying/Creating tables...")
         await conn.run_sync(Base.metadata.create_all)
         logger.info("✓ Base.metadata.create_all completed")
         
-        # D. Verify again AFTER create_all
-        try:
-            result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
-            existing_tables = [row[0] for row in result.fetchall()]
-            logger.info(f"Tables currently in 'public' schema AFTER create_all: {existing_tables}")
-        except Exception: pass
-
         # 2. Resilient Migrations
         # Migration 1: unique_users column
         try:
             await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0"))
-            logger.info("Added unique_users to daily_stats")
         except Exception: pass
             
         # Migration 2: station_name column
         try:
             await conn.execute(text("ALTER TABLE daily_station_stats ADD COLUMN station_name VARCHAR"))
-            logger.info("Added station_name to daily_station_stats")
         except Exception: pass
 
         # Migration 3: author_id column to blog_posts
         try:
             await conn.execute(text("ALTER TABLE blog_posts ADD COLUMN author_id INTEGER REFERENCES admin_users(id)"))
-            logger.info("Added author_id to blog_posts")
         except Exception: pass
 
         # Migration 4: image fields to blog_posts
         try:
             await conn.execute(text("ALTER TABLE blog_posts ADD COLUMN image_source VARCHAR"))
-            logger.info("Added image_source to blog_posts")
         except Exception: pass
         try:
             await conn.execute(text("ALTER TABLE blog_posts ADD COLUMN image_link VARCHAR"))
-            logger.info("Added image_link to blog_posts")
         except Exception: pass
 
-    logger.info("✓ Database initialization finished (Automatic seeding skipped as requested)")
+    logger.info("✓ Database initialization finished")

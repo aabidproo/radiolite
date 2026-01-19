@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -23,9 +24,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # app -> 
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 LANDING_DIR = os.path.join(PROJECT_ROOT, "landing")
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Initialize database
+    await init_db()
+    yield
+    # Shutdown: Add any cleanup here if needed
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    lifespan=lifespan
 )
 
 # Debug paths for production
@@ -36,10 +45,6 @@ if os.path.exists(LANDING_DIR):
     logger.info(f"LANDING_DIR exists. Contents: {os.listdir(LANDING_DIR)}")
 else:
     logger.warning(f"LANDING_DIR DOES NOT EXIST at {LANDING_DIR}")
-
-@app.on_event("startup")
-async def on_startup():
-    await init_db()
 
 # Set all CORS enabled origins
 app.add_middleware(
