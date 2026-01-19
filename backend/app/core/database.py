@@ -46,34 +46,33 @@ async def get_db():
         yield session
 
 async def init_db():
-    logger.info("Starting database initialization...")
+    logger.info("Starting atomic database initialization...")
     
     # 1. Force registration of models (redundant but safe)
     from app.models.admin_user import AdminUser
     from app.models.blog import BlogPost
     from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
     
-    # Simple check for existing tables for logs
     async with engine.begin() as conn:
+        # A. Diagnostic Check for logs
         try:
             diag = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
             existing = [row[0] for row in diag.fetchall()]
-            logger.info(f"Public tables before create_all: {existing}")
+            logger.info(f"Public tables at start of transaction: {existing}")
         except: pass
 
-        # Run Create All
-        logger.info("Verifying/Creating tables...")
+        # B. Run Create All
+        logger.info("Syncing schema (Base.metadata.create_all)...")
         await conn.run_sync(Base.metadata.create_all)
-        logger.info("✓ Base.metadata.create_all completed")
-
-        # Reachability Check: Try to select from a key table
+        
+        # C. Reachability Check
         try:
             await conn.execute(text("SELECT 1 FROM blog_posts LIMIT 1"))
-            logger.info("✓ Verified: 'blog_posts' table is REACHABLE via current connection")
+            logger.info("✓ Schema Verified: 'blog_posts' is reachable in current transaction")
         except Exception as e:
-            logger.error(f"⚠️ REACHABILITY FAILURE: Tables created but cannot select from 'blog_posts': {e}")
-        
-        # 2. Resilient Migrations
+            logger.error(f"⚠️ SCHEMA REACHABILITY FAILURE in transaction: {e}")
+
+        # D. Resilient Migrations
         # Migration 1: unique_users column
         try:
             await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0"))
@@ -97,25 +96,32 @@ async def init_db():
             await conn.execute(text("ALTER TABLE blog_posts ADD COLUMN image_link VARCHAR"))
         except Exception: pass
 
-    logger.info("✓ Database initialization finished")
-
-    # 3. Seed Superadmin if not exists
-    async with AsyncSessionLocal() as db:
+        # E. Seed Superadmin (INSIDE THE SAME TRANSACTION)
         try:
-            # Check if any user exists
-            result = await db.execute(select(AdminUser).limit(1))
-            if not result.scalars().first():
-                logger.info(f"Seeding default superadmin: {settings.ADMIN_USERNAME}...")
-                superadmin = AdminUser(
+            # Create a session bound to the current connection
+            session = AsyncSession(conn)
+            # Use raw query to avoid any mapper issues if something is weird
+            result = await session.execute(select(AdminUser).where(AdminUser.username == settings.ADMIN_USERNAME))
+            existing_admin = result.scalars().first()
+            
+            if not existing_admin:
+                logger.info(f"Seeding new superadmin: {settings.ADMIN_USERNAME}")
+                new_admin = AdminUser(
                     username=settings.ADMIN_USERNAME,
                     hashed_password=get_password_hash(settings.ADMIN_PASSWORD),
                     role=UserRole.SUPERADMIN
                 )
-                db.add(superadmin)
-                await db.commit()
-                logger.info("✓ Default superadmin seeded successfully")
+                session.add(new_admin)
+                await session.flush()
+                logger.info("✓ New superadmin seeded in transaction")
             else:
-                logger.info("Superadmin already exists in database")
+                logger.info(f"Superadmin '{settings.ADMIN_USERNAME}' already exists. Updating password if changed.")
+                existing_admin.hashed_password = get_password_hash(settings.ADMIN_PASSWORD)
+                await session.flush()
+                logger.info("✓ Superadmin credentials updated/verified in transaction")
         except Exception as e:
-            logger.error(f"Error seeding database: {e}")
-            # Don't raise here, let the app start even if seeding fails once
+            logger.error(f"Error during in-transaction seeding: {e}")
+            # We don't raise here to allow the transaction to commit the table creation
+            # even if the admin user logic has a weird snag
+
+    logger.info("✓ Atomic database initialization finished and committed")
