@@ -28,17 +28,19 @@ async def init_db():
     async with engine.begin() as conn:
         # 1. Create all new tables (like user_activity)
         await conn.run_sync(Base.metadata.create_all)
+        print("✓ Database tables created/verified")
         
         # 2. Resilient Migrations: Add missing columns to existing tables
+        # Migration 1: unique_users column
         try:
-            # Use text() for SQLAlchemy 2.x raw SQL execution
-            await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0"))
-            print("Successfully added unique_users column to daily_stats")
-        except Exception:
-            pass # Already exists
+            await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN IF NOT EXISTS unique_users INTEGER DEFAULT 0"))
+            print("✓ Migration: unique_users column added/verified in daily_stats")
+        except Exception as e:
+            print(f"⚠ Migration (unique_users): {e}")
             
+        # Migration 2: station_name column
         try:
-            await conn.execute(text("ALTER TABLE daily_station_stats ADD COLUMN station_name VARCHAR"))
-            print("Successfully added station_name column to daily_station_stats")
-        except Exception:
-            pass # Already exists
+            await conn.execute(text("ALTER TABLE daily_station_stats ADD COLUMN IF NOT EXISTS station_name VARCHAR"))
+            print("✓ Migration: station_name column added/verified in daily_station_stats")
+        except Exception as e:
+            print(f"⚠ Migration (station_name): {e}")
