@@ -24,4 +24,16 @@ async def get_db():
 
 async def init_db():
     async with engine.begin() as conn:
+        # 1. Create all new tables (like user_activity)
         await conn.run_sync(Base.metadata.create_all)
+        
+        # 2. Resilient Migrations: Add missing columns to existing tables
+        try:
+            # Check if column exists or just try to add it and catch error
+            # This is safer for simple scripts without Alembic
+            await conn.execute("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0")
+            print("Successfully added unique_users column to daily_stats")
+        except Exception as e:
+            # If column exists, it will likely throw an 'already exists' error
+            # We ignore it as it means the migration is already done
+            print(f"Migration (unique_users) skipped or already applied: {e}")
