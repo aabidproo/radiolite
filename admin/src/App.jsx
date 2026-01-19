@@ -20,7 +20,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('overview');
   
   // Filters
-  const [timeRange, setTimeRange] = useState('7d');
+  const [timeRange, setTimeRange] = useState('all');
 
   const handleLogin = async (e) => {
     e.preventDefault();

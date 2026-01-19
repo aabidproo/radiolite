@@ -47,7 +47,7 @@ def get_date_range(time_range: TimeRange) -> Optional[date]:
 
 @router.get("/admin/overview", response_model=AdminOverviewResponse, dependencies=[Depends(get_current_admin)])
 async def get_overview(
-    range: TimeRange = TimeRange.LAST_7_DAYS, 
+    range: TimeRange = TimeRange.ALL_TIME, 
     db: AsyncSession = Depends(get_db)
 ):
     start_date = get_date_range(range)
@@ -69,12 +69,12 @@ async def get_overview(
     result_agg = await db.execute(stmt)
     total_opens, total_uniques, total_plays = result_agg.one()
     
-    # 2. Recent Daily Stats (Graph data)
+    # 2. Recent Daily Stats (Table data)
     stmt_recent = select(DailyStats).order_by(desc(DailyStats.date))
     if daily_filter:
         stmt_recent = stmt_recent.where(*daily_filter)
     else:
-        stmt_recent = stmt_recent.limit(30) # Default limit if all time
+        stmt_recent = stmt_recent.limit(1000) # True "All Time" limit for the table
         
     result_recent = await db.execute(stmt_recent)
     recent_stats = result_recent.scalars().all()
