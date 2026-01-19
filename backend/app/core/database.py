@@ -21,6 +21,7 @@ engine = create_async_engine(
     echo=False,
     pool_pre_ping=True,      # Check connection health before use
     pool_recycle=3600,       # Recycle connections every hour
+    connect_args={"server_settings": {"search_path": "public"}} # Direct driver-level fix
 )
 
 AsyncSessionLocal = sessionmaker(
@@ -28,7 +29,6 @@ AsyncSessionLocal = sessionmaker(
 )
 
 from app.models.base import Base
-from sqlalchemy import event # Import event
 
 # Import models here to ensure they are registered with Base.metadata
 try:
@@ -40,17 +40,6 @@ except ImportError as e:
     logger.error(f"Failed to import models: {e}")
 
 logger.info(f"Registered tables in Metadata: {list(Base.metadata.tables.keys())}")
-
-# Search Path Fix for PostgreSQL
-@event.listens_for(engine.sync_engine, "connect")
-def set_search_path(dbapi_connection, connection_record):
-    cursor = dbapi_connection.cursor()
-    try:
-        cursor.execute("SET search_path TO public")
-    except Exception as e:
-        logger.warning(f"Failed to set search_path: {e}")
-    finally:
-        cursor.close()
 
 async def get_db():
     async with AsyncSessionLocal() as session:
@@ -76,6 +65,13 @@ async def init_db():
         logger.info("Verifying/Creating tables...")
         await conn.run_sync(Base.metadata.create_all)
         logger.info("✓ Base.metadata.create_all completed")
+
+        # Reachability Check: Try to select from a key table
+        try:
+            await conn.execute(text("SELECT 1 FROM blog_posts LIMIT 1"))
+            logger.info("✓ Verified: 'blog_posts' table is REACHABLE via current connection")
+        except Exception as e:
+            logger.error(f"⚠️ REACHABILITY FAILURE: Tables created but cannot select from 'blog_posts': {e}")
         
         # 2. Resilient Migrations
         # Migration 1: unique_users column
