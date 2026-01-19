@@ -48,7 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const version = release.tag_name;
+            function normalizeVersion(v) {
+                if (!v) return '';
+                v = v.replace(/^v+/, ''); // Remove all leading v's
+                return 'v' + v; // Add a single v
+            }
+
+            const version = normalizeVersion(release.tag_name || release.version);
             const dropdownItems = document.querySelectorAll('.dropdown-item');
 
             function formatSize(bytes) {

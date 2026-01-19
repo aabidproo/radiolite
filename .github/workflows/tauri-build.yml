@@ -93,8 +93,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         with:
-          tagName: v${{ github.ref_name }} # Use explicit v prefix
-          releaseName: "Radiolite v${{ github.ref_name }}"
+          tagName: ${{ github.ref_name }}
+          releaseName: "Radiolite ${{ github.ref_name }}"
           releaseBody: "See the assets below to download Radiolite for your platform."
           releaseDraft: false
           prerelease: false
