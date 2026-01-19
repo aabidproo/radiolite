@@ -36,3 +36,14 @@ class GitHubAdapter:
             if response.status_code == 302:
                 return response.headers.get("Location")
             return None
+
+    async def get_asset_content(self, asset_id: int) -> str:
+        url = await self.get_asset_redirect(asset_id)
+        if not url:
+            raise HTTPException(status_code=404, detail="Asset not found")
+        
+        async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as client:
+            response = await client.get(url)
+            if response.status_code != 200:
+                raise HTTPException(status_code=response.status_code, detail="Failed to fetch asset content")
+            return response.text
