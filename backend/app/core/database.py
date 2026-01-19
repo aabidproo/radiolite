@@ -16,7 +16,12 @@ if database_url:
         database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
 logger.info(f"Connecting to database: {database_url.split('@')[-1] if '@' in database_url else 'SQLite'}")
-engine = create_async_engine(database_url, echo=False)
+engine = create_async_engine(
+    database_url, 
+    echo=False,
+    pool_pre_ping=True,      # Check connection health before use
+    pool_recycle=3600,       # Recycle connections every hour
+)
 
 AsyncSessionLocal = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
@@ -33,7 +38,7 @@ try:
 except ImportError as e:
     logger.error(f"Failed to import models: {e}")
 
-logger.info(f"Registered tables: {list(Base.metadata.tables.keys())}")
+logger.info(f"Registered tables in Metadata: {list(Base.metadata.tables.keys())}")
 
 async def get_db():
     async with AsyncSessionLocal() as session:
@@ -50,20 +55,29 @@ async def init_db():
     logger.info(f"SQLAlchemy Metadata has {len(Base.metadata.tables)} tables registered: {list(Base.metadata.tables.keys())}")
     
     async with engine.begin() as conn:
-        # A. Verify what tables actually exist in the DB right now
+        # A. Identity Diagnostics
+        try:
+            diag = await conn.execute(text("SELECT current_database(), current_user, current_schema(), setting FROM pg_settings WHERE name = 'search_path'"))
+            db_diag = diag.fetchone()
+            if db_diag:
+                logger.info(f"DB Identity: DB={db_diag[0]}, User={db_diag[1]}, Schema={db_diag[2]}, SearchPath={db_diag[3]}")
+        except Exception as e:
+            logger.warning(f"Could not run identity diagnostics: {e}")
+
+        # B. Verify what tables actually exist in the DB right now
         try:
             result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
             existing_tables = [row[0] for row in result.fetchall()]
             logger.info(f"Tables currently in 'public' schema BEFORE create_all: {existing_tables}")
         except Exception as e:
-            logger.warning(f"Could not verify existing tables via pg_catalog (may be using SQLite): {e}")
+            logger.warning(f"Could not verify existing tables via pg_catalog: {e}")
 
-        # B. Run Create All
+        # C. Run Create All
         logger.info("Running Base.metadata.create_all...")
         await conn.run_sync(Base.metadata.create_all)
         logger.info("✓ Base.metadata.create_all completed")
         
-        # C. Verify again AFTER create_all
+        # D. Verify again AFTER create_all
         try:
             result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
             existing_tables = [row[0] for row in result.fetchall()]

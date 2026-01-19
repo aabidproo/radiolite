@@ -83,17 +83,25 @@ app.include_router(blog.router, prefix=f"{settings.API_V1_STR}/blog", tags=["blo
 app.include_router(users.router, prefix=f"{settings.API_V1_STR}/admin", tags=["users"])
 
 # landing page SSR route
-@app.get("/", include_in_schema=False)
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def serve_landing(request: Request, db: AsyncSession = Depends(get_db)):
-    # Fetch 3 latest posts for the homepage
-    stmt = select(BlogPost).where(BlogPost.is_published == True).order_by(desc(BlogPost.created_at)).limit(3)
-    result = await db.execute(stmt)
-    posts = result.scalars().all()
-    
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "posts": posts
-    })
+    try:
+        # Fetch 3 latest posts for the homepage
+        stmt = select(BlogPost).where(BlogPost.is_published == True).order_by(desc(BlogPost.created_at)).limit(3)
+        result = await db.execute(stmt)
+        posts = result.scalars().all()
+        return templates.TemplateResponse("index.html", {"request": request, "posts": posts})
+    except Exception as e:
+        logger.error(f"Error loading homepage: {e}")
+        # Try to run a quick diagnostic for the logs
+        try:
+            diag = await db.execute(text("SELECT current_database(), current_schema()"))
+            db_info = diag.fetchone()
+            logger.info(f"Homepage Error Diagnostic: DB={db_info[0] if db_info else '?'}, Schema={db_info[1] if db_info else '?'}")
+        except: pass
+        
+        # Return index with empty posts if DB is not ready
+        return templates.TemplateResponse("index.html", {"request": request, "posts": []})
 
 @app.get("/blog", include_in_schema=False)
 async def list_blog(request: Request, db: AsyncSession = Depends(get_db)):
