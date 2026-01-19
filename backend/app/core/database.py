@@ -42,12 +42,34 @@ async def get_db():
 async def init_db():
     logger.info("Starting database initialization...")
     
+    # 1. Force registration of models (redundant but safe)
+    from app.models.admin_user import AdminUser
+    from app.models.blog import BlogPost
+    from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
+    
+    logger.info(f"SQLAlchemy Metadata has {len(Base.metadata.tables)} tables registered: {list(Base.metadata.tables.keys())}")
+    
     async with engine.begin() as conn:
-        # 1. Create all new tables
-        logger.info("Verifying tables...")
+        # A. Verify what tables actually exist in the DB right now
+        try:
+            result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
+            existing_tables = [row[0] for row in result.fetchall()]
+            logger.info(f"Tables currently in 'public' schema BEFORE create_all: {existing_tables}")
+        except Exception as e:
+            logger.warning(f"Could not verify existing tables via pg_catalog (may be using SQLite): {e}")
+
+        # B. Run Create All
+        logger.info("Running Base.metadata.create_all...")
         await conn.run_sync(Base.metadata.create_all)
-        logger.info("✓ Database tables verified")
+        logger.info("✓ Base.metadata.create_all completed")
         
+        # C. Verify again AFTER create_all
+        try:
+            result = await conn.execute(text("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'"))
+            existing_tables = [row[0] for row in result.fetchall()]
+            logger.info(f"Tables currently in 'public' schema AFTER create_all: {existing_tables}")
+        except Exception: pass
+
         # 2. Resilient Migrations
         # Migration 1: unique_users column
         try:
