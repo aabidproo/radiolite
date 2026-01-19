@@ -11,6 +11,11 @@ from app.api.v1.endpoints import stations, health, releases, analytics, admin, a
 from app.core.database import init_db, get_db
 from app.models.blog import BlogPost
 from app.models.admin_user import AdminUser
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Resolve landing directory path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # app -> backend
@@ -23,13 +28,13 @@ app = FastAPI(
 )
 
 # Debug paths for production
-print(f"DEBUG: BASE_DIR = {BASE_DIR}")
-print(f"DEBUG: PROJECT_ROOT = {PROJECT_ROOT}")
-print(f"DEBUG: LANDING_DIR = {LANDING_DIR}")
+logger.info(f"BASE_DIR: {BASE_DIR}")
+logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
+logger.info(f"LANDING_DIR: {LANDING_DIR}")
 if os.path.exists(LANDING_DIR):
-    print(f"DEBUG: LANDING_DIR exists. Contents: {os.listdir(LANDING_DIR)}")
+    logger.info(f"LANDING_DIR exists. Contents: {os.listdir(LANDING_DIR)}")
 else:
-    print(f"DEBUG: LANDING_DIR DOES NOT EXIST at {LANDING_DIR}")
+    logger.warning(f"LANDING_DIR DOES NOT EXIST at {LANDING_DIR}")
 
 @app.on_event("startup")
 async def on_startup():
