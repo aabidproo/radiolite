@@ -7,8 +7,11 @@ Ensure all your project files (backend, frontend, landing) are pushed to a **pub
 
 ---
 
-## 2. Deploy the Backend (FastAPI)
-This is your API that provides radio station data.
+## 2. Deploy the Backend (API + Landing Page)
+This is your "Web Service". It handles the API data AND renders your dynamic Landing Page/Blog.
+
+> [!IMPORTANT]
+> Do NOT create a separate "Static Site" for the landing page. The Backend already serves it at the root `/`.
 
 1.  Log in to [Render.com](https://dashboard.render.com).
 2.  Click **New +** and select **Web Service**.
@@ -49,15 +52,22 @@ This is the static site used for your web view and downloads.
 
 ---
 
-## 4. GitHub Actions (For Desktop App Builds)
-To make your desktop apps (Mac/Windows) point to the production server:
-
-1.  Open your GitHub Repo on the web.
-2.  Go to **Settings** > **Secrets and variables** > **Actions**.
-3.  Click **New repository secret**.
-4.  **Name**: `VITE_API_URL`
-5.  **Value**: Your Backend URL + `/api/v1` (the same one you used in Step 3).
 6.  Now, the next time you create a Release on GitHub, the apps will automatically use your Render backend!
+
+---
+
+## 5. Deploy the Admin Panel (Separate Static Site)
+The Admin Panel is a separate project that should be hosted as a **Static Site**.
+
+1.  Click **New +** and select **Static Site**.
+2.  Connect the same GitHub repository.
+3.  **Service Name**: `radiolite-admin`.
+4.  **Root Directory**: `admin`.
+5.  **Build Command**: `npm install && npm run build`.
+6.  **Publish Directory**: `dist`.
+7.  **Environment Variables**:
+    *   Add `VITE_API_URL` = `https://your-backend-url.onrender.com/api/v1`
+8.  Click **Create Static Site**.
 
 ---
 
