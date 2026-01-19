@@ -22,6 +22,8 @@ async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
 
+from sqlalchemy import text
+
 async def init_db():
     async with engine.begin() as conn:
         # 1. Create all new tables (like user_activity)
@@ -29,9 +31,8 @@ async def init_db():
         
         # 2. Resilient Migrations: Add missing columns to existing tables
         try:
-            # Check if column exists or just try to add it and catch error
-            # This is safer for simple scripts without Alembic
-            await conn.execute("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0")
+            # Use text() for SQLAlchemy 2.x raw SQL execution
+            await conn.execute(text("ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0"))
             print("Successfully added unique_users column to daily_stats")
         except Exception as e:
             # If column exists, it will likely throw an 'already exists' error
