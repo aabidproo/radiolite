@@ -99,10 +99,11 @@ async def init_db():
             logger.info("Added image_link to blog_posts")
         except Exception: pass
 
-    # 3. Seed Superadmin if not exists
-    async with AsyncSessionLocal() as db:
+        # 3. Seed Superadmin if not exists (using SAME connection to guarantee visibility)
         try:
-            result = await db.execute(select(AdminUser).limit(1))
+            # We use a temporary session bound to the current connection to use ORM models
+            async_session = AsyncSession(conn)
+            result = await async_session.execute(select(AdminUser).limit(1))
             if not result.scalars().first():
                 logger.info("Seeding default superadmin...")
                 superadmin = AdminUser(
@@ -110,8 +111,8 @@ async def init_db():
                     hashed_password=get_password_hash(settings.ADMIN_PASSWORD),
                     role=UserRole.SUPERADMIN
                 )
-                db.add(superadmin)
-                await db.commit()
+                async_session.add(superadmin)
+                await async_session.flush() # Send to DB in current transaction
                 logger.info("✓ Default superadmin seeded")
             else:
                 logger.info("Superadmin already exists")
