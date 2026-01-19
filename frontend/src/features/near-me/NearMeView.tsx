@@ -2,24 +2,24 @@ import { StationGroupList } from "../../components/station/StationGroupList";
 
 interface NearMeViewProps {
   userCountry: string | null;
-  stations: any[];
   nearMeStations: any[];
   loading: boolean;
   currentStation: any;
   playStation: (station: any) => void;
   hasMore: boolean;
   onLoadMore: () => void;
+  onDetectWithPermission: () => void;
 }
 
 export function NearMeView({
   userCountry,
-  stations,
   nearMeStations,
   loading,
   currentStation,
   playStation,
   hasMore,
-  onLoadMore
+  onLoadMore,
+  onDetectWithPermission
 }: NearMeViewProps) {
   return (
     <div key="nearMe" className="mt-5">
@@ -27,14 +27,36 @@ export function NearMeView({
         <h2 className="section-title mb-0 leading-none">
           Stations in {userCountry || 'your area'}
         </h2>
+        {!userCountry && !loading && (
+          <button 
+            onClick={onDetectWithPermission}
+            className="chip-tab active ml-2 text-xs"
+            style={{ display: 'inline-block', padding: '6px 12px' }}
+          >
+            Allow Location
+          </button>
+        )}
       </div>
+      
+      {!loading && nearMeStations.length === 0 && (
+        <div className="px-4 py-12 text-center">
+            <p className="text-white/60 mb-4">No local stations found.</p>
+            <button 
+              onClick={onDetectWithPermission}
+              className="chip-tab active"
+              style={{ display: 'inline-block', padding: '10px 24px' }}
+            >
+              Use My Current Location
+            </button>
+        </div>
+      )}
       <StationGroupList 
-        stations={stations.length > 0 ? stations : nearMeStations}
+        stations={nearMeStations}
         loading={loading}
         currentStation={currentStation}
         onPlay={playStation}
       />
-      {hasMore && (stations.length >= 100 || nearMeStations.length >= 100) && (
+      {hasMore && nearMeStations.length >= 100 && (
         <div className="load-more-container">
           <button 
             disabled={loading}

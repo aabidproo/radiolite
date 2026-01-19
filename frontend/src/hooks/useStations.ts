@@ -44,6 +44,7 @@ export function useStations() {
     userCountry: location.userCountry,
     userCountryCode: location.userCountryCode,
     detectLocation: location.detectLocation,
+    detectLocationWithPermission: location.detectLocationWithPermission,
     fetchNearMeStations: location.fetchNearMeStations,
     nearMeLoading: location.loading,
 

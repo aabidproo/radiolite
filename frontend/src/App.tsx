@@ -57,7 +57,7 @@ function App() {
   const { 
     stations, countries, languages, tags, loading, 
     searchStations, fetchCountries, fetchLanguages, fetchTags, fetchStats,
-    favorites, toggleFavorite, userCountry, detectLocation, fetchNearMeStations,
+    favorites, toggleFavorite, userCountry, detectLocation, detectLocationWithPermission, fetchNearMeStations,
     flushCache, nearMeStations, error, hasMore, resetPagination,
     searchGlobal, globalSearchResults, clearGlobalSearch, stats,
     featuredStations, getFeaturedStations, featuredLoading,
@@ -280,13 +280,13 @@ function App() {
             {mainTab === 'nearMe' && (
               <NearMeView 
                 userCountry={userCountry}
-                stations={stations}
                 nearMeStations={nearMeStations}
                 loading={nearMeLoading}
                 currentStation={currentStation}
                 playStation={playStation}
                 hasMore={hasMore}
                 onLoadMore={handleLoadMoreStations}
+                onDetectWithPermission={() => detectLocationWithPermission().then((c: string | null) => { if (c) { resetPagination(); fetchNearMeStations(c); }})}
               />
             )}
             {mainTab === 'favorites' && (

@@ -27,9 +27,51 @@ export function useLocation() {
         return data.country;
       }
     } catch (err) {
-      console.error("Failed to detect location", err);
+      console.error("Failed to detect location via IP", err);
     }
     return null;
+  }, []);
+
+  const detectLocationWithPermission = useCallback(async () => {
+    setLoading(true);
+    return new Promise<string | null>((resolve) => {
+      if (!navigator.geolocation) {
+        setLoading(false);
+        resolve(null);
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const { latitude, longitude } = position.coords;
+            // Use reverse geocoding to get country code
+            const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+            const data = await res.json();
+            
+            if (data.countryCode) {
+              setUserCountry(data.countryName || data.countryCode);
+              setUserCountryCode(data.countryCode);
+              localStorage.setItem('radiolite_user_country', data.countryName || data.countryCode);
+              localStorage.setItem('radiolite_user_country_code', data.countryCode);
+              setLoading(false);
+              resolve(data.countryCode);
+              return;
+            }
+          } catch (err) {
+            console.error("Reverse geocode failed", err);
+          }
+          setLoading(false);
+          resolve(null);
+        },
+        (err) => {
+          console.error("Geolocation permission denied or failed", err);
+          setLoading(false);
+          resolve(null);
+        },
+        { timeout: 10000 }
+      );
+    });
   }, []);
 
   const fetchNearMeStations = useCallback(async (countryCode: string, options: { append?: boolean, offset?: number } = {}) => {
@@ -62,6 +104,7 @@ export function useLocation() {
     userCountry,
     userCountryCode,
     detectLocation,
+    detectLocationWithPermission,
     fetchNearMeStations,
     setNearMeStations,
     loading
