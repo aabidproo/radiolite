@@ -85,8 +85,22 @@ function App() {
     // Analytics: Track App Open
     const trackAppOpen = async () => {
       try {
+        // 1. Get or Create Persistent UUID
+        let userId = localStorage.getItem('radiolite_user_id');
+        if (!userId) {
+          userId = crypto.randomUUID();
+          localStorage.setItem('radiolite_user_id', userId);
+        }
+
         const apiUrl = import.meta.env.VITE_API_URL || "https://api-radiolite.onrender.com/api/v1";
-        await fetch(`${apiUrl}/track/app-open`, { method: 'POST' });
+        await fetch(`${apiUrl}/track/app-open`, { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            user_id: userId,
+            country_code: userCountryCode || "Unknown" 
+          })
+        });
       } catch (err) {
         console.error('Failed to track app open:', err);
       }

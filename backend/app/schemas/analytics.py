@@ -14,10 +14,12 @@ class StationPlayRequest(BaseModel):
 
 class AppOpenRequest(BaseModel):
     country_code: Optional[str] = "Unknown"
+    user_id: Optional[str] = None # Permanent UUID from client
 
 class DailyStatsResponse(BaseModel):
     date: date
     app_opens: int
+    unique_users: int
     total_plays: int
 
     class Config:
@@ -39,6 +41,7 @@ class CountryStatsResponse(BaseModel):
 
 class AdminOverviewResponse(BaseModel):
     total_app_opens: int
+    total_unique_users: int
     total_plays: int
     recent_daily_stats: List[DailyStatsResponse]
     top_stations: List[StationStatsResponse]

@@ -57,16 +57,17 @@ async def get_overview(
     if start_date:
         daily_filter.append(DailyStats.date >= start_date)
         
-    # 1. Aggregate App Opens & Total Plays
+    # 1. Aggregate App Opens, Unique Users & Total Plays
     stmt = select(
         func.sum(DailyStats.app_opens), 
+        func.sum(DailyStats.unique_users),
         func.sum(DailyStats.total_plays)
     )
     if daily_filter:
         stmt = stmt.where(*daily_filter)
         
     result_agg = await db.execute(stmt)
-    total_opens, total_plays = result_agg.one()
+    total_opens, total_uniques, total_plays = result_agg.one()
     
     # 2. Recent Daily Stats (Graph data)
     stmt_recent = select(DailyStats).order_by(desc(DailyStats.date))
@@ -110,6 +111,7 @@ async def get_overview(
 
     return AdminOverviewResponse(
         total_app_opens=total_opens or 0,
+        total_unique_users=total_uniques or 0,
         total_plays=total_plays or 0,
         recent_daily_stats=recent_stats,
         top_stations=top_stations,

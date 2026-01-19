@@ -10,17 +10,37 @@ from app.schemas.analytics import StationPlayRequest, AppOpenRequest
 
 router = APIRouter()
 
-async def increment_app_open(country_code: str, db: AsyncSession):
+async def increment_app_open(country_code: str, db: AsyncSession, user_id: Optional[str] = None):
     today = date.today()
     
     # 1. Update DailyStats (Aggregate)
     result = await db.execute(select(DailyStats).where(DailyStats.date == today))
     daily_stats = result.scalar_one_or_none()
 
+    is_new_user_today = False
+    if user_id:
+        # Check if user already logged today
+        result_user = await db.execute(
+            select(UserActivity).where(
+                (UserActivity.date == today) & 
+                (UserActivity.user_id == user_id)
+            )
+        )
+        if not result_user.scalar_one_or_none():
+            is_new_user_today = True
+            db.add(UserActivity(date=today, user_id=user_id))
+
     if daily_stats:
         daily_stats.app_opens += 1
+        if is_new_user_today:
+            daily_stats.unique_users += 1
     else:
-        daily_stats = DailyStats(date=today, app_opens=1, total_plays=0)
+        daily_stats = DailyStats(
+            date=today, 
+            app_opens=1, 
+            unique_users=1 if is_new_user_today else 0,
+            total_plays=0
+        )
         db.add(daily_stats)
     
     # 2. Update DailyCountryStats
@@ -89,7 +109,8 @@ async def track_app_open(
     elif request.headers.get("cf-ipcountry"):
         country = request.headers.get("cf-ipcountry")
     
-    await increment_app_open(country, db)
+    user_id = payload.user_id if payload else None
+    await increment_app_open(country, db, user_id=user_id)
     return {"status": "ok"}
 
 @router.post("/track/station-play", status_code=202)

@@ -149,6 +149,10 @@ function App() {
               <p className="stat-value">{overview.total_app_opens.toLocaleString()}</p>
             </div>
             <div className="stat-card">
+              <h3>Unique Users</h3>
+              <p className="stat-value">{overview.total_unique_users.toLocaleString()}</p>
+            </div>
+            <div className="stat-card">
               <h3>Station Plays</h3>
               <p className="stat-value">{overview.total_plays.toLocaleString()}</p>
             </div>
@@ -182,6 +186,7 @@ function App() {
                   <tr>
                     <th>Date</th>
                     <th>App Opens</th>
+                    <th>Unique Users</th>
                     <th>Total Plays</th>
                   </tr>
                 </thead>
@@ -190,6 +195,7 @@ function App() {
                     <tr key={day.date}>
                       <td>{day.date}</td>
                       <td>{day.app_opens.toLocaleString()}</td>
+                      <td>{day.unique_users.toLocaleString()}</td>
                       <td>{day.total_plays.toLocaleString()}</td>
                     </tr>
                   ))}
