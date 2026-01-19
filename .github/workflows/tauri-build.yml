@@ -90,8 +90,8 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: "Radiolite ${{ github.ref_name }}"
+          tagName: v__VERSION__ # This allows tauri-action to replace it with the version from tauri.conf.json if tag is not present
+          releaseName: "Radiolite v__VERSION__"
           releaseBody: "See the assets below to download Radiolite for your platform."
           releaseDraft: false
           prerelease: false
