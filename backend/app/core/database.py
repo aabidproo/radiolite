@@ -22,7 +22,7 @@ AsyncSessionLocal = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
 )
 
-Base = declarative_base()
+from app.models.base import Base
 
 # Import models here to ensure they are registered with Base.metadata
 try:
@@ -32,6 +32,8 @@ try:
     from app.core.security import get_password_hash
 except ImportError as e:
     logger.error(f"Failed to import models: {e}")
+
+logger.info(f"Registered tables: {list(Base.metadata.tables.keys())}")
 
 async def get_db():
     async with AsyncSessionLocal() as session:

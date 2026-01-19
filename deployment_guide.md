@@ -21,8 +21,9 @@ This is your "Web Service". It handles the API data AND renders your dynamic Lan
 6.  **Language/Runtime**: `Python 3`.
 7.  **Build Command**: `pip install -r requirements.txt`.
 8.  **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-    > [!CAUTION]
-    > Make sure there are **no extra quotes or backticks** at the end of the command in the Render box. The error in your log (`unexpected EOF`) happened because of an extra character at the end.
+    > [!IMPORTANT]
+    > **CRITICAL**: Do NOT include backticks (`` ` ``) in the Render command box. The text should be exactly: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+    > If you include backticks, the server will crash with an error like `bash: line 1: DEBUG: command not found`.
 9.  **Environment Variables**:
     *   Click the **Environment** tab on the left.
     *   Add these variables:

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date
-from app.core.database import Base
+from app.models.base import Base
 
 class DailyStats(Base):
     __tablename__ = "daily_stats"
