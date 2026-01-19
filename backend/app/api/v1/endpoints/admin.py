@@ -9,31 +9,16 @@ from jose import JWTError, jwt
 from app.core.database import get_db
 from app.core.config import settings
 from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
+from app.models.admin_user import AdminUser
+from app.api.v1.deps import get_current_user
 from app.schemas.analytics import (
-    AdminOverviewResponse, 
-    StationStatsResponse, 
-    CountryStatsResponse, 
+    AdminOverviewResponse,
+    StationStatsResponse,
+    CountryStatsResponse,
     TimeRange
 )
 
 router = APIRouter()
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/token")
-
-async def get_current_admin(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None or username != settings.ADMIN_USERNAME:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
-    return username
 
 def get_date_range(time_range: TimeRange) -> Optional[date]:
     today = date.today()
@@ -45,10 +30,11 @@ def get_date_range(time_range: TimeRange) -> Optional[date]:
         return today - timedelta(days=30)
     return None # ALL_TIME
 
-@router.get("/admin/overview", response_model=AdminOverviewResponse, dependencies=[Depends(get_current_admin)])
+@router.get("/admin/overview", response_model=AdminOverviewResponse)
 async def get_overview(
     range: TimeRange = TimeRange.ALL_TIME, 
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    current_user: AdminUser = Depends(get_current_user)
 ):
     start_date = get_date_range(range)
     
@@ -119,11 +105,12 @@ async def get_overview(
         top_countries=top_countries
     )
 
-@router.get("/admin/stations", response_model=List[StationStatsResponse], dependencies=[Depends(get_current_admin)])
+@router.get("/admin/stations", response_model=List[StationStatsResponse])
 async def get_top_stations(
     limit: int = 50, 
     range: TimeRange = TimeRange.ALL_TIME,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    current_user: AdminUser = Depends(get_current_user)
 ):
     start_date = get_date_range(range)
     

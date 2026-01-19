@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Blog | Radiolite - Insights & Updates{% endblock %}
+
+{% block content %}
+<section class="page-section" style="padding-top: 140px;">
+    <div class="container">
+        <div class="flex-between" style="margin-bottom: 60px;">
+            <h1 class="section-title-big" style="margin-bottom: 0; text-align: left;">Our Blog</h1>
+        </div>
+        
+        <div class="blog-grid blog-columns-3">
+            {% for post in posts %}
+            <article class="blog-card">
+                {% if post.image_url %}
+                <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-preview-img">
+                {% endif %}
+                <div class="blog-card-content">
+                    <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+                    <p class="blog-excerpt">{{ post.meta_description or post.content[:150] }}</p>
+                    <span class="blog-date">{{ post.created_at.strftime('%B %d, %Y') }}</span>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        {% if not posts %}
+        <div style="text-align: center; padding: 100px 0;">
+            <p style="color: var(--text-muted); font-size: 1.2rem;">No articles found. Check back soon!</p>
+            <a href="/" class="btn btn-secondary-outline" style="margin-top: 20px;">Back to Home</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="page-section bg-darker">
+    <div class="container">
+        <div class="cta-card" style="text-align: center;">
+            <h3>Ready to listen?</h3>
+            <p>Download Radiolite for free and stream 49,000+ stations from your desktop.</p>
+            <div class="cta-actions" style="justify-content: center; margin-top: 32px;">
+                <a href="/" class="btn btn-primary-white">Get Radiolite Free</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

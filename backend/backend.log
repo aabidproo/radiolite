@@ -1,0 +1,230 @@
+/Users/aabid/Documents/radiolite/backend/app/main.py:25: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [56229]
+INFO:     Waiting for application startup.
+2026-01-19 22:11:45,381 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:11:45,381 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("daily_stats")
+2026-01-19 22:11:45,381 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("user_activity")
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("daily_station_stats")
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("daily_country_stats")
+2026-01-19 22:11:45,382 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("admin_users")
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("blog_posts")
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine [raw sql] ()
+✓ Database tables created/verified
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine ALTER TABLE daily_stats ADD COLUMN unique_users INTEGER DEFAULT 0
+2026-01-19 22:11:45,383 INFO sqlalchemy.engine.Engine [generated in 0.00005s] ()
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine ALTER TABLE daily_station_stats ADD COLUMN station_name VARCHAR
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine [generated in 0.00004s] ()
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine ALTER TABLE blog_posts ADD COLUMN author_id INTEGER REFERENCES admin_users(id)
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine [generated in 0.00004s] ()
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine ALTER TABLE blog_posts ADD COLUMN image_source VARCHAR
+2026-01-19 22:11:45,384 INFO sqlalchemy.engine.Engine [generated in 0.00003s] ()
+2026-01-19 22:11:45,385 INFO sqlalchemy.engine.Engine ALTER TABLE blog_posts ADD COLUMN image_link VARCHAR
+2026-01-19 22:11:45,385 INFO sqlalchemy.engine.Engine [generated in 0.00004s] ()
+2026-01-19 22:11:45,385 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-19 22:11:45,386 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:11:45,389 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users
+ LIMIT ? OFFSET ?
+2026-01-19 22:11:45,389 INFO sqlalchemy.engine.Engine [generated in 0.00007s] (1, 0)
+2026-01-19 22:11:45,390 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56248 - "OPTIONS /api/v1/blog/ HTTP/1.1" 200 OK
+2026-01-19 22:13:32,919 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:13:32,923 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-19 22:13:32,923 INFO sqlalchemy.engine.Engine [generated in 0.00024s] ('admin',)
+2026-01-19 22:13:32,931 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.slug = ?
+2026-01-19 22:13:32,931 INFO sqlalchemy.engine.Engine [generated in 0.00011s] ('introducing-radiolite-your-pocket-radio-for-the-world',)
+2026-01-19 22:13:32,935 INFO sqlalchemy.engine.Engine INSERT INTO blog_posts (title, slug, content, image_url, image_source, image_link, seo_title, meta_description, author_id, is_published, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id, created_at
+2026-01-19 22:13:32,935 INFO sqlalchemy.engine.Engine [generated in 0.00013s] ('Introducing RadioLite – Your Pocket Radio for the World', 'introducing-radiolite-your-pocket-radio-for-the-world', 'In today’s fast-paced digital world, music and radio are more than just entertainment—they’re a daily companion. That’s exactly why we built RadioLit ... (1903 characters truncated) ... ern way to listen to stations worldwide, RadioLite is for you.\nDownload it today and turn your device into a global radio hub.\n\nHappy Listening! 🎶', 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhISEhMSEhUQFRAVEBUVEBAPEBAPFRUWFhURFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg ... (7117 characters truncated) ... xTILVGPcq2FPiRSDx0SZOqmzdBHxIANl89+yCvpUjDcNUUIIRU0iByLFIlwpsSBu64FBq61IxWuR2FLhGiRSMsJRWtQ2r4FJJlpC+JS19UaMoJ3tEQOulpUMFMDyyEc0hUVAupzFVtRunDj//2Q==', 'Google', '', 'Introducing RadioLite – Your Pocket Radio for the World', '', 1, 1, None)
+2026-01-19 22:13:32,937 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-19 22:13:32,938 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:13:32,939 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.id = ?
+2026-01-19 22:13:32,939 INFO sqlalchemy.engine.Engine [generated in 0.00007s] (4,)
+INFO:     127.0.0.1:56248 - "POST /api/v1/blog/ HTTP/1.1" 200 OK
+2026-01-19 22:13:32,941 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56248 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-19 22:13:32,946 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:13:32,947 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:13:32,947 INFO sqlalchemy.engine.Engine [generated in 0.00007s] (10, 0)
+2026-01-19 22:13:32,948 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-19 22:13:32,949 INFO sqlalchemy.engine.Engine [generated in 0.00008s] (1,)
+INFO:     127.0.0.1:56249 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-19 22:13:32,950 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-19 22:13:43,814 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:13:43,816 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:13:43,816 INFO sqlalchemy.engine.Engine [generated in 0.00022s] (3, 0)
+INFO:     127.0.0.1:56250 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:13:43,833 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56250 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /static/assets/search.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56252 - "GET /static/assets/explore.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56250 - "GET /static/script.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56252 - "GET /static/assets/near%20me.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56252 - "GET /static/assets/favorite.png HTTP/1.1" 304 Not Modified
+2026-01-19 22:13:46,668 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:13:46,669 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.slug = ?
+2026-01-19 22:13:46,669 INFO sqlalchemy.engine.Engine [cached since 13.74s ago] ('introducing-radiolite-your-pocket-radio-for-the-world',)
+INFO:     127.0.0.1:56252 - "GET /blog/introducing-radiolite-your-pocket-radio-for-the-world HTTP/1.1" 200 OK
+2026-01-19 22:13:46,713 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-19 22:14:35,286 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:14:35,288 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:14:35,288 INFO sqlalchemy.engine.Engine [cached since 51.47s ago] (3, 0)
+INFO:     127.0.0.1:56263 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:14:35,292 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-19 22:15:12,280 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:15:12,283 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+2026-01-19 22:15:12,284 INFO sqlalchemy.engine.Engine [generated in 0.00044s] ()
+INFO:     127.0.0.1:56285 - "GET /blog HTTP/1.1" 200 OK
+2026-01-19 22:15:12,289 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56285 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+2026-01-19 22:15:24,553 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:15:24,555 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:15:24,555 INFO sqlalchemy.engine.Engine [cached since 100.7s ago] (3, 0)
+INFO:     127.0.0.1:56290 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:15:24,559 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56333 - "OPTIONS /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-19 22:16:46,943 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:16:46,944 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-19 22:16:46,944 INFO sqlalchemy.engine.Engine [cached since 194s ago] ('admin',)
+2026-01-19 22:16:46,946 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users
+2026-01-19 22:16:46,947 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ()
+INFO:     127.0.0.1:56333 - "GET /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-19 22:16:46,949 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-19 22:24:01,940 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:24:01,943 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.slug = ?
+2026-01-19 22:24:01,943 INFO sqlalchemy.engine.Engine [cached since 629s ago] ('best-free-arabic-radio-app-mac',)
+INFO:     127.0.0.1:56584 - "GET /blog/best-free-arabic-radio-app-mac HTTP/1.1" 200 OK
+2026-01-19 22:24:01,952 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56584 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56585 - "GET /static/script.js HTTP/1.1" 304 Not Modified
+2026-01-19 22:25:04,463 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:25:04,465 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:25:04,466 INFO sqlalchemy.engine.Engine [cached since 680.6s ago] (3, 0)
+INFO:     127.0.0.1:56592 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:25:04,472 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56593 - "GET /static/assets/near%20me.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56592 - "GET /static/assets/search.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56595 - "GET /static/assets/favorite.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56594 - "GET /static/assets/explore.png HTTP/1.1" 304 Not Modified
+2026-01-19 22:27:48,458 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:27:48,460 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:27:48,460 INFO sqlalchemy.engine.Engine [cached since 844.6s ago] (3, 0)
+INFO:     127.0.0.1:56651 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:27:48,470 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56651 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+2026-01-19 22:29:00,252 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:29:00,254 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:29:00,254 INFO sqlalchemy.engine.Engine [cached since 916.4s ago] (3, 0)
+INFO:     127.0.0.1:56676 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:29:00,262 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56676 - "GET /static/assets/search.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56677 - "GET /static/assets/explore.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56678 - "GET /static/assets/near%20me.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56679 - "GET /static/assets/favorite.png HTTP/1.1" 304 Not Modified
+2026-01-19 22:29:01,088 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:29:01,089 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:29:01,089 INFO sqlalchemy.engine.Engine [cached since 917.3s ago] (3, 0)
+INFO:     127.0.0.1:56679 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:29:01,092 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56679 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56679 - "GET /static/assets/logo.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /static/assets/Product.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56677 - "GET /static/assets/search.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56676 - "GET /static/assets/explore.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56680 - "GET /static/assets/near%20me.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56679 - "GET /static/script.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56680 - "GET /static/assets/favorite.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /static/assets/logo.png HTTP/1.1" 200 OK
+2026-01-19 22:29:13,032 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:29:13,033 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.slug = ?
+2026-01-19 22:29:13,033 INFO sqlalchemy.engine.Engine [cached since 940.1s ago] ('introducing-radiolite-your-pocket-radio-for-the-world',)
+INFO:     127.0.0.1:56685 - "GET /blog/introducing-radiolite-your-pocket-radio-for-the-world HTTP/1.1" 200 OK
+2026-01-19 22:29:13,047 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56685 - "GET /static/style.css HTTP/1.1" 304 Not Modified
+2026-01-19 22:29:47,652 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:29:47,653 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:29:47,653 INFO sqlalchemy.engine.Engine [cached since 963.8s ago] (3, 0)
+INFO:     127.0.0.1:56693 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:29:47,659 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56693 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56738 - "OPTIONS /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-19 22:32:42,848 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:32:42,849 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-19 22:32:42,849 INFO sqlalchemy.engine.Engine [cached since 1150s ago] ('admin',)
+2026-01-19 22:32:42,853 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users
+2026-01-19 22:32:42,853 INFO sqlalchemy.engine.Engine [cached since 955.9s ago] ()
+INFO:     127.0.0.1:56738 - "GET /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-19 22:32:42,861 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-19 22:34:36,019 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-19 22:34:36,020 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.is_published = 1 ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-19 22:34:36,021 INFO sqlalchemy.engine.Engine [cached since 1252s ago] (3, 0)
+INFO:     127.0.0.1:56763 - "GET / HTTP/1.1" 200 OK
+2026-01-19 22:34:36,040 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:56763 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56764 - "GET /static/assets/search.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56765 - "GET /static/assets/explore.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56763 - "GET /static/assets/favorite.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56765 - "GET /static/assets/near%20me.png HTTP/1.1" 304 Not Modified

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Radiolite | Best Free Internet Radio App for Mac & Windows 2026{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Download Radiolite, the #1 free desktop internet radio app for 2026. Stream 49,000+ stations ad-free for Mac & Windows. Perfect for Holy Quran, BBC, and local FM stations.{% endblock %}">
+    <meta name="keywords" content="internet radio software, free radio app, uk radio stations, bbc radio live, desktop radio player, arabic radio, quran radio, no ads radio, windows 11 radio app, mac menu bar radio, best radio app germany, écouter radio france mac, radio player for developers">
+    <meta name="author" content="Radiolite">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="{% block og_title %}Radiolite | Minimalist Desktop Radio for 2026{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Stream 49,000+ radio stations from around the world. Free, no ads, just music & news. Available for Mac and Windows.{% endblock %}">
+    <meta property="og:image" content="{{ url_for('static', path='assets/og-image.png') }}">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W1R0SXJ5R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W1R0SXJ5R1');
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='assets/logo.png') }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="{{ url_for('static', path='assets/logo.png') }}" alt="Radiolite" class="nav-logo">
+                    <span class="brand-name">Radio<span class="text-thin">Lite</span></span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="nav-links" id="nav-links">
+                <a href="/#features" class="help-link">Features</a>
+                <a href="/blog" class="help-link">Blog</a>
+                <a href="#help-modal" class="help-link" id="help-btn"><span class="help-icon">?</span> Help</a>
+                <a href="#contact-modal" class="help-link" id="contact-btn"><span class="help-icon">i</span> About</a>
+            </nav>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="footer-text">
+                &copy; 2026 Radiolite. Minimalist radio for focused individuals. 
+                <span class="footer-divider">|</span>
+                Powered by <a href="http://www.radio-browser.info/" target="_blank">Community Radio Browser</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Help & Contact Modals moved here for global access -->
+    <div class="modal-overlay" id="help-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2>Help & Support</h2>
+            <div class="help-section">
+                <p>If you see a security warning on Mac, <strong>right-click</strong> the app in Applications and select <strong>Open</strong>.</p>
+                <div class="command-box">
+                    <code id="cmd-text">sudo xattr -rd com.apple.quarantine /Applications/Radiolite.app</code>
+                    <button class="copy-btn" id="copy-btn">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-contact-modal">&times;</button>
+            <h2>About Radiolite</h2>
+            <div class="help-section">
+                <p>Radiolite is a minimalist radio player designed for focused work and seamless listening. Developed with a passion for high-quality audio and user privacy.</p>
+                <p>Version: 1.1.23</p>
+                <p>Support: <a href="mailto:support@radiolite.app" style="color: var(--accent);">support@radiolite.app</a></p>
+            </div>
+        </div>
+    </div>
+
+    {% block extra_scripts %}
+    <script src="{{ url_for('static', path='script.js') }}"></script>
+    {% endblock %}
+</body>
+</html>
