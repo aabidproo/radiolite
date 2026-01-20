@@ -149,7 +149,7 @@ export function useAudio() {
 
     // Analytics: Track Station Play
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "https://api-radiolite.onrender.com/api/v1";
+      const apiUrl = import.meta.env.VITE_API_URL || "https://radiolite.onrender.com/api/v1";
       fetch(`${apiUrl}/track/station-play`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

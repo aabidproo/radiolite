@@ -64,7 +64,7 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://api-radiolite.onrender.com/api/v1/releases/latest"
+        "https://radiolite.onrender.com/api/v1/releases/latest"
       ],
       "pubkey": "RWSH4Dlv37PsSlk+rm6KfXzFY0MDENyzm9JIpfqlgKco8DlZD1xuLugA"
     },

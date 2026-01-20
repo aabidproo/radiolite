@@ -50,7 +50,7 @@ class ReleaseService:
                     "id": asset["id"],
                     "name": asset["name"],
                     "size": asset["size"],
-                    "browser_download_url": f"https://api-radiolite.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
+                    "browser_download_url": f"https://radiolite.onrender.com{settings.API_V1_STR}/releases/download/{asset['id']}"
                 })
         return assets
 

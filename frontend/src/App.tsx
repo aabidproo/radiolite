@@ -92,7 +92,7 @@ function App() {
           localStorage.setItem('radiolite_user_id', userId);
         }
 
-        const apiUrl = import.meta.env.VITE_API_URL || "https://api-radiolite.onrender.com/api/v1";
+        const apiUrl = import.meta.env.VITE_API_URL || "https://radiolite.onrender.com/api/v1";
         await fetch(`${apiUrl}/track/app-open`, { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
