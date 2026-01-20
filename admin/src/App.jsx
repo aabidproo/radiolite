@@ -387,6 +387,62 @@ function App() {
                 </table>
               </div>
             </section>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }}>
+              <section>
+                <h4 style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>Top Stations (Plays)</h4>
+                <div className="card" style={{ padding: 0 }}>
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                         <th>Station Name</th>
+                         <th style={{ textAlign: 'right' }}>Plays</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {overview.top_stations && overview.top_stations.length > 0 ? (
+                        overview.top_stations.slice(0, 10).map((s, i) => (
+                          <tr key={i}>
+                            <td className="truncate" style={{ maxWidth: '200px' }} title={s.station_name}>
+                              {s.station_name || s.station_id}
+                            </td>
+                            <td style={{ textAlign: 'right' }}>{s.play_count.toLocaleString()}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr><td colSpan="2" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>No data</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section>
+                <h4 style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>Top Countries (Opens)</h4>
+                <div className="card" style={{ padding: 0 }}>
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                         <th>Country</th>
+                         <th style={{ textAlign: 'right' }}>Users</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {overview.top_countries && overview.top_countries.length > 0 ? (
+                         overview.top_countries.slice(0, 10).map((c, i) => (
+                           <tr key={i}>
+                             <td>{c.country_code}</td>
+                             <td style={{ textAlign: 'right' }}>{c.open_count.toLocaleString()}</td>
+                           </tr>
+                         ))
+                      ) : (
+                        <tr><td colSpan="2" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>No data</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
           </>
         )}
 
