@@ -9,6 +9,7 @@ interface NearMeViewProps {
   hasMore: boolean;
   onLoadMore: () => void;
   onDetectWithPermission: () => void;
+  userCountryCode: string | null;
 }
 
 export function NearMeView({
@@ -19,15 +20,18 @@ export function NearMeView({
   playStation,
   hasMore,
   onLoadMore,
-  onDetectWithPermission
+  onDetectWithPermission,
+  userCountryCode
 }: NearMeViewProps) {
+  const hasLocation = userCountry || userCountryCode;
+  
   return (
     <div key="nearMe" className="mt-5">
       <div className="flex items-center justify-between px-4 mb-2">
         <h2 className="section-title mb-0 leading-none">
           Stations in {userCountry || 'your area'}
         </h2>
-        {!userCountry && !loading && (
+        {!hasLocation && !loading && (
           <button 
             onClick={onDetectWithPermission}
             className="chip-tab active ml-2 text-xs"
@@ -38,15 +42,36 @@ export function NearMeView({
         )}
       </div>
       
-      {!loading && nearMeStations.length === 0 && (
+      {!loading && !hasLocation && (
         <div className="px-4 py-12 text-center">
-            <p className="text-white/60 mb-4">No local stations found.</p>
+            <p className="text-white/60 mb-4">We haven't detected your location yet.</p>
             <button 
               onClick={onDetectWithPermission}
               className="chip-tab active"
               style={{ display: 'inline-block', padding: '10px 24px' }}
             >
-              Use My Current Location
+              Detect My Location
+            </button>
+        </div>
+      )}
+
+      {loading && nearMeStations.length === 0 && hasLocation && (
+         <div className="px-4 py-12 text-center">
+            <div className="loading-spinner mb-4 mx-auto" />
+            <p className="text-white/60">Searching stations in {userCountry || userCountryCode}...</p>
+         </div>
+      )}
+
+      {!loading && nearMeStations.length === 0 && hasLocation && (
+        <div className="px-4 py-12 text-center">
+            <p className="text-white/60 mb-4">No local stations found in {userCountry || userCountryCode}.</p>
+            <p className="text-white/40 text-sm mb-6">Try allowing browser location permissions for better accuracy.</p>
+            <button 
+              onClick={onDetectWithPermission}
+              className="chip-tab active"
+              style={{ display: 'inline-block', padding: '10px 24px' }}
+            >
+              Try GPS Location
             </button>
         </div>
       )}

@@ -112,8 +112,24 @@ function App() {
 
   useEffect(() => {
     if (mainTab === 'nearMe') {
-      if (userCountryCode) { resetPagination(); fetchNearMeStations(userCountryCode); }
-      else { detectLocation().then(c => { if (c) { resetPagination(); fetchNearMeStations(c); }}); }
+      console.log("Near Me tab active. userCountryCode:", userCountryCode);
+      if (userCountryCode) { 
+        console.log("Fetching stations for:", userCountryCode);
+        resetPagination(); 
+        fetchNearMeStations(userCountryCode); 
+      }
+      else { 
+        console.log("No country code, auto-detecting...");
+        detectLocation().then(c => { 
+          if (c) { 
+            console.log("Auto-detection successful:", c);
+            resetPagination(); 
+            fetchNearMeStations(c); 
+          } else {
+            console.log("Auto-detection failed (IP-based).");
+          }
+        }); 
+      }
     } else if (mainTab === 'explore') {
       if (selectedCountry) { resetPagination(); searchStations("", { country: selectedCountry }, { resetOffset: true }); }
       else if (selectedLanguage) { resetPagination(); searchStations("", { language: selectedLanguage }, { resetOffset: true }); }
@@ -287,6 +303,7 @@ function App() {
                 hasMore={hasMore}
                 onLoadMore={handleLoadMoreStations}
                 onDetectWithPermission={() => detectLocationWithPermission().then((c: string | null) => { if (c) { resetPagination(); fetchNearMeStations(c); }})}
+                userCountryCode={userCountryCode}
               />
             )}
             {mainTab === 'favorites' && (

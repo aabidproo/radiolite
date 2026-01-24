@@ -69,16 +69,20 @@ export function useLocation() {
             // Use reverse geocoding to get country code
             const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
             const data = await res.json();
+            console.log("Reverse geocode response payload:", data);
             
             if (data.countryCode) {
-              console.log("Reverse geocode success:", data.countryName);
+              console.log("Reverse geocode success:", data.countryName || data.countryCode);
               setUserCountry(data.countryName || data.countryCode);
               setUserCountryCode(data.countryCode);
               localStorage.setItem('radiolite_user_country', data.countryName || data.countryCode);
               localStorage.setItem('radiolite_user_country_code', data.countryCode);
+              console.log("Location saved to localStorage.");
               setLoading(false);
               resolve(data.countryCode);
               return;
+            } else {
+              console.warn("No country code found in geocode response.");
             }
           } catch (err) {
             console.error("Reverse geocode failed", err);

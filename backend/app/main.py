@@ -65,19 +65,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files for the landing page
-app.mount("/static", StaticFiles(directory=LANDING_DIR), name="static")
+# Setup templates and static files
+templates = None
+if os.path.exists(LANDING_DIR):
+    app.mount("/static", StaticFiles(directory=LANDING_DIR), name="static")
+    templates = Jinja2Templates(directory=LANDING_DIR)
 
-# Setup templates
-templates = Jinja2Templates(directory=LANDING_DIR)
+    # Add markdown filter
+    def render_markdown(text):
+        if not text:
+            return ""
+        return markdown.markdown(text, extensions=['fenced_code', 'tables'])
 
-# Add markdown filter
-def render_markdown(text):
-    if not text:
-        return ""
-    return markdown.markdown(text, extensions=['fenced_code', 'tables'])
-
-templates.env.filters["markdown"] = render_markdown
+    templates.env.filters["markdown"] = render_markdown
+else:
+    logger.warning(f"LANDING_DIR not found at {LANDING_DIR}. Static files and templates will be disabled.")
 
 app.include_router(stations.router, prefix=f"{settings.API_V1_STR}/stations", tags=["stations"])
 app.include_router(health.router, prefix=settings.API_V1_STR, tags=["health"])
@@ -91,6 +93,8 @@ app.include_router(users.router, prefix=f"{settings.API_V1_STR}/admin", tags=["u
 # landing page SSR route
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def serve_landing(request: Request, db: AsyncSession = Depends(get_db)):
+    if not templates:
+        return HTMLResponse("<h1>Radiolite API</h1><p>Running successfully. Landing page assets not found in this environment.</p>")
     try:
         # Fetch 3 latest posts for the homepage
         stmt = select(BlogPost).where(BlogPost.is_published == True).order_by(desc(BlogPost.created_at)).limit(3)
@@ -111,6 +115,8 @@ async def serve_landing(request: Request, db: AsyncSession = Depends(get_db)):
 
 @app.get("/blog", include_in_schema=False)
 async def list_blog(request: Request, db: AsyncSession = Depends(get_db)):
+    if not templates:
+        return HTMLResponse("<h1>Radiolite Blog</h1><p>Blog assets not found in this environment.</p>")
     stmt = select(BlogPost).where(BlogPost.is_published == True).order_by(desc(BlogPost.created_at))
     result = await db.execute(stmt)
     posts = result.scalars().all()
@@ -118,6 +124,8 @@ async def list_blog(request: Request, db: AsyncSession = Depends(get_db)):
 
 @app.get("/blog/{slug}", include_in_schema=False)
 async def view_post(slug: str, request: Request, db: AsyncSession = Depends(get_db)):
+    if not templates:
+        return HTMLResponse("<h1>Radiolite Blog</h1><p>Post assets not found in this environment.</p>")
     result = await db.execute(select(BlogPost).where(BlogPost.slug == slug))
     post = result.scalar_one_or_none()
     if not post:

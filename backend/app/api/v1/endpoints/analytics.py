@@ -5,7 +5,7 @@ from datetime import date
 from typing import Optional
 
 from app.core.database import get_db
-from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
+from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats, UserActivity
 from app.schemas.analytics import StationPlayRequest, AppOpenRequest
 
 router = APIRouter()
