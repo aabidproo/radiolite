@@ -13,7 +13,7 @@ pytest-asyncio
 greenlet
 python-jose[cryptography]
 passlib[bcrypt]
-bcrypt==3.2.2
+bcrypt
 python-multipart
 psycopg2-binary
 markdown

@@ -4,6 +4,8 @@ from jose import jwt
 from app.core.config import settings
 
 from passlib.context import CryptContext
+# Explicitly import the bcrypt handler to ensure it's bundled correctly on Windows/macOS
+import passlib.handlers.bcrypt 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
