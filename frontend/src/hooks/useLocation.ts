@@ -16,10 +16,13 @@ export function useLocation() {
   const [loading, setLoading] = useState(false);
 
   const detectLocation = useCallback(async () => {
+    console.log("Detecting location via IP...");
     try {
-      const data = await apiFetch<any>('https://ipapi.co/json/');
+      // Primary: ipapi.co (Note: can be rate limited)
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
       if (data.country) {
-        // We store the 2-letter country code for searching, but display the name
+        console.log("Location detected (Primary):", data.country_name);
         setUserCountry(data.country_name || data.country);
         setUserCountryCode(data.country);
         localStorage.setItem('radiolite_user_country', data.country_name || data.country);
@@ -27,15 +30,32 @@ export function useLocation() {
         return data.country;
       }
     } catch (err) {
-      console.error("Failed to detect location via IP", err);
+      console.warn("Primary location service failed, trying fallback...", err);
+      try {
+        // Fallback: freeipapi.com (HTTPS supported)
+        const res = await fetch('https://freeipapi.com/api/json');
+        const data = await res.json();
+        if (data.countryCode) {
+           console.log("Location detected (Fallback):", data.countryName);
+           setUserCountry(data.countryName);
+           setUserCountryCode(data.countryCode);
+           localStorage.setItem('radiolite_user_country', data.countryName);
+           localStorage.setItem('radiolite_user_country_code', data.countryCode);
+           return data.countryCode;
+        }
+      } catch (fallbackErr) {
+        console.error("All IP location services failed", fallbackErr);
+      }
     }
     return null;
   }, []);
 
   const detectLocationWithPermission = useCallback(async () => {
+    console.log("Requesting browser geolocation permission...");
     setLoading(true);
     return new Promise<string | null>((resolve) => {
       if (!navigator.geolocation) {
+        console.error("Geolocation is not supported by this browser/platform");
         setLoading(false);
         resolve(null);
         return;
@@ -45,11 +65,13 @@ export function useLocation() {
         async (position) => {
           try {
             const { latitude, longitude } = position.coords;
+            console.log("Coordinates obtained:", latitude, longitude);
             // Use reverse geocoding to get country code
             const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
             const data = await res.json();
             
             if (data.countryCode) {
+              console.log("Reverse geocode success:", data.countryName);
               setUserCountry(data.countryName || data.countryCode);
               setUserCountryCode(data.countryCode);
               localStorage.setItem('radiolite_user_country', data.countryName || data.countryCode);
@@ -65,16 +87,18 @@ export function useLocation() {
           resolve(null);
         },
         (err) => {
-          console.error("Geolocation permission denied or failed", err);
+          console.error("Geolocation permission denied or failed:", err.message, err.code);
           setLoading(false);
           resolve(null);
         },
-        { timeout: 10000 }
+        { timeout: 8000, enableHighAccuracy: false }
       );
     });
   }, []);
 
   const fetchNearMeStations = useCallback(async (countryCode: string, options: { append?: boolean, offset?: number } = {}) => {
+    if (!countryCode || countryCode === "Unknown") return [];
+    
     const shouldAppend = options.append || false;
     const currentOffset = options.offset || 0;
 
@@ -93,7 +117,8 @@ export function useLocation() {
       return data;
     } catch (err) {
       console.error("Failed to fetch near me stations", err);
-      throw err;
+      // Don't re-throw to avoid breaking the UI/effect
+      return [];
     } finally {
       setLoading(false);
     }

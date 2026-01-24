@@ -1,5 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
+import './App.css';
+import showdown from 'showdown';
+import TurndownService from 'turndown';
+
+// Convert Markdown <-> HTML
+const mdConverter = new showdown.Converter();
+const turndownService = new TurndownService({
+  headingStyle: 'atx',
+  bulletListMarker: '-'
+});
+
+// Quill Modules
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'], 
+    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    ['link'],
+    ['clean']
+  ],
+};
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD 
   ? 'https://radiolite.onrender.com/api/v1' 
@@ -32,6 +55,23 @@ function App() {
     image_source: '', image_link: '',
     seo_title: '', meta_description: '', is_published: false
   });
+  const [editorHtml, setEditorHtml] = useState('');
+
+  // Sync MD to HTML when editing starts
+  useEffect(() => {
+    if (isEditing && currentPost.content) {
+      setEditorHtml(mdConverter.makeHtml(currentPost.content));
+    } else if (isEditing && !currentPost.content) {
+      setEditorHtml('');
+    }
+  }, [isEditing, currentPost.id]);
+
+  // Sync HTML to MD on change
+  const handleEditorChange = (html) => {
+    setEditorHtml(html);
+    // Convert to MD for storage
+    setCurrentPost(prev => ({ ...prev, content: turndownService.turndown(html) }));
+  };
 
   // User Management State
   const [users, setUsers] = useState([]);
@@ -143,34 +183,7 @@ function App() {
     setCurrentPost({...currentPost, ...updates});
   };
 
-  const insertTag = (tagStart, tagEnd = '') => {
-    const textarea = document.getElementById('content-textarea');
-    if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = currentPost.content;
-    const selected = text.substring(start, end);
-    
-    // Correctly handle symmetrical vs asymmetrical tags
-    const endTag = (tagEnd === '' || tagEnd) ? tagEnd : tagStart;
-    
-    const newContent = text.substring(0, start) + tagStart + selected + endTag + text.substring(end);
-    setCurrentPost({ ...currentPost, content: newContent });
-    
-    // Maintain focus and selection (roughly)
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + tagStart.length, end + tagStart.length);
-    }, 0);
-  };
-
-  const insertLink = () => {
-    const url = window.prompt('Enter URL:');
-    if (url) {
-      insertTag('[', `](${url})`);
-    }
-  };
 
   const handleSavePost = async (e) => {
     e.preventDefault();
@@ -471,46 +484,23 @@ function App() {
                      </div>
                   </div>
 
+
                 <div className="form-group">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <label style={{ margin: 0 }}>Content (Markdown)</label>
-                    <div className="editor-toolbar" style={{ display: 'flex', gap: '4px' }}>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('**')} title="Bold"><strong>B</strong></button>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('*')} title="Italic"><em>I</em></button>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('<u>', '</u>')} title="Underline"><span style={{ textDecoration: 'underline' }}>U</span></button>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('# ', '')} title="Heading 1">H1</button>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('## ', '')} title="Heading 2">H2</button>
-                      <button type="button" className="toolbar-btn" onClick={() => insertTag('- ', '')} title="List">• List</button>
-                      <button type="button" className="toolbar-btn" onClick={insertLink} title="Link">Link</button>
-                    </div>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <textarea 
-                      id="content-textarea"
-                      rows="20" 
-                      value={currentPost.content} 
-                      onChange={(e) => setCurrentPost({...currentPost, content: e.target.value})} 
-                      required 
-                      style={{ fontFamily: 'monospace', fontSize: '13px' }}
-                    />
-                    <div className="markdown-preview" style={{ 
-                      padding: '14px', 
-                      background: 'rgba(255, 255, 255, 0.02)', 
-                      borderRadius: '8px', 
-                      border: '1px solid var(--border)',
-                      maxHeight: '400px',
-                      overflowY: 'auto',
-                      fontSize: '14px',
-                      lineHeight: '1.6'
-                    }}>
-                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase' }}>Preview</div>
-                      <div dangerouslySetInnerHTML={{ __html: currentPost.content.replace(/\n/g, '<br/>') }} />
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '20px' }}>(Full formatting will appear on public site)</p>
-                    </div>
-                  </div>
+                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                     <label style={{ margin: 0 }}>Content</label>
+                   </div>
+                   <div style={{ borderRadius: '4px', overflow: 'hidden' }}>
+                      <ReactQuill 
+                        theme="snow"
+                        value={editorHtml}
+                        onChange={handleEditorChange}
+                        modules={modules}
+                        style={{ height: '400px', marginBottom: '50px' }}
+                      />
+                   </div>
                 </div>
 
-                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '20px' }}>
                     <div className="form-group">
                        <label>Image URL</label>
                        <input 

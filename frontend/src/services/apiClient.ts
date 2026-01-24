@@ -1,5 +1,5 @@
 // Standardize BASE_URL to ensure it includes /api/v1 and handles trailing slashes
-let API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
+let API_URL = import.meta.env.VITE_API_URL || 'https://radiolite.onrender.com/api/v1';
 if (API_URL.endsWith('/')) API_URL = API_URL.slice(0, -1);
 if (!API_URL.includes('/api/v1') && !API_URL.includes('localhost')) {
   API_URL += '/api/v1';

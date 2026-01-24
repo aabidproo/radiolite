@@ -16,12 +16,17 @@ if database_url:
         database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
 logger.info(f"Connecting to database: {database_url.split('@')[-1] if '@' in database_url else 'SQLite'}")
+# Create engine with conditional connect_args
+connect_args = {}
+if "postgresql" in database_url:
+    connect_args = {"server_settings": {"search_path": "public"}}
+
 engine = create_async_engine(
     database_url, 
     echo=False,
-    pool_pre_ping=True,      # Check connection health before use
-    pool_recycle=3600,       # Recycle connections every hour
-    connect_args={"server_settings": {"search_path": "public"}} # Direct driver-level fix
+    pool_pre_ping=True,
+    pool_recycle=3600,
+    connect_args=connect_args
 )
 
 AsyncSessionLocal = sessionmaker(

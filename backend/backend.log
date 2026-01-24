@@ -228,3 +228,1294 @@ INFO:     127.0.0.1:56764 - "GET /static/assets/search.png HTTP/1.1" 304 Not Mod
 INFO:     127.0.0.1:56765 - "GET /static/assets/explore.png HTTP/1.1" 304 Not Modified
 INFO:     127.0.0.1:56763 - "GET /static/assets/favorite.png HTTP/1.1" 304 Not Modified
 INFO:     127.0.0.1:56765 - "GET /static/assets/near%20me.png HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64731 - "OPTIONS /api/v1/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64732 - "OPTIONS /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64733 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64734 - "OPTIONS /api/v1/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64735 - "OPTIONS /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64736 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 06:35:13,868 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 06:35:13,869 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 06:35:13,870 INFO sqlalchemy.engine.Engine [cached since 1.512e+04s ago] (10, 0)
+INFO:     127.0.0.1:64731 - "GET /api/v1/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64732 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64736 - "GET /api/v1/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64735 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 401 Unauthorized
+2026-01-20 06:35:13,881 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 06:35:13,882 INFO sqlalchemy.engine.Engine [cached since 1.512e+04s ago] (1,)
+INFO:     127.0.0.1:64733 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 06:35:13,891 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 06:35:13,895 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 06:35:13,895 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 06:35:13,895 INFO sqlalchemy.engine.Engine [cached since 1.512e+04s ago] (10, 0)
+2026-01-20 06:35:13,897 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 06:35:13,897 INFO sqlalchemy.engine.Engine [cached since 1.512e+04s ago] (1,)
+INFO:     127.0.0.1:64733 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 06:35:13,899 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:15:25,499 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:15:25,501 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:15:25,502 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] ('admin',)
+INFO:     127.0.0.1:49722 - "POST /api/v1/auth/token HTTP/1.1" 200 OK
+2026-01-20 08:15:25,763 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:49722 - "OPTIONS /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:15:25,770 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:15:25,771 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:15:25,771 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] ('admin',)
+INFO:     127.0.0.1:49722 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:15:25,776 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:15:25,789 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:15:25,789 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:15:25,789 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] ('admin',)
+INFO:     127.0.0.1:49723 - "OPTIONS /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49724 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49722 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:15:25,791 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:15:25,794 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:15:25,794 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:15:25,794 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] ('admin',)
+2026-01-20 08:15:25,795 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:15:25,795 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:15:25,795 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] (10, 0)
+2026-01-20 08:15:25,807 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:15:25,807 INFO sqlalchemy.engine.Engine [generated in 0.00035s] ()
+2026-01-20 08:15:25,808 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:15:25,808 INFO sqlalchemy.engine.Engine [cached since 2.113e+04s ago] (1,)
+2026-01-20 08:15:25,810 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:15:25,810 INFO sqlalchemy.engine.Engine [generated in 0.00006s] (1000, 0)
+INFO:     127.0.0.1:49724 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:15:25,812 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:15:25,815 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:15:25,815 INFO sqlalchemy.engine.Engine [generated in 0.00007s] (20, 0)
+2026-01-20 08:15:25,816 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:15:25,816 INFO sqlalchemy.engine.Engine [generated in 0.00007s] (20, 0)
+INFO:     127.0.0.1:49723 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:15:25,817 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:26,974 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,975 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:26,976 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:26,978 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,979 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:26,979 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:26,982 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:26,982 INFO sqlalchemy.engine.Engine [cached since 61.18s ago] ()
+INFO:     127.0.0.1:49959 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:26,983 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:26,984 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,984 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:26,984 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:26,986 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,986 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:26,986 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (10, 0)
+2026-01-20 08:16:26,986 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:26,986 INFO sqlalchemy.engine.Engine [cached since 61.18s ago] (1000, 0)
+INFO:     127.0.0.1:49959 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:26,987 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:26,989 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:26,989 INFO sqlalchemy.engine.Engine [cached since 61.17s ago] (20, 0)
+2026-01-20 08:16:26,993 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:26,993 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (1,)
+2026-01-20 08:16:26,994 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:26,994 INFO sqlalchemy.engine.Engine [cached since 61.18s ago] (20, 0)
+INFO:     127.0.0.1:49961 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:26,995 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:26,996 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,996 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:26,996 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (10, 0)
+INFO:     127.0.0.1:49960 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:26,997 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:26,998 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:26,998 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (1,)
+2026-01-20 08:16:26,998 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:26,998 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:26,998 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+INFO:     127.0.0.1:49959 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:26,999 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:27,000 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:27,000 INFO sqlalchemy.engine.Engine [cached since 61.19s ago] ()
+2026-01-20 08:16:27,001 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:27,001 INFO sqlalchemy.engine.Engine [cached since 61.19s ago] (1000, 0)
+2026-01-20 08:16:27,001 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:27,001 INFO sqlalchemy.engine.Engine [cached since 61.19s ago] (20, 0)
+2026-01-20 08:16:27,002 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:27,002 INFO sqlalchemy.engine.Engine [cached since 61.19s ago] (20, 0)
+INFO:     127.0.0.1:49960 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:27,002 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:32,368 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,369 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:32,369 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:32,370 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,371 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:32,371 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:32,373 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,374 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,374 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (10, 0)
+INFO:     127.0.0.1:49970 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:32,388 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:32,388 INFO sqlalchemy.engine.Engine [cached since 66.58s ago] ()
+2026-01-20 08:16:32,388 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:32,391 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:32,391 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (1,)
+2026-01-20 08:16:32,392 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,392 INFO sqlalchemy.engine.Engine [cached since 66.58s ago] (1000, 0)
+2026-01-20 08:16:32,392 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,392 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:32,392 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+INFO:     127.0.0.1:49972 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:32,394 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:32,395 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,395 INFO sqlalchemy.engine.Engine [cached since 66.58s ago] (20, 0)
+INFO:     127.0.0.1:49970 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:32,396 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,397 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,397 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (10, 0)
+2026-01-20 08:16:32,397 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:32,397 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,397 INFO sqlalchemy.engine.Engine [cached since 66.58s ago] (20, 0)
+2026-01-20 08:16:32,398 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:32,398 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] (1,)
+INFO:     127.0.0.1:49971 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:32,399 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:49973 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:32,400 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:32,400 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:32,400 INFO sqlalchemy.engine.Engine [cached since 2.119e+04s ago] ('admin',)
+2026-01-20 08:16:32,400 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:32,400 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:32,401 INFO sqlalchemy.engine.Engine [cached since 66.59s ago] ()
+2026-01-20 08:16:32,401 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,401 INFO sqlalchemy.engine.Engine [cached since 66.59s ago] (1000, 0)
+2026-01-20 08:16:32,401 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,401 INFO sqlalchemy.engine.Engine [cached since 66.59s ago] (20, 0)
+2026-01-20 08:16:32,402 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:32,402 INFO sqlalchemy.engine.Engine [cached since 66.59s ago] (20, 0)
+INFO:     127.0.0.1:49971 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:32,402 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:58,961 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,963 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:58,963 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] ('admin',)
+2026-01-20 08:16:58,964 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,964 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:58,964 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] ('admin',)
+2026-01-20 08:16:58,965 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,965 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,965 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] (10, 0)
+INFO:     127.0.0.1:49997 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:58,967 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:58,967 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:58,967 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] ()
+2026-01-20 08:16:58,968 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:58,968 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] (1,)
+2026-01-20 08:16:58,969 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,969 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:58,969 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] ('admin',)
+INFO:     127.0.0.1:49999 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:58,970 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:58,973 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,973 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] (1000, 0)
+2026-01-20 08:16:58,973 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,974 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,974 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] (10, 0)
+INFO:     127.0.0.1:49997 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:16:58,974 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:58,975 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,975 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] (20, 0)
+2026-01-20 08:16:58,976 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:16:58,976 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] (1,)
+2026-01-20 08:16:58,976 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,976 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] (20, 0)
+INFO:     127.0.0.1:49999 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:16:58,977 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:49998 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:58,978 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:16:58,978 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:16:58,978 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:16:58,978 INFO sqlalchemy.engine.Engine [cached since 2.122e+04s ago] ('admin',)
+2026-01-20 08:16:58,979 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:16:58,979 INFO sqlalchemy.engine.Engine [cached since 93.17s ago] ()
+2026-01-20 08:16:58,979 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,979 INFO sqlalchemy.engine.Engine [cached since 93.17s ago] (1000, 0)
+2026-01-20 08:16:58,980 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,980 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] (20, 0)
+2026-01-20 08:16:58,980 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:16:58,980 INFO sqlalchemy.engine.Engine [cached since 93.16s ago] (20, 0)
+INFO:     127.0.0.1:49998 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:16:58,981 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50018 - "OPTIONS /api/v1/blog/ HTTP/1.1" 200 OK
+2026-01-20 08:19:28,034 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:19:28,035 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:19:28,035 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] ('admin',)
+2026-01-20 08:19:28,039 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.slug = ?
+2026-01-20 08:19:28,039 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] ('radiolite-review-the-lightweight-free-menu-bar-radio-app-for-desktop-in-2026',)
+2026-01-20 08:19:28,046 INFO sqlalchemy.engine.Engine INSERT INTO blog_posts (title, slug, content, image_url, image_source, image_link, seo_title, meta_description, author_id, is_published, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id, created_at
+2026-01-20 08:19:28,046 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] ('RadioLite Review: The Lightweight Free Menu Bar Radio App for Desktop in 2026', 'radiolite-review-the-lightweight-free-menu-bar-radio-app-for-desktop-in-2026', 'Background\xa0audio\xa0is\xa0a\xa0proven\xa0productivity\xa0hack\xa0–\xa0controlled\xa0noise\xa0can\xa0enhance\xa0concentration\xa0by\xa0masking\xa0d ... (1115 characters truncated) ... a0Kathmandu\n\n-   Morning:\xa0Local\xa0FM\xa0for\xa0news.\n-   Work:\xa0Lo-fi\xa0for\xa0coding.\n-   Study:\xa0Instrumental\xa0for\xa0concentration.', '', '', '', 'RadioLite Review: The Lightweight Free Menu Bar Radio App for Desktop in 2026', '', 1, 1, None)
+2026-01-20 08:19:28,051 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-20 08:19:28,054 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:19:28,054 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts 
+WHERE blog_posts.id = ?
+2026-01-20 08:19:28,054 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] (5,)
+INFO:     127.0.0.1:50018 - "POST /api/v1/blog/ HTTP/1.1" 200 OK
+2026-01-20 08:19:28,056 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:19:28,062 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:19:28,062 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:19:28,062 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] (10, 0)
+2026-01-20 08:19:28,063 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:19:28,063 INFO sqlalchemy.engine.Engine [cached since 2.137e+04s ago] (1,)
+INFO:     127.0.0.1:50018 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:19:28,064 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:26,348 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,349 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:26,349 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] ('admin',)
+2026-01-20 08:20:26,350 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,350 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:26,350 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] ('admin',)
+2026-01-20 08:20:26,351 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,351 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,351 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] (10, 0)
+INFO:     127.0.0.1:50040 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:26,353 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:26,353 INFO sqlalchemy.engine.Engine [cached since 300.5s ago] ()
+2026-01-20 08:20:26,354 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:26,354 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,354 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:26,354 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] ('admin',)
+2026-01-20 08:20:26,356 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:26,356 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] (1,)
+INFO:     127.0.0.1:50040 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:26,358 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:26,359 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,359 INFO sqlalchemy.engine.Engine [cached since 300.5s ago] (1000, 0)
+INFO:     127.0.0.1:50042 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:26,361 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:26,362 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,362 INFO sqlalchemy.engine.Engine [cached since 300.5s ago] (20, 0)
+2026-01-20 08:20:26,363 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,363 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,363 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] (10, 0)
+2026-01-20 08:20:26,363 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:26,363 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] (1,)
+2026-01-20 08:20:26,364 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,364 INFO sqlalchemy.engine.Engine [cached since 300.5s ago] (20, 0)
+INFO:     127.0.0.1:50042 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:26,365 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50041 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:26,366 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:26,366 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:26,367 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:26,367 INFO sqlalchemy.engine.Engine [cached since 2.143e+04s ago] ('admin',)
+2026-01-20 08:20:26,367 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:26,367 INFO sqlalchemy.engine.Engine [cached since 300.6s ago] ()
+2026-01-20 08:20:26,367 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,368 INFO sqlalchemy.engine.Engine [cached since 300.6s ago] (1000, 0)
+2026-01-20 08:20:26,368 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,368 INFO sqlalchemy.engine.Engine [cached since 300.6s ago] (20, 0)
+2026-01-20 08:20:26,368 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:26,368 INFO sqlalchemy.engine.Engine [cached since 300.6s ago] (20, 0)
+INFO:     127.0.0.1:50041 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:26,369 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:37,194 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,196 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:37,196 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] ('admin',)
+2026-01-20 08:20:37,197 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,197 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:37,197 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] ('admin',)
+2026-01-20 08:20:37,199 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,199 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,199 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] (10, 0)
+INFO:     127.0.0.1:50050 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:37,201 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:37,202 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:37,202 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] ()
+2026-01-20 08:20:37,203 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:37,203 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] (1,)
+2026-01-20 08:20:37,205 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,205 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:37,205 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] ('admin',)
+2026-01-20 08:20:37,206 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,206 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (1000, 0)
+INFO:     127.0.0.1:50052 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:37,209 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50050 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:37,210 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:37,210 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,210 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,210 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] (10, 0)
+2026-01-20 08:20:37,211 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,211 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (20, 0)
+2026-01-20 08:20:37,211 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:37,212 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] (1,)
+2026-01-20 08:20:37,212 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,212 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (20, 0)
+INFO:     127.0.0.1:50052 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:37,213 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50051 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:37,214 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:37,215 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:37,215 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:37,215 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] ('admin',)
+2026-01-20 08:20:37,216 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:37,216 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] ()
+2026-01-20 08:20:37,216 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,216 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (1000, 0)
+2026-01-20 08:20:37,217 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,217 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (20, 0)
+2026-01-20 08:20:37,217 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:37,217 INFO sqlalchemy.engine.Engine [cached since 311.4s ago] (20, 0)
+INFO:     127.0.0.1:50051 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:37,218 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50051 - "OPTIONS /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-20 08:20:38,618 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:38,619 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:38,619 INFO sqlalchemy.engine.Engine [cached since 2.144e+04s ago] ('admin',)
+2026-01-20 08:20:38,622 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users
+2026-01-20 08:20:38,622 INFO sqlalchemy.engine.Engine [cached since 2.125e+04s ago] ()
+INFO:     127.0.0.1:50052 - "GET /api/v1/admin/users HTTP/1.1" 200 OK
+2026-01-20 08:20:38,624 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:46,405 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,408 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:46,409 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:46,410 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,410 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:46,410 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:46,413 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,413 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,413 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (10, 0)
+INFO:     127.0.0.1:50059 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:46,419 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:46,421 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:46,422 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] ()
+2026-01-20 08:20:46,425 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:46,425 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (1,)
+2026-01-20 08:20:46,426 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,426 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:46,426 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:46,428 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,428 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (1000, 0)
+INFO:     127.0.0.1:50061 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:46,434 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50059 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:46,436 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:46,438 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,439 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,439 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (10, 0)
+2026-01-20 08:20:46,441 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,441 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (20, 0)
+2026-01-20 08:20:46,443 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:46,443 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (1,)
+2026-01-20 08:20:46,444 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,444 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (20, 0)
+INFO:     127.0.0.1:50061 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:46,446 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50060 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:46,449 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:46,450 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:46,451 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:46,451 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:46,452 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:46,452 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] ()
+2026-01-20 08:20:46,454 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,454 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (1000, 0)
+2026-01-20 08:20:46,456 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,456 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (20, 0)
+2026-01-20 08:20:46,458 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:46,459 INFO sqlalchemy.engine.Engine [cached since 320.6s ago] (20, 0)
+INFO:     127.0.0.1:50060 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:46,461 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:47,384 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,385 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:47,385 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:47,386 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,386 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:47,386 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:47,387 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,388 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,388 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (10, 0)
+INFO:     127.0.0.1:50060 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:47,390 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:47,391 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] ()
+2026-01-20 08:20:47,391 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:47,392 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:47,392 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (1,)
+2026-01-20 08:20:47,393 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,393 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:47,393 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:47,393 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,393 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (1000, 0)
+INFO:     127.0.0.1:50059 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:47,394 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50060 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:47,395 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:47,396 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,396 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,396 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (10, 0)
+2026-01-20 08:20:47,397 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,397 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (20, 0)
+2026-01-20 08:20:47,397 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:47,397 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] (1,)
+2026-01-20 08:20:47,398 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,398 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (20, 0)
+INFO:     127.0.0.1:50059 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:47,399 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50061 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:47,400 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:47,401 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:47,401 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:47,401 INFO sqlalchemy.engine.Engine [cached since 2.145e+04s ago] ('admin',)
+2026-01-20 08:20:47,402 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:47,402 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] ()
+2026-01-20 08:20:47,402 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,402 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (1000, 0)
+2026-01-20 08:20:47,403 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,403 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (20, 0)
+2026-01-20 08:20:47,403 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:47,403 INFO sqlalchemy.engine.Engine [cached since 321.6s ago] (20, 0)
+INFO:     127.0.0.1:50061 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:47,403 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:59,245 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,248 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:59,250 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] ('admin',)
+2026-01-20 08:20:59,251 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,251 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:59,251 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] ('admin',)
+2026-01-20 08:20:59,252 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,252 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,252 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] (10, 0)
+2026-01-20 08:20:59,254 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:59,254 INFO sqlalchemy.engine.Engine [cached since 333.4s ago] ()
+INFO:     127.0.0.1:50076 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:59,255 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:59,256 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:59,256 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] (1,)
+2026-01-20 08:20:59,257 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,257 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:59,257 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] ('admin',)
+2026-01-20 08:20:59,258 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,258 INFO sqlalchemy.engine.Engine [cached since 333.4s ago] (1000, 0)
+INFO:     127.0.0.1:50078 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:20:59,259 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50076 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:20:59,259 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:59,260 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,260 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,260 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] (10, 0)
+2026-01-20 08:20:59,261 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,261 INFO sqlalchemy.engine.Engine [cached since 333.4s ago] (20, 0)
+2026-01-20 08:20:59,262 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:20:59,262 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] (1,)
+2026-01-20 08:20:59,262 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,262 INFO sqlalchemy.engine.Engine [cached since 333.4s ago] (20, 0)
+INFO:     127.0.0.1:50078 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50077 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:59,264 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:59,264 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:20:59,264 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:20:59,264 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:20:59,264 INFO sqlalchemy.engine.Engine [cached since 2.146e+04s ago] ('admin',)
+2026-01-20 08:20:59,265 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:20:59,265 INFO sqlalchemy.engine.Engine [cached since 333.5s ago] ()
+2026-01-20 08:20:59,265 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,265 INFO sqlalchemy.engine.Engine [cached since 333.5s ago] (1000, 0)
+2026-01-20 08:20:59,266 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,266 INFO sqlalchemy.engine.Engine [cached since 333.5s ago] (20, 0)
+2026-01-20 08:20:59,266 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:20:59,266 INFO sqlalchemy.engine.Engine [cached since 333.4s ago] (20, 0)
+INFO:     127.0.0.1:50077 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:20:59,267 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:41,415 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,417 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:41,417 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] ('admin',)
+2026-01-20 08:24:41,418 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,420 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:41,420 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] ('admin',)
+2026-01-20 08:24:41,423 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,424 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,424 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] (10, 0)
+2026-01-20 08:24:41,428 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:41,428 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] ()
+INFO:     127.0.0.1:50148 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:41,432 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:41,433 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:41,434 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] (1,)
+2026-01-20 08:24:41,434 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,435 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:41,435 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] ('admin',)
+INFO:     127.0.0.1:50150 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:41,437 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50148 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:41,439 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,439 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (1000, 0)
+2026-01-20 08:24:41,439 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:41,441 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,441 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,441 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] (10, 0)
+2026-01-20 08:24:41,442 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,442 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (20, 0)
+2026-01-20 08:24:41,443 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:41,443 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] (1,)
+2026-01-20 08:24:41,443 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,443 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (20, 0)
+INFO:     127.0.0.1:50150 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:41,444 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50149 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:41,446 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:41,447 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:41,447 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:41,447 INFO sqlalchemy.engine.Engine [cached since 2.168e+04s ago] ('admin',)
+2026-01-20 08:24:41,447 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:41,447 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] ()
+2026-01-20 08:24:41,448 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,448 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (1000, 0)
+2026-01-20 08:24:41,448 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,448 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (20, 0)
+2026-01-20 08:24:41,449 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:41,449 INFO sqlalchemy.engine.Engine [cached since 555.6s ago] (20, 0)
+INFO:     127.0.0.1:50149 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:41,449 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:48,420 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,420 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:48,420 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:48,421 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,421 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:48,421 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:48,422 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,423 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,423 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (10, 0)
+2026-01-20 08:24:48,424 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:48,424 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] ()
+INFO:     127.0.0.1:50158 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:48,425 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:48,426 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:48,427 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (1,)
+2026-01-20 08:24:48,428 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,428 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:48,428 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:48,431 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,431 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (1000, 0)
+INFO:     127.0.0.1:50158 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:48,431 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50160 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:48,433 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:48,433 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,433 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (20, 0)
+2026-01-20 08:24:48,434 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,434 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,435 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (10, 0)
+2026-01-20 08:24:48,435 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,435 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (20, 0)
+2026-01-20 08:24:48,436 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:48,436 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (1,)
+INFO:     127.0.0.1:50159 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:48,437 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:48,438 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:48,438 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:48,438 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+INFO:     127.0.0.1:50158 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:48,438 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:48,440 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:48,440 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] ()
+2026-01-20 08:24:48,441 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,441 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (1000, 0)
+2026-01-20 08:24:48,441 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,441 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (20, 0)
+2026-01-20 08:24:48,442 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:48,442 INFO sqlalchemy.engine.Engine [cached since 562.6s ago] (20, 0)
+INFO:     127.0.0.1:50159 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:48,442 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:49,780 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,780 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:49,781 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:49,781 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,784 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:49,784 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:49,785 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,787 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,787 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (10, 0)
+2026-01-20 08:24:49,788 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:49,788 INFO sqlalchemy.engine.Engine [cached since 564s ago] ()
+INFO:     127.0.0.1:50165 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:49,789 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:49,790 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:49,790 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (1,)
+2026-01-20 08:24:49,790 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,791 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:49,791 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:49,791 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,791 INFO sqlalchemy.engine.Engine [cached since 564s ago] (1000, 0)
+INFO:     127.0.0.1:50167 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:49,792 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50165 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:24:49,793 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:49,793 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,793 INFO sqlalchemy.engine.Engine [cached since 564s ago] (20, 0)
+2026-01-20 08:24:49,794 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,794 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,794 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (10, 0)
+2026-01-20 08:24:49,795 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,795 INFO sqlalchemy.engine.Engine [cached since 564s ago] (20, 0)
+2026-01-20 08:24:49,795 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:24:49,795 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] (1,)
+INFO:     127.0.0.1:50166 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:49,796 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50167 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:24:49,796 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:24:49,797 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:24:49,797 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:24:49,797 INFO sqlalchemy.engine.Engine [cached since 2.169e+04s ago] ('admin',)
+2026-01-20 08:24:49,798 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:24:49,798 INFO sqlalchemy.engine.Engine [cached since 564s ago] ()
+2026-01-20 08:24:49,798 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,798 INFO sqlalchemy.engine.Engine [cached since 564s ago] (1000, 0)
+2026-01-20 08:24:49,799 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,799 INFO sqlalchemy.engine.Engine [cached since 564s ago] (20, 0)
+2026-01-20 08:24:49,799 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:24:49,799 INFO sqlalchemy.engine.Engine [cached since 564s ago] (20, 0)
+INFO:     127.0.0.1:50166 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:24:49,800 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:11,215 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,218 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:11,218 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:11,219 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,219 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:11,219 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:11,220 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,220 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,220 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (10, 0)
+2026-01-20 08:25:11,222 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:25:11,222 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] ()
+INFO:     127.0.0.1:50174 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:25:11,223 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:11,224 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:25:11,224 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (1,)
+2026-01-20 08:25:11,224 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,225 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:11,225 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:11,225 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,225 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (1000, 0)
+INFO:     127.0.0.1:50176 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:25:11,226 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50174 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:25:11,227 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:11,227 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,227 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,227 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (10, 0)
+2026-01-20 08:25:11,228 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,228 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (20, 0)
+2026-01-20 08:25:11,229 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,229 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (20, 0)
+2026-01-20 08:25:11,229 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:25:11,229 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (1,)
+INFO:     127.0.0.1:50175 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:25:11,230 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50176 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:25:11,231 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:11,232 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:11,232 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:11,232 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:11,232 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:25:11,232 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] ()
+2026-01-20 08:25:11,233 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,233 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (1000, 0)
+2026-01-20 08:25:11,233 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,233 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (20, 0)
+2026-01-20 08:25:11,233 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:11,234 INFO sqlalchemy.engine.Engine [cached since 585.4s ago] (20, 0)
+INFO:     127.0.0.1:50175 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:25:11,234 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:13,159 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,160 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:13,160 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:13,160 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,161 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:13,161 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:13,161 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,161 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,161 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (10, 0)
+INFO:     127.0.0.1:50175 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:25:13,162 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:25:13,163 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] ()
+2026-01-20 08:25:13,163 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:13,163 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,163 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:13,163 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:13,164 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:25:13,164 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (1,)
+INFO:     127.0.0.1:50174 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50175 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:25:13,166 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:13,166 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:13,166 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,166 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (1000, 0)
+2026-01-20 08:25:13,167 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,167 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,167 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (10, 0)
+2026-01-20 08:25:13,167 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,168 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (20, 0)
+2026-01-20 08:25:13,168 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:25:13,168 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] (1,)
+2026-01-20 08:25:13,168 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,168 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (20, 0)
+INFO:     127.0.0.1:50174 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:25:13,169 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50176 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:25:13,170 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:25:13,171 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:25:13,171 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:25:13,171 INFO sqlalchemy.engine.Engine [cached since 2.171e+04s ago] ('admin',)
+2026-01-20 08:25:13,171 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:25:13,171 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] ()
+2026-01-20 08:25:13,172 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,172 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (1000, 0)
+2026-01-20 08:25:13,173 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,173 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (20, 0)
+2026-01-20 08:25:13,173 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:25:13,173 INFO sqlalchemy.engine.Engine [cached since 587.4s ago] (20, 0)
+INFO:     127.0.0.1:50176 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:25:13,174 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50288 - "OPTIONS /api/v1/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50289 - "OPTIONS /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50290 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50291 - "OPTIONS /api/v1/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50292 - "OPTIONS /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50293 - "OPTIONS /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:37:15,251 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,252 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:37:15,252 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] ('admin',)
+2026-01-20 08:37:15,253 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,253 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:37:15,253 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] ('admin',)
+2026-01-20 08:37:15,254 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,255 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,255 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] (10, 0)
+2026-01-20 08:37:15,264 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:37:15,264 INFO sqlalchemy.engine.Engine [cached since 1309s ago] ()
+INFO:     127.0.0.1:50288 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:37:15,265 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:37:15,265 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] (1,)
+2026-01-20 08:37:15,265 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:37:15,266 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,266 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:37:15,266 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] ('admin',)
+2026-01-20 08:37:15,267 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,267 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (1000, 0)
+INFO:     127.0.0.1:50290 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:37:15,268 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50288 - "GET /api/v1/auth/me HTTP/1.1" 200 OK
+2026-01-20 08:37:15,271 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:37:15,272 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,272 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,272 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] (10, 0)
+2026-01-20 08:37:15,273 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,273 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (20, 0)
+2026-01-20 08:37:15,274 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 08:37:15,274 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] (1,)
+2026-01-20 08:37:15,275 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,275 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (20, 0)
+INFO:     127.0.0.1:50290 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 08:37:15,275 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50289 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:37:15,276 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 08:37:15,277 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 08:37:15,277 INFO sqlalchemy.engine.Engine SELECT admin_users.id, admin_users.username, admin_users.hashed_password, admin_users.role 
+FROM admin_users 
+WHERE admin_users.username = ?
+2026-01-20 08:37:15,277 INFO sqlalchemy.engine.Engine [cached since 2.244e+04s ago] ('admin',)
+2026-01-20 08:37:15,277 INFO sqlalchemy.engine.Engine SELECT sum(daily_stats.app_opens) AS sum_1, sum(daily_stats.unique_users) AS sum_2, sum(daily_stats.total_plays) AS sum_3 
+FROM daily_stats
+2026-01-20 08:37:15,278 INFO sqlalchemy.engine.Engine [cached since 1309s ago] ()
+2026-01-20 08:37:15,278 INFO sqlalchemy.engine.Engine SELECT daily_stats.date, daily_stats.app_opens, daily_stats.unique_users, daily_stats.total_plays 
+FROM daily_stats ORDER BY daily_stats.date DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,278 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (1000, 0)
+2026-01-20 08:37:15,278 INFO sqlalchemy.engine.Engine SELECT daily_station_stats.station_id, max(daily_station_stats.station_name) AS name, sum(daily_station_stats.play_count) AS total_plays 
+FROM daily_station_stats GROUP BY daily_station_stats.station_id ORDER BY total_plays DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,278 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (20, 0)
+2026-01-20 08:37:15,279 INFO sqlalchemy.engine.Engine SELECT daily_country_stats.country_code, sum(daily_country_stats.open_count) AS total_opens 
+FROM daily_country_stats GROUP BY daily_country_stats.country_code ORDER BY total_opens DESC
+ LIMIT ? OFFSET ?
+2026-01-20 08:37:15,279 INFO sqlalchemy.engine.Engine [cached since 1309s ago] (20, 0)
+INFO:     127.0.0.1:50289 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 200 OK
+2026-01-20 08:37:15,279 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 09:18:30,569 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 09:18:30,572 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 09:18:30,572 INFO sqlalchemy.engine.Engine [cached since 2.271e+04s ago] (10, 0)
+INFO:     127.0.0.1:50447 - "GET /api/v1/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50448 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50447 - "GET /api/v1/auth/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:50448 - "GET /api/v1/admin/overview?range=all HTTP/1.1" 401 Unauthorized
+2026-01-20 09:18:30,586 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 09:18:30,586 INFO sqlalchemy.engine.Engine [cached since 2.271e+04s ago] (1,)
+INFO:     127.0.0.1:50449 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 09:18:30,596 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-20 09:18:30,597 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-20 09:18:30,597 INFO sqlalchemy.engine.Engine SELECT blog_posts.id, blog_posts.title, blog_posts.slug, blog_posts.content, blog_posts.image_url, blog_posts.image_source, blog_posts.image_link, blog_posts.seo_title, blog_posts.meta_description, blog_posts.author_id, blog_posts.is_published, blog_posts.created_at, blog_posts.updated_at 
+FROM blog_posts ORDER BY blog_posts.created_at DESC
+ LIMIT ? OFFSET ?
+2026-01-20 09:18:30,597 INFO sqlalchemy.engine.Engine [cached since 2.271e+04s ago] (10, 0)
+2026-01-20 09:18:30,598 INFO sqlalchemy.engine.Engine SELECT admin_users.id AS admin_users_id, admin_users.username AS admin_users_username, admin_users.hashed_password AS admin_users_hashed_password, admin_users.role AS admin_users_role 
+FROM admin_users 
+WHERE admin_users.id IN (?)
+2026-01-20 09:18:30,598 INFO sqlalchemy.engine.Engine [cached since 2.271e+04s ago] (1,)
+INFO:     127.0.0.1:50448 - "GET /api/v1/blog/?published_only=false HTTP/1.1" 200 OK
+2026-01-20 09:18:30,599 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:51450 - "GET /api/search?q=mortality HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51551 - "GET /api/search?q=mortality HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51617 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51674 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51830 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52181 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52421 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:52421 - "GET /api/search?q=weather HTTP/1.1" 404 Not Found

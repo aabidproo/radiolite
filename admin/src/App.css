@@ -40,3 +40,69 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Dark Theme Overrides for Quill Editor */
+.ql-toolbar.ql-snow {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border-color: var(--border) !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: none !important;
+}
+
+.ql-container.ql-snow {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border-color: var(--border) !important;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  color: var(--text-primary) !important;
+  font-family: inherit !important;
+  font-size: 0.95rem !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: var(--text-muted) !important;
+  font-style: normal !important;
+}
+
+/* Toolbar Icons */
+.ql-snow .ql-stroke {
+  stroke: var(--text-primary) !important;
+}
+
+.ql-snow .ql-fill {
+  fill: var(--text-primary) !important;
+}
+
+.ql-snow .ql-picker {
+  color: var(--text-primary) !important;
+}
+
+/* Hover States */
+.ql-snow .ql-picker-options {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.ql-snow .ql-picker-item:hover {
+  color: var(--accent) !important;
+}
+
+button:hover .ql-stroke,
+.ql-picker-label:hover .ql-stroke {
+  stroke: var(--accent) !important;
+}
+
+button:hover .ql-fill,
+.ql-picker-label:hover .ql-fill {
+  fill: var(--accent) !important;
+}
+
+button.ql-active .ql-stroke {
+  stroke: var(--accent) !important;
+}
+
+button.ql-active .ql-fill {
+  fill: var(--accent) !important;
+}
+
