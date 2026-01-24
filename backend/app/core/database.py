@@ -39,7 +39,7 @@ from app.models.base import Base
 try:
     from app.models.admin_user import AdminUser, UserRole
     from app.models.blog import BlogPost
-    from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats
+    from app.models.analytics import DailyStats, DailyStationStats, DailyCountryStats, UserActivity
     from app.core.security import get_password_hash
 except ImportError as e:
     logger.error(f"Failed to import models: {e}")

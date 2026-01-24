@@ -108,9 +108,12 @@ export function useLocation() {
 
     setLoading(true);
     try {
+      console.log(`Fetching near me stations for country: ${countryCode}...`);
       // Use countrycode (2-letter code) instead of full country name for much better reliability
       const url = `/stations/search?countrycode=${encodeURIComponent(countryCode)}&limit=100&offset=${currentOffset}&hidebroken=true&order=clickcount&reverse=true`;
       const data = await apiFetch<Station[]>(url);
+      
+      console.log(`Fetch success: Found ${data.length} stations for ${countryCode}`);
       
       if (shouldAppend) {
         setNearMeStations(prev => [...prev, ...data]);
@@ -120,11 +123,12 @@ export function useLocation() {
       }
       return data;
     } catch (err) {
-      console.error("Failed to fetch near me stations", err);
+      console.error("Failed to fetch near me stations:", err);
       // Don't re-throw to avoid breaking the UI/effect
       return [];
     } finally {
       setLoading(false);
+      console.log("Fetch Near Me stations finished (loading set to false).");
     }
   }, []);
 
