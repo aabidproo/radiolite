@@ -1,14 +1,5 @@
-// Detect if running inside a Tauri desktop app
-const isTauri = typeof (window as any).__TAURI_INTERNALS__ !== 'undefined';
-
 // Standardize BASE_URL to ensure it includes /api/v1 and handles trailing slashes
 let API_URL = import.meta.env.VITE_API_URL || 'https://radiolite.vercel.app/api/v1';
-
-if (isTauri) {
-  // Always use the local sidecar backend when running as a desktop app
-  API_URL = 'http://localhost:8000/api/v1';
-}
-
 if (API_URL.endsWith('/')) API_URL = API_URL.slice(0, -1);
 if (!API_URL.includes('/api/v1') && !API_URL.includes('localhost')) {
   API_URL += '/api/v1';
