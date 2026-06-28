@@ -16,8 +16,13 @@ mapper = RadioBrowserMapper(normalizer=normalizer)
 radio_repo = RadioBrowserAdapter(mapper=mapper)
 
 # Cache directory configuration
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-cache_dir = os.path.join(project_root, ".cache")
+# Vercel environment is read-only, so we must store cache files in /tmp
+if os.environ.get("VERCEL") == "1":
+    cache_dir = "/tmp/radiolite_cache"
+else:
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    cache_dir = os.path.join(project_root, ".cache")
+
 cache_repo = DiskCacheAdapter(cache_dir=cache_dir)
 
 # 3. Application Layer (Services)
