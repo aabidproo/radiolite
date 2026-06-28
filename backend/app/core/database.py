@@ -8,6 +8,8 @@ from sqlalchemy import text, select
 logger = logging.getLogger(__name__)
 
 database_url = settings.DATABASE_URL
+connect_args = {}
+
 if database_url:
     # Ensure we use asyncpg driver for postgresql
     if database_url.startswith("postgres://"):
@@ -15,11 +17,24 @@ if database_url:
     elif database_url.startswith("postgresql://"):
         database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
+    if "postgresql+asyncpg" in database_url:
+        connect_args = {"server_settings": {"search_path": "public"}}
+        if "sslmode=" in database_url:
+            import urllib.parse as urlparse
+            parsed = urlparse.urlparse(database_url)
+            query = urlparse.parse_qs(parsed.query)
+            sslmode = query.pop("sslmode", [None])[0]
+            
+            # Rebuild URL without sslmode query parameter
+            new_query = urlparse.urlencode(query, doseq=True)
+            parsed = parsed._replace(query=new_query)
+            database_url = urlparse.urlunparse(parsed)
+            
+            if sslmode in ("require", "verify-ca", "verify-full", "prefer"):
+                connect_args["ssl"] = True
+
 logger.info(f"Connecting to database: {database_url.split('@')[-1] if '@' in database_url else 'SQLite'}")
 # Create engine with conditional connect_args
-connect_args = {}
-if "postgresql" in database_url:
-    connect_args = {"server_settings": {"search_path": "public"}}
 
 engine = create_async_engine(
     database_url, 

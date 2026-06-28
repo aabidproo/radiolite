@@ -1,169 +1,232 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiolite | Best Free Internet Radio App for Mac &amp; Windows 2026</title>
+    <meta name="description" content="Download Radiolite, the #1 free desktop internet radio app for 2026. Stream 49,000+ stations ad-free for Mac &amp; Windows. Perfect for Holy Quran, BBC, and local FM stations.">
+    <meta name="keywords" content="internet radio software, free radio app, uk radio stations, bbc radio live, desktop radio player, arabic radio, quran radio, no ads radio, windows 11 radio app, mac menu bar radio, best radio app germany, écouter radio france mac, radio player for developers">
+    <meta name="author" content="Radiolite">
 
-{% block content %}
-<main class="hero-section">
-    <div class="hero-image-container">
-        <img src="{{ url_for('static', path='assets/Product.png') }}" alt="Radiolite App Interface" class="product-image">
-    </div>
+    <!-- Open Graph -->
+    <meta property="og:title" content="Radiolite | Minimalist Desktop Radio for 2026">
+    <meta property="og:description" content="Stream 49,000+ radio stations from around the world. Free, no ads, just music &amp; news. Available for Mac and Windows.">
+    <meta property="og:image" content="/assets/logo.png">
+    <meta property="og:type" content="website">
 
-    <div class="hero-content fade-in">
-        <h1 class="hero-title">
-            Radio<span class="text-thin">Lite</span><span class="text-accent logo-dot">.</span>
-        </h1>
-        
-        <p class="hero-tagline">
-            Listen to the world, <span class="text-accent">effortlessly.</span>
-        </p>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.png">
 
-        <p class="hero-description">
-            The #1 Free Radio Menu Bar App for desktop. Stream over <span style="color: #ffffff; font-weight: 600;">49,000</span> radio stations globally with a single click. No ads, no bloat.
-        </p>
-
-        <div class="hero-actions">
-            <div class="dropdown" id="mac-dropdown">
-                <button class="btn btn-primary-white" id="mac-btn">
-                    <span class="btn-icon"></span> Download for Mac 
-                    <span class="arrow">▾</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item"><strong>Apple Silicon</strong><span>For M1, M2, M3 Chips</span></a>
-                    <a href="#" class="dropdown-item"><strong>Intel Chip</strong><span>For older Macs</span></a>
-                </div>
-            </div>
-
-            <div class="btn-windows-container">
-                <a href="#" class="btn btn-secondary-outline" id="win-btn">
-                    <span class="btn-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: -2px;">
-                            <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
-                        </svg>
-                    </span> Windows Version
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W1R0SXJ5R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W1R0SXJ5R1');
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="/assets/logo.png" alt="Radiolite" class="nav-logo">
+                    <span class="brand-name">Radio<span class="text-thin">Lite</span></span>
                 </a>
             </div>
+            <div class="hamburger" id="hamburger-btn">
+                <span></span><span></span><span></span>
+            </div>
+            <nav class="nav-links" id="nav-links">
+                <a href="/#features" class="help-link">Features</a>
+                <a href="/blog.html" class="help-link">Blog</a>
+                <a href="#help-modal" class="help-link" id="help-btn"><span class="help-icon">?</span> Help</a>
+                <a href="#contact-modal" class="help-link" id="contact-btn"><span class="help-icon">i</span> About</a>
+            </nav>
         </div>
-    </div>
-</main>
+    </header>
 
-<!-- Alternating Feature Sections -->
-<section id="features" class="feature-expand">
-    <div class="container">
-        <!-- Feature 1: Search -->
-        <div class="feature-row">
-            <div class="feature-info">
-                <div class="feature-tag">Instant</div>
-                <h2>Search 49,000+ Stations</h2>
-                <p>Find any radio station in the world in milliseconds. Our lightning-fast search indexing ensures you spend less time looking and more time listening.</p>
-                <ul class="feature-list">
-                    <li>Deep name & country indexing</li>
-                    <li>Live search results as you type</li>
-                    <li>Fuzzy matching for typos</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <img src="/static/assets/search.png" alt="Radiolite Search UI" class="product-screenshot">
-            </div>
+    <main class="hero-section">
+        <div class="hero-image-container">
+            <img src="/assets/Product.png" alt="Radiolite App Interface" class="product-image">
         </div>
-
-        <!-- Feature 2: Explore -->
-        <div class="feature-row reverse">
-            <div class="feature-info">
-                <div class="feature-tag">Curation</div>
-                <h2>Explore the World of Radio</h2>
-                <p>Discover hand-picked selections and top-rated stations from every corner of the globe, including exclusive European and MENA radio networks.</p>
-                <ul class="feature-list">
-                    <li>Curated "Top Mixes" for every genre</li>
-                    <li>Global Trending stations</li>
-                    <li>Browse by Category and Location</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <img src="/static/assets/explore.png" alt="Radiolite Explore UI" class="product-screenshot">
-            </div>
-        </div>
-
-        <!-- Feature 3: Near Me -->
-        <div class="feature-row">
-            <div class="feature-info">
-                <div class="feature-tag">Local</div>
-                <h2>Stations Near You</h2>
-                <p>Radiolite automatically detects your location to bring you the best local stations. Stay connected to your community with just one tap.</p>
-                <ul class="feature-list">
-                    <li>Automatic location detection</li>
-                    <li>Local FM & Digital stations</li>
-                    <li>Zero-config regional defaults</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <img src="/static/assets/near me.png" alt="Radiolite Near Me UI" class="product-screenshot">
-            </div>
-        </div>
-
-        <!-- Feature 4: Favorites -->
-        <div class="feature-row reverse">
-            <div class="feature-info">
-                <div class="feature-tag">Personal</div>
-                <h2>Your Personal Collection</h2>
-                <p>Build your own library of favorite stations. Radiolite syncs your preferences so your music is always ready, regardless of the platform.</p>
-                <ul class="feature-list">
-                    <li>One-tap favorite marking</li>
-                    <li>Most-played automatic list</li>
-                    <li>Quick-access sidebar integration</li>
-                </ul>
-            </div>
-            <div class="feature-visual">
-                <img src="/static/assets/favorite.png" alt="Radiolite Favorites UI" class="product-screenshot">
-            </div>
-        </div>
-    </div>
-</section>
-
-{% if posts %}
-<section id="blog" class="page-section bg-darker">
-    <div class="container">
-        <div class="flex-between">
-            <h2 class="section-title-big">Latest from the Blog</h2>
-            <a href="/blog" class="view-all">View All Articles &rarr;</a>
-        </div>
-        <div class="blog-grid blog-columns-3">
-            {% for post in posts %}
-            <article class="blog-card">
-                {% if post.image_url %}
-                <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-preview-img">
-                {% endif %}
-                <div class="blog-card-content">
-                    <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
-                    <p class="blog-excerpt">{{ post.meta_description or post.content[:150] }}</p>
-                    <span class="blog-date">{{ post.created_at.strftime('%B %d, %Y') }}</span>
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">
+                Radio<span class="text-thin">Lite</span><span class="text-accent logo-dot">.</span>
+            </h1>
+            <p class="hero-tagline">
+                Listen to the world, <span class="text-accent">effortlessly.</span>
+            </p>
+            <p class="hero-description">
+                The #1 Free Radio Menu Bar App for desktop. Stream over <span style="color:#ffffff;font-weight:600;">49,000</span> radio stations globally with a single click. No ads, no bloat.
+            </p>
+            <div class="hero-actions">
+                <div class="dropdown" id="mac-dropdown">
+                    <button class="btn btn-primary-white" id="mac-btn">
+                        <span class="btn-icon"></span> Download for Mac
+                        <span class="arrow">▾</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item"><strong>Apple Silicon</strong><span>For M1, M2, M3 Chips</span></a>
+                        <a href="#" class="dropdown-item"><strong>Intel Chip</strong><span>For older Macs</span></a>
+                    </div>
                 </div>
-            </article>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<section id="faq" class="page-section">
-    <div class="container">
-        <h2 class="section-title-big">Questions? Handled.</h2>
-        <div class="faq-grid">
-            <div class="faq-item-static">
-                <h3>Is Radiolite really free?</h3>
-                <p>Yes, Radiolite is 100% free and open-source. There are no hidden fees, subscriptions, or intrusive advertisements in the app.</p>
-            </div>
-            <div class="faq-item-static">
-                <h3>How do I fix the "unverified developer" warning on Mac?</h3>
-                <p>On macOS, simply right-click the app in your Applications folder and select "Open". This is a one-time requirement for apps not downloaded from the App Store. Alternatively, you can use the terminal command found in the Help section.</p>
-            </div>
-            <div class="faq-item-static">
-                <h3>Can I listen to Arabic radio stations?</h3>
-                <p>Absolutely! Radiolite features one of the most comprehensive lists of Arabic and MENA radio stations, including Holy Quran Radio, Al Jazeera, and local FM stations from Egypt, UAE, and Saudi Arabia.</p>
-            </div>
-            <div class="faq-item-static">
-                <h3>Does it support keyboard shortcuts?</h3>
-                <p>Yes, you can control playback and volume using global media keys or custom shortcuts defined within the app settings. This allows you to stay focused on your work while managing your radio.</p>
+                <div class="btn-windows-container">
+                    <a href="#" class="btn btn-secondary-outline" id="win-btn">
+                        <span class="btn-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom:-2px;">
+                                <path d="M0 3.449L9.75 2.1L9.75 11.25L0 11.25zM0 12.75L9.75 12.75L9.75 21.9L0 20.5501zM11.25 1.899L24 0L24 11.25L11.25 11.25zM11.25 12.75L24 12.75L24 24L11.25 22.101z"/>
+                            </svg>
+                        </span> Windows Version
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </main>
 
-{% endblock %}
+    <!-- Features -->
+    <section id="features" class="feature-expand">
+        <div class="container">
+            <div class="feature-row">
+                <div class="feature-info">
+                    <div class="feature-tag">Instant</div>
+                    <h2>Search 49,000+ Stations</h2>
+                    <p>Find any radio station in the world in milliseconds. Our lightning-fast search indexing ensures you spend less time looking and more time listening.</p>
+                    <ul class="feature-list">
+                        <li>Deep name &amp; country indexing</li>
+                        <li>Live search results as you type</li>
+                        <li>Fuzzy matching for typos</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <img src="/assets/search.png" alt="Radiolite Search UI" class="product-screenshot">
+                </div>
+            </div>
+            <div class="feature-row reverse">
+                <div class="feature-info">
+                    <div class="feature-tag">Curation</div>
+                    <h2>Explore the World of Radio</h2>
+                    <p>Discover hand-picked selections and top-rated stations from every corner of the globe, including exclusive European and MENA radio networks.</p>
+                    <ul class="feature-list">
+                        <li>Curated "Top Mixes" for every genre</li>
+                        <li>Global Trending stations</li>
+                        <li>Browse by Category and Location</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <img src="/assets/explore.png" alt="Radiolite Explore UI" class="product-screenshot">
+                </div>
+            </div>
+            <div class="feature-row">
+                <div class="feature-info">
+                    <div class="feature-tag">Local</div>
+                    <h2>Stations Near You</h2>
+                    <p>Radiolite automatically detects your location to bring you the best local stations. Stay connected to your community with just one tap.</p>
+                    <ul class="feature-list">
+                        <li>Automatic location detection</li>
+                        <li>Local FM &amp; Digital stations</li>
+                        <li>Zero-config regional defaults</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <img src="/assets/near me.png" alt="Radiolite Near Me UI" class="product-screenshot">
+                </div>
+            </div>
+            <div class="feature-row reverse">
+                <div class="feature-info">
+                    <div class="feature-tag">Personal</div>
+                    <h2>Your Personal Collection</h2>
+                    <p>Build your own library of favorite stations. Radiolite syncs your preferences so your music is always ready, regardless of the platform.</p>
+                    <ul class="feature-list">
+                        <li>One-tap favorite marking</li>
+                        <li>Most-played automatic list</li>
+                        <li>Quick-access sidebar integration</li>
+                    </ul>
+                </div>
+                <div class="feature-visual">
+                    <img src="/assets/favorite.png" alt="Radiolite Favorites UI" class="product-screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog section — dynamically loaded from API -->
+    <section id="blog" class="page-section bg-darker" style="display:none;">
+        <div class="container">
+            <div class="flex-between">
+                <h2 class="section-title-big">Latest from the Blog</h2>
+                <a href="/blog.html" class="view-all">View All Articles &rarr;</a>
+            </div>
+            <div class="blog-grid blog-columns-3" id="home-blog-grid"></div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="page-section">
+        <div class="container">
+            <h2 class="section-title-big">Questions? Handled.</h2>
+            <div class="faq-grid">
+                <div class="faq-item-static">
+                    <h3>Is Radiolite really free?</h3>
+                    <p>Yes, Radiolite is 100% free and open-source. There are no hidden fees, subscriptions, or intrusive advertisements in the app.</p>
+                </div>
+                <div class="faq-item-static">
+                    <h3>How do I fix the "unverified developer" warning on Mac?</h3>
+                    <p>On macOS, simply right-click the app in your Applications folder and select "Open". This is a one-time requirement for apps not downloaded from the App Store.</p>
+                </div>
+                <div class="faq-item-static">
+                    <h3>Can I listen to Arabic radio stations?</h3>
+                    <p>Absolutely! Radiolite features one of the most comprehensive lists of Arabic and MENA radio stations, including Holy Quran Radio, Al Jazeera, and local FM stations from Egypt, UAE, and Saudi Arabia.</p>
+                </div>
+                <div class="faq-item-static">
+                    <h3>Does it support keyboard shortcuts?</h3>
+                    <p>Yes, you can control playback and volume using global media keys or custom shortcuts defined within the app settings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="footer-text">
+                &copy; 2026 Radiolite. Minimalist radio for focused individuals.
+                <span class="footer-divider">|</span>
+                Powered by <a href="http://www.radio-browser.info/" target="_blank">Community Radio Browser</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="help-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2>Help &amp; Support</h2>
+            <div class="help-section">
+                <p>If you see a security warning on Mac, <strong>right-click</strong> the app in Applications and select <strong>Open</strong>.</p>
+                <div class="command-box">
+                    <code id="cmd-text">sudo xattr -rd com.apple.quarantine /Applications/Radiolite.app</code>
+                    <button class="copy-btn" id="copy-btn">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contact-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-contact-modal">&times;</button>
+            <h2>About Radiolite</h2>
+            <div class="help-section">
+                <p>Radiolite is a minimalist radio player designed for focused work and seamless listening.</p>
+                <p>Version: 1.1.27</p>
+                <p>Support: <a href="mailto:support@radiolite.app" style="color:var(--accent);">support@radiolite.app</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -1,12 +1,35 @@
+# Virtual environments
 .venv*
 venv/
+
+# Dependency directories
 node_modules/
+**/node_modules/
+
+# Build and dist files
 dist/
+**/dist/
 target/
+**/target/
 build_log.txt
 .DS_Store
+
+# Python cache
 *.pyc
 __pycache__/
-frontend/src-tauri/target/
-frontend/dist/
-frontend/node_modules/
+**/__pycache__/
+
+# Environment configurations (credentials!)
+.env
+.env.*
+*.env
+**/.env
+**/*.env
+
+# Databases & Caches
+*.db
+*.db-*
+**/*.db
+**/*.db-*
+backend/radiolite.db
+backend/.cache/

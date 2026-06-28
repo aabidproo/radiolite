@@ -1,0 +1,11 @@
+# Exclude dependencies and build outputs to speed up docker context transfer
+**/node_modules
+**/target
+**/dist
+.git
+.venv
+venv
+*.db
+*.log
+backend/radiolite.db
+frontend/src-tauri/target

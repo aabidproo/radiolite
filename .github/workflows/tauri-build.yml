@@ -17,7 +17,7 @@ jobs:
           - platform: "macos-14"
             target: "aarch64-apple-darwin"
             args: "--target aarch64-apple-darwin"
-          - platform: "macos-15-intel"
+          - platform: "macos-latest"
             target: "x86_64-apple-darwin"
             args: "--target x86_64-apple-darwin"
           - platform: "windows-latest"
@@ -28,8 +28,6 @@ jobs:
     env:
       TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
       TAURI_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
-      TAURI_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-      TAURI_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
 
@@ -88,6 +86,11 @@ jobs:
             });
           "
 
+      # tauri-action builds, signs (using TAURI_SIGNING_PRIVATE_KEY), and publishes the release.
+      # It automatically uploads:
+      #   - .dmg / .exe / .msi / .AppImage installer binaries
+      #   - .sig signature files for each binary (required for Tauri's auto-updater)
+      #   - latest.json update manifest (used by our backend /releases/latest endpoint)
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -100,3 +103,5 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           projectPath: frontend
+          # This tells tauri-action to include the update manifest (latest.json) in the release
+          includeUpdaterJson: true

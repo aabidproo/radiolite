@@ -5,5 +5,26 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - ./landing:/landing
     environment:
       - ENV=dev
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "1420:1420"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  admin:
+    build: ./admin
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./admin:/app
+      - /app/node_modules
+    depends_on:
+      - backend

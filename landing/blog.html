@@ -1,47 +1,106 @@
-{% extends "base.html" %}
-
-{% block title %}Blog | Radiolite - Insights & Updates{% endblock %}
-
-{% block content %}
-<section class="page-section" style="padding-top: 140px;">
-    <div class="container">
-        <div class="flex-between" style="margin-bottom: 60px;">
-            <h1 class="section-title-big" style="margin-bottom: 0; text-align: left;">Our Blog</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Radiolite - Insights &amp; Updates</title>
+    <meta name="description" content="Read the latest articles, tips, and updates from Radiolite — the free desktop radio app for Mac and Windows.">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W1R0SXJ5R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W1R0SXJ5R1');
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+                    <img src="/assets/logo.png" alt="Radiolite" class="nav-logo">
+                    <span class="brand-name">Radio<span class="text-thin">Lite</span></span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+            <nav class="nav-links" id="nav-links">
+                <a href="/#features" class="help-link">Features</a>
+                <a href="/blog.html" class="help-link">Blog</a>
+                <a href="/#help-modal" class="help-link"><span class="help-icon">?</span> Help</a>
+                <a href="/#contact-modal" class="help-link"><span class="help-icon">i</span> About</a>
+            </nav>
         </div>
-        
-        <div class="blog-grid blog-columns-3">
-            {% for post in posts %}
-            <article class="blog-card">
-                {% if post.image_url %}
-                <img src="{{ post.image_url }}" alt="{{ post.title }}" class="blog-preview-img">
-                {% endif %}
-                <div class="blog-card-content">
-                    <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
-                    <p class="blog-excerpt">{{ post.meta_description or post.content[:150] }}</p>
-                    <span class="blog-date">{{ post.created_at.strftime('%B %d, %Y') }}</span>
+    </header>
+
+    <section class="page-section" style="padding-top:140px;">
+        <div class="container">
+            <div class="flex-between" style="margin-bottom:60px;">
+                <h1 class="section-title-big" style="margin-bottom:0;text-align:left;">Our Blog</h1>
+            </div>
+            <!-- Posts loaded by JS -->
+            <div class="blog-grid blog-columns-3" id="blog-grid">
+                <div style="text-align:center;padding:60px 0;width:100%;">
+                    <p style="color:var(--text-muted);font-size:1rem;">Loading articles...</p>
                 </div>
-            </article>
-            {% endfor %}
-        </div>
-        
-        {% if not posts %}
-        <div style="text-align: center; padding: 100px 0;">
-            <p style="color: var(--text-muted); font-size: 1.2rem;">No articles found. Check back soon!</p>
-            <a href="/" class="btn btn-secondary-outline" style="margin-top: 20px;">Back to Home</a>
-        </div>
-        {% endif %}
-    </div>
-</section>
-
-<section class="page-section bg-darker">
-    <div class="container">
-        <div class="cta-card" style="text-align: center;">
-            <h3>Ready to listen?</h3>
-            <p>Download Radiolite for free and stream 49,000+ stations from your desktop.</p>
-            <div class="cta-actions" style="justify-content: center; margin-top: 32px;">
-                <a href="/" class="btn btn-primary-white">Get Radiolite Free</a>
             </div>
         </div>
-    </div>
-</section>
-{% endblock %}
+    </section>
+
+    <section class="page-section bg-darker">
+        <div class="container">
+            <div class="cta-card" style="text-align:center;">
+                <h3>Ready to listen?</h3>
+                <p>Download Radiolite for free and stream 49,000+ stations from your desktop.</p>
+                <div class="cta-actions" style="justify-content:center;margin-top:32px;">
+                    <a href="/" class="btn btn-primary-white">Get Radiolite Free</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="footer-text">
+                &copy; 2026 Radiolite.
+                <span class="footer-divider">|</span>
+                Powered by <a href="http://www.radio-browser.info/" target="_blank">Community Radio Browser</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script>
+        // Load blog posts from API
+        const BACKEND_URL = 'https://radiolite-backend.vercel.app/api/v1';
+        async function loadBlogPosts() {
+            const grid = document.getElementById('blog-grid');
+            try {
+                const res = await fetch(`${BACKEND_URL}/blog`);
+                const posts = await res.json();
+                if (!posts || posts.length === 0) {
+                    grid.innerHTML = '<div style="text-align:center;padding:100px 0;width:100%;"><p style="color:var(--text-muted);font-size:1.2rem;">No articles found. Check back soon!</p><a href="/" class="btn btn-secondary-outline" style="margin-top:20px;">Back to Home</a></div>';
+                    return;
+                }
+                grid.innerHTML = posts.map(post => `
+                    <article class="blog-card">
+                        ${post.image_url ? `<img src="${post.image_url}" alt="${post.title}" class="blog-preview-img">` : ''}
+                        <div class="blog-card-content">
+                            <h3><a href="/post.html?slug=${post.slug}">${post.title}</a></h3>
+                            <p class="blog-excerpt">${post.meta_description || post.content?.slice(0,150) || ''}</p>
+                            <span class="blog-date">${new Date(post.created_at).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'})}</span>
+                        </div>
+                    </article>
+                `).join('');
+            } catch (err) {
+                grid.innerHTML = '<div style="text-align:center;padding:60px 0;width:100%;"><p style="color:var(--text-muted);">Could not load articles. Please try again later.</p></div>';
+            }
+        }
+        loadBlogPosts();
+    </script>
+</body>
+</html>

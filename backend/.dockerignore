@@ -1,0 +1,7 @@
+.venv
+venv
+radiolite.db
+*.pyc
+__pycache__
+dist
+build

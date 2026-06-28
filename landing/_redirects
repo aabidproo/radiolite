@@ -1,0 +1,7 @@
+# Cloudflare Pages redirect rules
+
+# Old /blog/:slug SSR routes → new static post.html?slug=:slug
+/blog/:slug  /post.html?slug=:slug  301
+
+# /blog → blog.html
+/blog        /blog.html             301

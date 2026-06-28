@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         macBtn.className = 'btn btn-secondary-outline dropdown-toggle';
     }
 
-    // --- Dynamic GitHub Release Fetching ---
-    // Update this to your production backend URL (e.g., "https://radiolite-api.onrender.com/api/v1")
-    const BACKEND_URL = "/api/v1"; 
+    // --- Backend URL (Vercel) ---
+    const BACKEND_URL = 'https://radiolite-backend.vercel.app/api/v1';
 
     async function updateDownloadLinks() {
         if (!BACKEND_URL || BACKEND_URL.includes("PLACEHOLDER")) return;
@@ -197,4 +196,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // FAQ Accordion logic removed as it's now a static grid
+
+    // --- Home page: load latest blog posts ---
+    const blogSection = document.getElementById('blog');
+    const blogGrid = document.getElementById('home-blog-grid');
+    if (blogGrid) {
+        fetch(`${BACKEND_URL}/blog?limit=3`)
+            .then(r => r.json())
+            .then(posts => {
+                if (!posts || posts.length === 0) return;
+                blogSection.style.display = '';
+                blogGrid.innerHTML = posts.slice(0, 3).map(post => `
+                    <article class="blog-card">
+                        ${post.image_url ? `<img src="${post.image_url}" alt="${post.title}" class="blog-preview-img">` : ''}
+                        <div class="blog-card-content">
+                            <h3><a href="/post.html?slug=${post.slug}">${post.title}</a></h3>
+                            <p class="blog-excerpt">${post.meta_description || (post.content || '').slice(0, 150)}</p>
+                            <span class="blog-date">${new Date(post.created_at).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'})}</span>
+                        </div>
+                    </article>
+                `).join('');
+            })
+            .catch(() => {}); // Silent fail — blog is optional
+    }
 });

@@ -1,130 +1,145 @@
-{% extends "base.html" %}
-
-{% block title %}{{ title }} | Radiolite Blog{% endblock %}
-{% block meta_description %}{{ description }}{% endblock %}
-
-{% block content %}
-<article class="post-page container">
-    <div class="post-header">
-        <a href="/" class="back-link">&larr; Back to Radiolite</a>
-        <h1 class="post-page-title">{{ post.title }}</h1>
-        <div class="post-meta-top">
-            <span class="blog-date">Published on {{ post.created_at.strftime('%B %d, %Y') }}</span>
-        </div>
-    </div>
-
-    {% if post.image_url %}
-    <div class="post-featured-image-wrapper">
-        <div class="post-featured-image">
-            {% if post.image_link %}<a href="{{ post.image_link }}" target="_blank">{% endif %}
-            <img src="{{ post.image_url }}" alt="{{ post.title }}">
-            {% if post.image_link %}</a>{% endif %}
-        </div>
-        {% if post.image_source %}
-        <div class="image-source">{{ post.image_source }}</div>
-        {% endif %}
-    </div>
-    {% endif %}
-
-    <div class="post-content markdown-body">
-        {{ post.content | markdown | safe }}
-    </div>
-
-    <div class="post-footer">
-        <div class="cta-card">
-            <h3>Love this station?</h3>
-            <p>Download Radiolite for free and listen to 49,000+ stations from your menu bar.</p>
-            <div class="cta-actions">
-                <a href="/" class="btn btn-primary-white">Get Radiolite Free</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Blog | Radiolite</title>
+    <meta name="description" id="page-description" content="Read this article on the Radiolite blog.">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W1R0SXJ5R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W1R0SXJ5R1');
+    </script>
+    <style>
+        .post-page { padding-top:140px; padding-bottom:100px; max-width:800px; }
+        .back-link { color:var(--accent); text-decoration:none; font-size:.9rem; font-weight:600; margin-bottom:24px; display:inline-block; }
+        .post-page-title { font-size:clamp(2rem,5vw,3.5rem); font-weight:800; letter-spacing:-.04em; line-height:1.1; margin-bottom:24px; }
+        .post-meta-top { margin-bottom:40px; }
+        .post-featured-image { width:100%; max-height:500px; margin-bottom:60px; border-radius:12px; overflow:hidden; border:1px solid var(--border); }
+        .post-featured-image img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s; }
+        .post-featured-image a:hover img { transform:scale(1.02); }
+        .image-source { font-size:.8rem; color:var(--text-muted); margin-top:12px; text-align:center; font-style:italic; opacity:.7; }
+        .post-featured-image-wrapper { margin-bottom:60px; }
+        .post-content { line-height:1.8; color:#e0e0e0; font-size:1.1rem; }
+        .post-content h2 { color:#fff; margin:40px 0 20px; font-size:1.8rem; }
+        .post-content p { margin-bottom:24px; }
+        .post-content ul,.post-content ol { margin-bottom:24px; padding-left:20px; }
+        .post-content li { margin-bottom:12px; }
+        .cta-card { background:#111; border:1px solid var(--accent); padding:40px; border-radius:12px; margin-top:80px; text-align:center; }
+        .cta-card h3 { font-size:1.8rem; margin-bottom:16px; }
+        .cta-card p { color:var(--text-secondary); margin-bottom:24px; }
+        .cta-actions { display:flex; justify-content:center; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-group">
+                <a href="/" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+                    <img src="/assets/logo.png" alt="Radiolite" class="nav-logo">
+                    <span class="brand-name">Radio<span class="text-thin">Lite</span></span>
+                </a>
             </div>
+            <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+            <nav class="nav-links" id="nav-links">
+                <a href="/#features" class="help-link">Features</a>
+                <a href="/blog.html" class="help-link">Blog</a>
+            </nav>
         </div>
-    </div>
-</article>
+    </header>
 
-<style>
-.post-page {
-    padding-top: 140px;
-    padding-bottom: 100px;
-    max-width: 800px;
-}
+    <article class="post-page container" id="post-body">
+        <div style="text-align:center;padding:120px 0;">
+            <p style="color:var(--text-muted);">Loading article...</p>
+        </div>
+    </article>
 
-.back-link {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 24px;
-    display: inline-block;
-}
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="footer-text">&copy; 2026 Radiolite.</p>
+        </div>
+    </footer>
 
-.post-page-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-    margin-bottom: 24px;
-}
+    <script src="/script.js"></script>
+    <script>
+        const BACKEND_URL = 'https://radiolite-backend.vercel.app/api/v1';
 
-.post-meta-top {
-    margin-bottom: 40px;
-}
+        // Simple markdown-to-HTML renderer (no external lib needed)
+        function simpleMarkdown(md) {
+            if (!md) return '';
+            return md
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/`(.+?)`/g, '<code>$1</code>')
+                .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
+                .replace(/^\- (.+)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/^(?!<[hup])/gm, '')
+                .trim();
+        }
 
-.post-featured-image {
-    width: 100%;
-    max-height: 500px; /* Fixed height for consistency */
-    margin-bottom: 60px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-}
+        async function loadPost() {
+            const slug = new URLSearchParams(window.location.search).get('slug');
+            const body = document.getElementById('post-body');
+            if (!slug) {
+                body.innerHTML = '<p style="color:var(--text-muted);padding:120px 0;text-align:center;">No post specified. <a href="/blog.html">Back to blog</a></p>';
+                return;
+            }
+            try {
+                const res = await fetch(`${BACKEND_URL}/blog/${slug}`);
+                if (!res.ok) throw new Error('Not found');
+                const post = await res.json();
 
-.post-featured-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-}
+                // Update page meta
+                document.getElementById('page-title').textContent = `${post.seo_title || post.title} | Radiolite Blog`;
+                document.getElementById('page-description').content = post.meta_description || '';
 
-.post-featured-image a:hover img {
-    transform: scale(1.02);
-}
+                const date = new Date(post.created_at).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+                const imageHtml = post.image_url ? `
+                    <div class="post-featured-image-wrapper">
+                        <div class="post-featured-image">
+                            ${post.image_link ? `<a href="${post.image_link}" target="_blank">` : ''}
+                            <img src="${post.image_url}" alt="${post.title}">
+                            ${post.image_link ? '</a>' : ''}
+                        </div>
+                        ${post.image_source ? `<div class="image-source">${post.image_source}</div>` : ''}
+                    </div>` : '';
 
-.image-source {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 12px;
-    text-align: center;
-    font-style: italic;
-    opacity: 0.7;
-}
-
-.post-featured-image-wrapper {
-    margin-bottom: 60px;
-}
-
-.post-content {
-    line-height: 1.8;
-    color: #e0e0e0;
-    font-size: 1.1rem;
-}
-
-.post-content h2 { color: #fff; margin: 40px 0 20px; font-size: 1.8rem; }
-.post-content p { margin-bottom: 24px; }
-.post-content ul, .post-content ol { margin-bottom: 24px; padding-left: 20px; }
-.post-content li { margin-bottom: 12px; }
-
-.cta-card {
-    background: #111;
-    border: 1px solid var(--accent);
-    padding: 40px;
-    border-radius: 12px;
-    margin-top: 80px;
-    text-align: center;
-}
-
-.cta-card h3 { font-size: 1.8rem; margin-bottom: 16px; }
-.cta-card p { color: var(--text-secondary); margin-bottom: 24px; }
-.cta-actions { display: flex; justify-content: center; }
-</style>
-{% endblock %}
+                body.innerHTML = `
+                    <div class="post-header">
+                        <a href="/blog.html" class="back-link">&larr; Back to Blog</a>
+                        <h1 class="post-page-title">${post.title}</h1>
+                        <div class="post-meta-top">
+                            <span class="blog-date">Published on ${date}</span>
+                        </div>
+                    </div>
+                    ${imageHtml}
+                    <div class="post-content markdown-body"><p>${simpleMarkdown(post.content)}</p></div>
+                    <div class="post-footer">
+                        <div class="cta-card">
+                            <h3>Love this station?</h3>
+                            <p>Download Radiolite for free and listen to 49,000+ stations from your menu bar.</p>
+                            <div class="cta-actions">
+                                <a href="/" class="btn btn-primary-white">Get Radiolite Free</a>
+                            </div>
+                        </div>
+                    </div>`;
+            } catch (err) {
+                body.innerHTML = '<div style="text-align:center;padding:120px 0;"><p style="color:var(--text-muted);">Article not found.</p><a href="/blog.html" class="btn btn-secondary-outline" style="margin-top:20px;">Back to Blog</a></div>';
+            }
+        }
+        loadPost();
+    </script>
+</body>
+</html>

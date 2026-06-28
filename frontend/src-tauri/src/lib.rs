@@ -5,7 +5,9 @@ use tauri::{
 };
 use tauri_plugin_positioner::{Position, WindowExt};
 use tauri_plugin_shell::ShellExt;
+use tauri_plugin_http::reqwest;
 use std::sync::Mutex;
+use serde::Deserialize;
 
 // State to hold the current station name
 struct AppState {
@@ -37,9 +39,78 @@ fn update_tray_title(app: AppHandle, title: String, state: State<AppState>) -> R
     Ok(())
 }
 
+#[derive(Debug, Deserialize)]
+struct IpApiResponse {
+    country: Option<String>,
+    country_name: Option<String>,
+    error: Option<bool>,
+}
+
+#[derive(Debug, Deserialize)]
+struct FreeIpApiResponse {
+    #[serde(rename = "countryCode")]
+    country_code: Option<String>,
+    #[serde(rename = "countryName")]
+    country_name: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct IpApiCoResponse {
+    #[serde(rename = "countryCode")]
+    country_code: Option<String>,
+    #[serde(rename = "countryName")]
+    country_name: Option<String>,
+}
+
+/// Detects the user's country via IP geolocation using Rust's native HTTP client.
+/// This completely bypasses WebView CSP and navigator.geolocation restrictions.
+/// Returns (country_code, country_name) or an error string.
+#[tauri::command]
+async fn detect_location() -> Result<(String, String), String> {
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(8))
+        .build()
+        .map_err(|e| format!("Failed to build HTTP client: {}", e))?;
+
+    // Service 1: ipapi.co
+    if let Ok(resp) = client.get("https://ipapi.co/json/").send().await {
+        if let Ok(data) = resp.json::<IpApiResponse>().await {
+            if data.error != Some(true) {
+                if let Some(code) = data.country {
+                    let name = data.country_name.unwrap_or_else(|| code.clone());
+                    return Ok((code, name));
+                }
+            }
+        }
+    }
+
+    // Service 2: freeipapi.com
+    if let Ok(resp) = client.get("https://freeipapi.com/api/json").send().await {
+        if let Ok(data) = resp.json::<FreeIpApiResponse>().await {
+            if let Some(code) = data.country_code {
+                let name = data.country_name.unwrap_or_else(|| code.clone());
+                return Ok((code, name));
+            }
+        }
+    }
+
+    // Service 3: ip-api.com (HTTP only, reliable fallback)
+    if let Ok(resp) = client.get("http://ip-api.com/json/?fields=countryCode,country").send().await {
+        if let Ok(data) = resp.json::<IpApiCoResponse>().await {
+            if let Some(code) = data.country_code {
+                let name = data.country_name.unwrap_or_else(|| code.clone());
+                return Ok((code, name));
+            }
+        }
+    }
+
+    Err("All IP geolocation services failed".to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_positioner::init())
@@ -111,7 +182,8 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, update_tray_title])
+        .invoke_handler(tauri::generate_handler![greet, update_tray_title, detect_location])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+

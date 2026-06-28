@@ -73,32 +73,32 @@ function App() {
   const [exploreView, setExploreView] = useState<'categories' | 'countries' | 'languages' | 'tags'>('categories');
 
   useEffect(() => {
-    const initApp = async () => { 
+    const initApp = async () => {
       // Always fetch or restore from cache on launch
       fetchStats();
       if (tags.length === 0) fetchTags();
       if (countries.length === 0) fetchCountries();
       if (languages.length === 0) fetchLanguages();
-      if (!userCountry) await detectLocation(); 
-    };
-    
-    // Analytics: Track App Open
-    const trackAppOpen = async () => {
+
+      // Await location detection so userCountryCode is set before the nearMe
+      // tab effect fires — eliminates the race condition where nearMe renders
+      // "no location" even though detection was still in progress.
+      const resolvedCode = !userCountry ? await detectLocation() : userCountryCode;
+
+      // Analytics: Track App Open (after location is resolved so we get country)
       try {
-        // 1. Get or Create Persistent UUID
         let userId = localStorage.getItem('radiolite_user_id');
         if (!userId) {
           userId = crypto.randomUUID();
           localStorage.setItem('radiolite_user_id', userId);
         }
-
-        const apiUrl = import.meta.env.VITE_API_URL || "https://radiolite.onrender.com/api/v1";
-        await fetch(`${apiUrl}/track/app-open`, { 
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.onrender.com/api/v1';
+        fetch(`${apiUrl}/track/app-open`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             user_id: userId,
-            country_code: userCountryCode || "Unknown" 
+            country_code: resolvedCode || 'Unknown'
           })
         });
       } catch (err) {
@@ -107,36 +107,27 @@ function App() {
     };
 
     initApp();
-    trackAppOpen();
   }, []);
 
   useEffect(() => {
     if (mainTab === 'nearMe') {
-      console.log("Near Me tab active. userCountryCode:", userCountryCode);
-      if (userCountryCode) { 
-        console.log("Fetching stations for:", userCountryCode);
-        resetPagination(); 
-        fetchNearMeStations(userCountryCode); 
-      }
-      else { 
-        console.log("No country code, auto-detecting...");
-        detectLocation().then(c => { 
-          if (c) { 
-            console.log("Auto-detection successful:", c);
-            resetPagination(); 
-            fetchNearMeStations(c); 
-          } else {
-            console.log("Auto-detection failed (IP-based).");
-          }
-        }); 
+      console.log('[NearMe] Tab active. userCountryCode:', userCountryCode);
+      if (userCountryCode) {
+        // Country already known — fetch stations directly
+        console.log('[NearMe] Fetching stations for:', userCountryCode);
+        resetPagination();
+        fetchNearMeStations(userCountryCode);
+      } else {
+        // Country not yet in state; detectLocation reads cache or calls the API.
+        // Once it resolves and sets userCountryCode, this effect re-runs because
+        // userCountryCode is in the dependency array.
+        console.log('[NearMe] Waiting for location — triggering detect...');
+        detectLocation();
       }
     } else if (mainTab === 'explore') {
-      if (selectedCountry) { resetPagination(); searchStations("", { country: selectedCountry }, { resetOffset: true }); }
-      else if (selectedLanguage) { resetPagination(); searchStations("", { language: selectedLanguage }, { resetOffset: true }); }
-      else if (selectedTag) { resetPagination(); searchStations("", { tag: selectedTag }, { resetOffset: true }); }
-      else {
-        // Landing Page: handeld by init effect
-      }
+      if (selectedCountry) { resetPagination(); searchStations('', { country: selectedCountry }, { resetOffset: true }); }
+      else if (selectedLanguage) { resetPagination(); searchStations('', { language: selectedLanguage }, { resetOffset: true }); }
+      else if (selectedTag) { resetPagination(); searchStations('', { tag: selectedTag }, { resetOffset: true }); }
     }
   }, [mainTab, selectedCountry, selectedLanguage, selectedTag, userCountryCode, exploreView, resetPagination, fetchNearMeStations, detectLocation, searchStations]);
 
