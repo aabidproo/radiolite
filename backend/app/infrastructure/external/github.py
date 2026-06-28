@@ -8,8 +8,8 @@ from fastapi import HTTPException
 
 class GitHubAdapter:
     def __init__(self):
-        self.repo = settings.GITHUB_REPO
-        self.token = settings.GITHUB_TOKEN
+        self.repo = settings.GITHUB_REPO.strip() if settings.GITHUB_REPO else ""
+        self.token = settings.GITHUB_TOKEN.strip() if settings.GITHUB_TOKEN else ""
         self.base_url = f"https://api.github.com/repos/{self.repo}"
         self.headers = {
             "Accept": "application/vnd.github.v3+json",
