@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useAudio } from "./hooks/useAudio";
 import { useStations } from "./hooks/useStations";
+import { BASE_URL } from "./services/apiClient";
+
 
 // Feature Components
 import { SearchHeader } from "./features/ui/SearchHeader";
@@ -92,8 +94,7 @@ function App() {
           userId = crypto.randomUUID();
           localStorage.setItem('radiolite_user_id', userId);
         }
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.vercel.app/api/v1';
-        fetch(`${apiUrl}/track/app-open`, {
+        fetch(`${BASE_URL}/track/app-open`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
