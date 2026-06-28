@@ -43,6 +43,8 @@ ALLOWED_ORIGINS = [
     # Custom domain (add yours here when ready)
     "https://radiolite.app",
     "https://www.radiolite.app",
+    "https://radiolite.aabidhasan.com.np",
+    "https://radiolite.aabidhasan495.workers.dev",
     # Vercel preview deployments
     "https://radiolite-backend.vercel.app",
 ]
