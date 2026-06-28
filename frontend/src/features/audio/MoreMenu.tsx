@@ -38,9 +38,9 @@ export function MoreMenu({ isOpen, onClose }: MoreMenuProps) {
 
   const handleVisitWebsite = async () => {
     try {
-      await openUrl("https://radiolite.onrender.com");
+      await openUrl("https://radiolite.aabidhasan.com.np");
     } catch (err) {
-      window.open("https://radiolite.onrender.com", "_blank");
+      window.open("https://radiolite.aabidhasan.com.np", "_blank");
     }
     onClose();
   };

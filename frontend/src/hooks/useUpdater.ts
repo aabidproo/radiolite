@@ -32,7 +32,7 @@ export function useUpdater() {
     try {
       // Step 1: Ask our backend what the latest version is.
       // The backend hits GitHub's API and returns version info + html_url.
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.onrender.com/api/v1';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.vercel.app/api/v1';
       const res = await fetch(`${apiUrl}/releases/latest`);
 
       if (!res.ok) {

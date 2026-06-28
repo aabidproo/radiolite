@@ -92,7 +92,7 @@ function App() {
           userId = crypto.randomUUID();
           localStorage.setItem('radiolite_user_id', userId);
         }
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.onrender.com/api/v1';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.vercel.app/api/v1';
         fetch(`${apiUrl}/track/app-open`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
