@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { BASE_URL } from '../services/apiClient';
 import { check, Update } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { openUrl } from '@tauri-apps/plugin-opener';
@@ -32,8 +33,7 @@ export function useUpdater() {
     try {
       // Step 1: Ask our backend what the latest version is.
       // The backend hits GitHub's API and returns version info + html_url.
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://radiolite.vercel.app/api/v1';
-      const res = await fetch(`${apiUrl}/releases/latest`);
+      const res = await fetch(`${BASE_URL}/releases/latest`);
 
       if (!res.ok) {
         throw new Error(`Update server returned ${res.status}`);

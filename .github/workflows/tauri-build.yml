@@ -94,7 +94,6 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "Radiolite ${{ github.ref_name }}"
