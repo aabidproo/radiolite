@@ -81,4 +81,21 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
+    import sys
+    import threading
+    import os
+
+    def monitor_parent_process():
+        # Read from stdin. When the parent process (Tauri) terminates,
+        # stdin will close and read() will return EOF (empty string).
+        try:
+            sys.stdin.read()
+        except Exception:
+            pass
+        os._exit(0)
+
+    # Start monitoring in a background daemon thread
+    threading.Thread(target=monitor_parent_process, daemon=True).start()
+
     uvicorn.run(app, host="127.0.0.1", port=8000)
+

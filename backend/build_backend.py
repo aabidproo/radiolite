@@ -19,12 +19,12 @@ def build():
     
     # PyInstaller arguments
     # --onefile: self-contained binary for reliable sidecar use
-    # --noconsole: no pop-up windows
+    # --console: keep stdout/stderr visible for troubleshooting and Tauri logging
     # --name: typical sidecar name format for Tauri
     args = [
         script_path,
         "--onefile",
-        "--noconsole",
+        "--console",
         "--name", f"api-{target}",
         "--clean",
         "--add-data", f"app{os.pathsep}app", # Include the app package

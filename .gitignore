@@ -9,6 +9,8 @@ node_modules/
 # Build and dist files
 dist/
 **/dist/
+build/
+**/build/
 target/
 **/target/
 build_log.txt

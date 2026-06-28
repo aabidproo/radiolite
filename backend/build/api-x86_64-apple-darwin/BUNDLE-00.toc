@@ -1,3 +1,0 @@
-([('api-x86_64-apple-darwin',
-   '/Users/aabid/Documents/radiolite/backend/dist/api-x86_64-apple-darwin',
-   'EXECUTABLE')],)
