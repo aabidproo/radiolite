@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Backend URL (Vercel) ---
-    const BACKEND_URL = 'https://radiolite-backend.vercel.app/api/v1';
+    const BACKEND_URL = 'https://radiolite.vercel.app/api/v1';
 
     async function updateDownloadLinks() {
         if (!BACKEND_URL || BACKEND_URL.includes("PLACEHOLDER")) return;
