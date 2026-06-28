@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[('app', 'app')],
-    hiddenimports=[],
+    hiddenimports=['aiosqlite', 'greenlet'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -29,16 +29,10 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-)
-app = BUNDLE(
-    exe,
-    name='api-x86_64-apple-darwin.app',
-    icon=None,
-    bundle_identifier=None,
 )
