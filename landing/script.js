@@ -56,6 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const version = normalizeVersion(release.tag_name || release.version);
             const dropdownItems = document.querySelectorAll('.dropdown-item');
 
+            // Populate version badge
+            const versionInfo = document.getElementById('version-info');
+            const latestVersion = document.getElementById('latest-version');
+            if (versionInfo && latestVersion) {
+                latestVersion.textContent = version;
+                versionInfo.style.opacity = '1';
+            }
+
             function formatSize(bytes) {
                 if (!bytes) return '';
                 const mb = bytes / (1024 * 1024);
